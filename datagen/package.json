@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "compile": "tsc --project tsconfig.json",
+    "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.2",
+    "concurrently": "^8.2.1",
+    "nodemon": "^3.0.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10"
+  }
+}
