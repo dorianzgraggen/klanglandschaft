@@ -1,11 +1,15 @@
 import fs from "fs";
 import https from "https";
-import path from "path";
 import AdmZip from "adm-zip";
+import { build_mesh } from "./lib/meshing.mjs";
+import { pathify } from "./lib/util.mjs";
 
 run();
 
 async function run() {
+  await build_mesh();
+
+  return;
   await download_if_missing(
     "xyz.zip",
     "https://data.geo.admin.ch/ch.swisstopo.swisssurface3d-raster/swisssurface3d-raster_2020_2666-1211/swisssurface3d-raster_2020_2666-1211_0.5_2056_5728.xyz.zip"
@@ -15,7 +19,7 @@ async function run() {
 }
 
 async function download_if_missing(filepath: string, url: string) {
-  const _filepath = path.join("files", filepath);
+  const _filepath = pathify(filepath);
 
   if (fs.existsSync(_filepath)) {
     console.log("exists");
@@ -63,8 +67,4 @@ function unzip(filepath: string, args?: { delete_source: boolean }) {
   if (_args.delete_source) {
     fs.unlinkSync(pathify("xyz.zip"));
   }
-}
-
-function pathify(file_path: string) {
-  return path.join("files", file_path);
 }

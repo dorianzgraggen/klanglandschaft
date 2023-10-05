@@ -1,7 +1,7 @@
 {
   "scripts": {
     "compile": "tsc --project tsconfig.json",
-    "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.js\""
+    "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.mjs\""
   },
   "devDependencies": {
     "@types/node": "^20.8.2",
@@ -10,6 +10,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@gltf-transform/core": "^3.7.2",
+    "@gltf-transform/extensions": "^3.7.2",
+    "@gltf-transform/functions": "^3.7.2",
     "@types/adm-zip": "^0.5.2",
     "adm-zip": "^0.5.10"
   }
