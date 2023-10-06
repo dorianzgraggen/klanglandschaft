@@ -1,7 +1,8 @@
 {
   "scripts": {
     "compile": "tsc --project tsconfig.json",
-    "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.mjs\""
+    "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.mjs\"",
+    "db": "npx tsc --project tsconfig.build_database.json && node dist/build_database.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.8.2",
@@ -14,6 +15,7 @@
     "@gltf-transform/extensions": "^3.7.2",
     "@gltf-transform/functions": "^3.7.2",
     "@types/adm-zip": "^0.5.2",
-    "adm-zip": "^0.5.10"
+    "adm-zip": "^0.5.10",
+    "sqlite3": "^5.1.6"
   }
 }

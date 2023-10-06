@@ -6,6 +6,6 @@
         "moduleResolution": "NodeNext"
     },
     "files": [
-        "app.mts"
+        "build_database.mts"
     ]
 }
