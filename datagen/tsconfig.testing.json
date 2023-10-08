@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",   
+        "outDir": "dist",
+        "moduleResolution": "NodeNext"
+    },
+    "files": [
+        "testing/index.mts"
+    ]
+}

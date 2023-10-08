@@ -1,11 +1,25 @@
 import { Document, NodeIO } from "@gltf-transform/core";
 import { pathify } from "./util.mjs";
+import fs from "fs";
 
 export async function build_mesh() {
   const document = new Document();
   const buffer = document.createBuffer();
 
-  const geometry = buildCakeSliceGeometry();
+  const sampler = async (x, z) => {
+    return (
+      ((await sample_elevation_xyz_file(
+        2666,
+        1211,
+        x * 0.95 + 0.25,
+        z * 0.95 + 0.025
+      )) -
+        400) *
+      0.001
+    );
+  };
+
+  const geometry = await build_cake_geometry(sample_elevation_cos_sine);
 
   const indices = document
     .createAccessor()
@@ -34,21 +48,23 @@ export async function build_mesh() {
   const scene = document.createScene("scene").addChild(node);
 
   await new NodeIO().write(pathify("scene.gltf"), document);
+
+  console.log("done writing");
 }
 
-function buildCakeSliceGeometry() {
-  let segments = 160;
+async function build_cake_geometry(sampleHeight: (x, z) => Promise<number>) {
+  let segments = 250;
   let width = 10;
 
-  const positions = [];
-  const indices = [];
+  const positions = new Array<number>();
+  const indices = new Array<number>();
 
   // vertex positions top
   for (let i = 0; i <= segments; i += 1) {
     const z = (i * width) / segments;
     for (let j = 0; j <= segments; j += 1) {
       const x = (j * width) / segments;
-      const y = sampleHeight(x, z);
+      const y = await sampleHeight(x / width, z / width);
       positions.push(x, y, z);
     }
   }
@@ -94,7 +110,7 @@ function buildCakeSliceGeometry() {
           break;
       }
 
-      const y = sampleHeight(x, z);
+      const y = await sampleHeight(x / width, z / width);
 
       positions.push(x, -3, z);
       positions.push(x, y, z);
@@ -136,12 +152,155 @@ function buildCakeSliceGeometry() {
     indices.push(a, c, d);
   }
 
-  function sampleHeight(x: number, z: number): number {
-    return (Math.sin(x * 2) + Math.cos(z * 2)) * 0.3;
-  }
-
   return {
     indices,
     positions,
   };
+}
+
+async function sample_elevation_xyz_file(
+  base_x: number,
+  base_y: number,
+  x: number,
+  y: number
+): Promise<number> {
+  return get_entry(x, y);
+}
+
+async function sample_elevation_cos_sine(
+  x: number,
+  z: number
+): Promise<number> {
+  return (Math.sin(x * Math.PI * 12) + Math.cos(z * Math.PI * 16)) * 0.2 - 1.8;
+}
+
+// export function coords_to_byte_offset(
+//   x_normalized: number,
+//   y_normalized: number
+// ): number {
+//   const bytes_first_line = 0;
+//   const bytes_per_line = 30;
+
+//   const base_x = 2666_000;
+//   const base_y = 1211_000;
+
+//   const ideal_x = x_normalized * 1000 + base_x;
+//   const ideal_y = y_normalized * 1000 + base_y;
+//   // console.log({ x_normalized, y_normalized, ideal_x, ideal_y });
+
+//   const l = 2000;
+//   const x_offset_lines = 2000 * x_normalized;
+//   const y_offset_lines = 2000 * (1.0 - y_normalized) * 2000;
+
+//   const x_offset_bytes = Math.round(x_offset_lines * bytes_per_line);
+//   const y_offset_bytes = Math.round(y_offset_lines * bytes_per_line);
+
+//   return x_offset_bytes + y_offset_bytes + bytes_first_line;
+// }
+
+export function coords_to_line_number(
+  x_normalized: number,
+  y_normalized: number
+): number {
+  const bytes_first_line = 0;
+  const bytes_per_line = 30;
+
+  const base_x = 2666_000;
+  const base_y = 1211_000;
+
+  const ideal_x = x_normalized * 1000 + base_x;
+  const ideal_y = y_normalized * 1000 + base_y;
+  // console.log({ x_normalized, y_normalized, ideal_x, ideal_y });
+
+  const l = 2000;
+  const x_offset_lines = 2000 * x_normalized;
+  const y_offset_lines = 2000 * (1.0 - y_normalized) * 2000;
+
+  return Math.round(x_offset_lines + y_offset_lines);
+}
+
+export async function get_entry(
+  x_normalized: number,
+  y_normalized: number
+): Promise<number> {
+  // console.log("get_entry", x_normalized, y_normalized);
+  const line_contents = await get_line(
+    coords_to_line_number(x_normalized, y_normalized)
+  );
+
+  const [x, y, z] = line_contents.split(" ").map((e) => Number(e));
+
+  return z;
+}
+
+// export function coords_to_line_number(
+//   x_normalized: number,
+//   y_normalized: number
+// ): Promise<number> {
+//   const filePath = pathify(
+//     "swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz_normalized"
+//   );
+
+//   const bytes_to_read = 60;
+
+//   // TODO: read across files, decide on lods
+//   // TODO: open once, read multiple times
+//   return new Promise((resolve, reject) => {
+//     fs.open(filePath, "r", (err, fd) => {
+//       fs.read(
+//         fd,
+//         {
+//           buffer: Buffer.alloc(bytes_to_read),
+//           position: coords_to_byte_offset(x_normalized, y_normalized),
+//           length: bytes_to_read,
+//         },
+//         (err, bytes_read, buffer) => {
+//           console.log(JSON.stringify(buffer.toString("utf8")));
+
+//           const [x, y, z] = buffer
+//             .toString("utf8")
+//             .split(" ")
+//             .map((e) => Number(e));
+//           resolve(z);
+//           console.log("===");
+//         }
+//       );
+//     });
+//   });
+// }
+
+export async function get_line(line_number: number): Promise<string> {
+  const filePath = pathify(
+    "swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz_normalized"
+  );
+
+  const bytes_to_read = 30;
+
+  // TODO: read across files, decide on lods
+  // TODO: open once, read multiple times
+  return new Promise((resolve, reject) => {
+    if (line_number < 1 || line_number > 4_000_000) {
+      reject(
+        new Error(
+          `line_number must be between 1 and 4_000_000, not '${line_number}'`
+        )
+      );
+    }
+
+    // console.log({ line_number });
+
+    fs.open(filePath, "r", (err, fd) => {
+      fs.read(
+        fd,
+        {
+          buffer: Buffer.alloc(bytes_to_read),
+          position: 31 * (line_number - 1),
+          length: bytes_to_read,
+        },
+        (err, bytes_read, buffer) => {
+          resolve(buffer.toString("utf8"));
+        }
+      );
+    });
+  });
 }

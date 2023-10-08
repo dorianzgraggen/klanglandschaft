@@ -29,7 +29,7 @@ db.serialize(async () => {
     }
   );
 
-  //   stmt.run(2666004.75, 1211999.75, 469.82);
+  //   stmt.run(2666004.75, 1211999.75, 469.82) ;
 
   statement.finalize();
 });
@@ -53,6 +53,7 @@ async function extract_xyz_and_process(
       }
 
       const [x, y, z] = split.map((n) => Number(n));
+
       callback(x, y, z);
 
       //   console.log({ x, y, z });
