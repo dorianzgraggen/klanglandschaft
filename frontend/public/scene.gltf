@@ -1,0 +1,81 @@
+{
+  "asset": {
+    "generator": "glTF-Transform v3.7.2",
+    "version": "2.0"
+  },
+  "accessors": [
+    {
+      "type": "SCALAR",
+      "componentType": 5123,
+      "count": 381006,
+      "bufferView": 0,
+      "byteOffset": 0
+    },
+    {
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 65013,
+      "max": [
+        10,
+        -1.4000158309936523,
+        10
+      ],
+      "min": [
+        0,
+        -3,
+        0
+      ],
+      "bufferView": 1,
+      "byteOffset": 0
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 762012,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 762012,
+      "byteLength": 780156,
+      "byteStride": 12,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "scene.bin",
+      "byteLength": 1542168
+    }
+  ],
+  "meshes": [
+    {
+      "name": "mesh",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 1
+          },
+          "mode": 4,
+          "indices": 0
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "name": "node",
+      "mesh": 0
+    }
+  ],
+  "scenes": [
+    {
+      "name": "scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
