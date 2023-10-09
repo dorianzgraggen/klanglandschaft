@@ -10,6 +10,7 @@ export function init() {
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   const renderer = new THREE.WebGLRenderer();
+  renderer.localClippingEnabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   root.appendChild(renderer.domElement);
 
@@ -41,6 +42,61 @@ export function init() {
 
   const loader = new GLTFLoader();
 
+  controls.update();
+
+  const axes = new THREE.AxesHelper(20);
+  scene.add(axes);
+
+  const planes = [
+    new THREE.Plane(new THREE.Vector3(1, 0, 0), 3),
+    new THREE.Plane(new THREE.Vector3(-1, 0, 0), 3),
+    new THREE.Plane(new THREE.Vector3(0, 0, 1), 3),
+    new THREE.Plane(new THREE.Vector3(0, 0, -1), 3)
+    // new THREE.Plane(new THREE.Vector3(0, -1, 0), 0),
+    // new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)
+  ];
+
+  const plane_settings = planes.map((p) => {
+    const pos = new THREE.Vector3().copy(p.normal).multiplyScalar(-p.constant);
+    console.log(pos);
+    const initial_diff = new THREE.Vector3().subVectors(camera.position, pos);
+    const diff = new THREE.Vector3().subVectors(
+      initial_diff,
+      new THREE.Vector3().subVectors(camera.position, pos)
+    );
+
+    return {
+      constant: p.constant,
+      pos,
+      diff,
+      initial_diff
+    };
+  });
+
+  console.log(plane_settings[0].diff.toArray());
+
+  const planeHelpers = planes.map((p, i) => {
+    const plane_geometry = new THREE.PlaneGeometry(130, 30);
+    const material = new THREE.MeshBasicMaterial({
+      color: i < 2 ? 0xff0000 : 0x0000ff,
+      transparent: true,
+      opacity: 0.2,
+      side: THREE.DoubleSide
+    });
+    const g = new THREE.SphereGeometry(3);
+    const helper = new THREE.Mesh(plane_geometry, material);
+    // helper.visible = i == 3;
+
+    helper.position.y = -25;
+
+    if (i < 2) {
+      helper.rotateY(Math.PI / 2);
+    }
+    scene.add(helper);
+
+    return helper;
+  });
+
   // Load a glTF resource
   loader.load(
     '/scene.gltf',
@@ -51,8 +107,10 @@ export function init() {
           const mesh = c as THREE.Mesh;
 
           mesh.geometry.computeVertexNormals();
-          mesh.scale.multiplyScalar(10);
-          mesh.material = new THREE.MeshNormalMaterial();
+          mesh.scale.set(1, 0.5, 1);
+          mesh.scale.multiplyScalar(22);
+          mesh.material = new THREE.MeshNormalMaterial({ clippingPlanes: planes });
+          mesh.position.y += 0;
         }
       });
       console.log(scene);
@@ -67,13 +125,38 @@ export function init() {
     }
   );
 
+  const camPos = new THREE.Vector3();
   function animate() {
     requestAnimationFrame(animate);
+
+    camera.getWorldPosition(camPos);
 
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
 
     controls.update();
+
+    const from = -10;
+    const to = 70;
+
+    planes[0].constant = -camPos.x + from;
+    planes[1].constant = camPos.x + to;
+    planes[2].constant = -camPos.z + from;
+    planes[3].constant = camPos.z + to;
+
+    planeHelpers[0].position.x = -planes[0].constant;
+    planeHelpers[0].position.z = camPos.z + 30;
+
+    planeHelpers[1].position.x = planes[1].constant;
+    planeHelpers[1].position.z = camPos.z + 30;
+
+    planeHelpers[2].position.z = -planes[2].constant;
+    planeHelpers[2].position.x = camPos.x + 30;
+
+    planeHelpers[3].position.z = planes[3].constant;
+    planeHelpers[3].position.x = camPos.x + 30;
+
+    // planeHelpers[3].position.z = planes[3].constant;
 
     renderer.render(scene, camera);
   }
