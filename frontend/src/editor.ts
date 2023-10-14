@@ -41,15 +41,14 @@ class LandscapePropertyNode extends ClassicPreset.Node<
   height = 120;
   width = 180;
 
-  constructor(initial: number, change?: () => void) {
+  constructor() {
     super('LandscapeProperty');
-    this.addControl('value', new ClassicPreset.InputControl('number', { initial, change }));
     this.addOutput('value', new ClassicPreset.Output(socket, 'Amount'));
   }
 
   data(): { value: number } {
     return {
-      value: this.controls.value.value || 0
+      value: Math.random()
     };
   }
 }
@@ -120,18 +119,19 @@ export async function createEditor(container: HTMLElement) {
   const engine = new DataflowEngine<Schemes>();
 
   function process() {
+    console.log('process');
     engine.reset();
 
     editor
       .getNodes()
-      .filter((n) => n instanceof AddNode)
+      // .filter((n) => n instanceof AddNode)
       .forEach((n) => engine.fetch(n.id));
   }
 
   const contextMenu = new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
       ['Number', () => new NumberNode(0, process)],
-      ['LandscapeProperty', () => new LandscapePropertyNode(0, process)],
+      ['LandscapeProperty', () => new LandscapePropertyNode()],
       ['Add', () => new AddNode(process, (c) => area.update('control', c.id))]
     ])
   });
@@ -164,7 +164,7 @@ export async function createEditor(container: HTMLElement) {
     return context;
   });
 
-  const a = new LandscapePropertyNode(1, process);
+  const a = new LandscapePropertyNode();
   const b = new NumberNode(1, process);
   const c = new AddNode(process, (c) => area.update('control', c.id));
 
@@ -180,6 +180,10 @@ export async function createEditor(container: HTMLElement) {
 
   await arrange.layout();
   AreaExtensions.zoomAt(area, editor.getNodes());
+
+  setInterval(() => {
+    process();
+  }, 1000);
 
   return {
     destroy: () => area.destroy()
