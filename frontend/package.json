@@ -13,6 +13,12 @@
   },
   "dependencies": {
     "@types/three": "^0.156.0",
+    "rete": "^2.0.2",
+    "rete-area-plugin": "^2.0.1",
+    "rete-connection-plugin": "^2.0.0",
+    "rete-react-plugin": "^2.0.2",
+    "rete-render-utils": "^2.0.1",
+    "rete-vue-plugin": "^2.0.4",
     "three": "^0.157.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
