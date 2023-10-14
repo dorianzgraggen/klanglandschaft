@@ -33,6 +33,27 @@ class NumberNode extends ClassicPreset.Node<
   }
 }
 
+class LandscapePropertyNode extends ClassicPreset.Node<
+  {},
+  { value: ClassicPreset.Socket },
+  { value: ClassicPreset.InputControl<'number'> }
+> {
+  height = 120;
+  width = 180;
+
+  constructor(initial: number, change?: () => void) {
+    super('LandscapeProperty');
+    this.addControl('value', new ClassicPreset.InputControl('number', { initial, change }));
+    this.addOutput('value', new ClassicPreset.Output(socket, 'Amount'));
+  }
+
+  data(): { value: number } {
+    return {
+      value: this.controls.value.value || 0
+    };
+  }
+}
+
 class AddNode extends ClassicPreset.Node<
   { left: ClassicPreset.Socket; right: ClassicPreset.Socket },
   { value: ClassicPreset.Socket },
@@ -81,8 +102,11 @@ class AddNode extends ClassicPreset.Node<
 
 class Connection<A extends Node, B extends Node> extends ClassicPreset.Connection<A, B> {}
 
-type Node = NumberNode | AddNode;
-type ConnProps = Connection<NumberNode, AddNode> | Connection<AddNode, AddNode>;
+type Node = NumberNode | AddNode | LandscapePropertyNode;
+type ConnProps =
+  | Connection<NumberNode, AddNode>
+  | Connection<AddNode, AddNode>
+  | Connection<LandscapePropertyNode, AddNode>;
 type Schemes = GetSchemes<Node, ConnProps>;
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
@@ -107,6 +131,7 @@ export async function createEditor(container: HTMLElement) {
   const contextMenu = new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
       ['Number', () => new NumberNode(0, process)],
+      ['LandscapeProperty', () => new LandscapePropertyNode(0, process)],
       ['Add', () => new AddNode(process, (c) => area.update('control', c.id))]
     ])
   });
@@ -139,7 +164,7 @@ export async function createEditor(container: HTMLElement) {
     return context;
   });
 
-  const a = new NumberNode(1, process);
+  const a = new LandscapePropertyNode(1, process);
   const b = new NumberNode(1, process);
   const c = new AddNode(process, (c) => area.update('control', c.id));
 
