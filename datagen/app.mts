@@ -3,6 +3,7 @@ import https from "https";
 import AdmZip from "adm-zip";
 import { build_mesh, get_entry } from "./lib/meshing.mjs";
 import { pathify } from "./lib/util.mjs";
+import { alles } from "./lib/vernunft.mjs";
 import readline from "readline";
 import events from "events";
 run();
@@ -12,8 +13,9 @@ async function run() {
   //   pathify("swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz")
   // );
   // get_entry(0.93, 0.92);
-  await build_mesh();
 
+  // await build_mesh();
+  await alles();
   return;
   await download_if_missing(
     "xyz.zip",

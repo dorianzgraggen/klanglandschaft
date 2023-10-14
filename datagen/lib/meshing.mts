@@ -7,19 +7,11 @@ export async function build_mesh() {
   const buffer = document.createBuffer();
 
   const sampler = async (x, z) => {
-    return (
-      ((await sample_elevation_xyz_file(
-        2666,
-        1211,
-        x * 0.95 + 0.25,
-        z * 0.95 + 0.025
-      )) -
-        400) *
-      0.001
-    );
+    const s = await sample_elevation_xyz_file(2666, 1211, x * 0.95, z * 0.95);
+    return (s - 400) * 0.02;
   };
 
-  const geometry = await build_cake_geometry(sample_elevation_cos_sine);
+  const geometry = await build_cake_geometry(sampler);
 
   const indices = document
     .createAccessor()
@@ -82,75 +74,75 @@ async function build_cake_geometry(sampleHeight: (x, z) => Promise<number>) {
     }
   }
 
-  // sides
-  for (let n = 0; n < 4; n++) {
-    // vertex position sides
-    for (let i = 0; i <= segments; i++) {
-      const horizontal_pos = (i * width) / segments;
+  // // sides
+  // for (let n = 0; n < 4; n++) {
+  //   // vertex position sides
+  //   for (let i = 0; i <= segments; i++) {
+  //     const horizontal_pos = (i * width) / segments;
 
-      let x = horizontal_pos;
-      let z = 0;
+  //     let x = horizontal_pos;
+  //     let z = 0;
 
-      switch (n) {
-        case 1:
-          z = width;
-          break;
+  //     switch (n) {
+  //       case 1:
+  //         z = width;
+  //         break;
 
-        case 2:
-          x = 0;
-          z = horizontal_pos;
-          break;
+  //       case 2:
+  //         x = 0;
+  //         z = horizontal_pos;
+  //         break;
 
-        case 3:
-          x = width;
-          z = horizontal_pos;
-          break;
+  //       case 3:
+  //         x = width;
+  //         z = horizontal_pos;
+  //         break;
 
-        default:
-          break;
-      }
+  //       default:
+  //         break;
+  //     }
 
-      const y = await sampleHeight(x / width, z / width);
+  //     const y = await sampleHeight(x / width, z / width);
 
-      positions.push(x, -3, z);
-      positions.push(x, y, z);
-    }
+  //     positions.push(x, -3, z);
+  //     positions.push(x, y, z);
+  //   }
 
-    // indices sides
-    for (let i = 0; i < segments; i++) {
-      const base = (segments + 1) ** 2 + n * (segments + 1) * 2;
-      const a = i * 2 + base;
-      const b = i * 2 + 1 + base;
-      const c = i * 2 + 2 + base;
-      const d = i * 2 + 3 + base;
+  //   // indices sides
+  //   for (let i = 0; i < segments; i++) {
+  //     const base = (segments + 1) ** 2 + n * (segments + 1) * 2;
+  //     const a = i * 2 + base;
+  //     const b = i * 2 + 1 + base;
+  //     const c = i * 2 + 2 + base;
+  //     const d = i * 2 + 3 + base;
 
-      if (n == 0 || n == 3) {
-        indices.push(a, b, c);
-        indices.push(b, d, c);
-      } else {
-        indices.push(a, c, b);
-        indices.push(b, c, d);
-      }
-    }
-  }
+  //     if (n == 0 || n == 3) {
+  //       indices.push(a, b, c);
+  //       indices.push(b, d, c);
+  //     } else {
+  //       indices.push(a, c, b);
+  //       indices.push(b, c, d);
+  //     }
+  //   }
+  // }
 
-  // vertices bottom
-  positions.push(0, -3, 0);
-  positions.push(width, -3, 0);
-  positions.push(width, -3, width);
-  positions.push(0, -3, width);
+  // // vertices bottom
+  // positions.push(0, -3, 0);
+  // positions.push(width, -3, 0);
+  // positions.push(width, -3, width);
+  // positions.push(0, -3, width);
 
-  // indices bottom
-  {
-    const base = (segments + 1) ** 2 + 4 * (segments + 1) * 2;
+  // // indices bottom
+  // {
+  //   const base = (segments + 1) ** 2 + 4 * (segments + 1) * 2;
 
-    const a = base;
-    const b = base + 1;
-    const c = base + 2;
-    const d = base + 3;
-    indices.push(a, b, c);
-    indices.push(a, c, d);
-  }
+  //   const a = base;
+  //   const b = base + 1;
+  //   const c = base + 2;
+  //   const d = base + 3;
+  //   indices.push(a, b, c);
+  //   indices.push(a, c, d);
+  // }
 
   return {
     indices,
@@ -158,13 +150,13 @@ async function build_cake_geometry(sampleHeight: (x, z) => Promise<number>) {
   };
 }
 
-async function sample_elevation_xyz_file(
+export async function sample_elevation_xyz_file(
   base_x: number,
   base_y: number,
   x: number,
   y: number
 ): Promise<number> {
-  return get_entry(x, y);
+  return (await get_entry(x, y)).z;
 }
 
 async function sample_elevation_cos_sine(
@@ -213,24 +205,30 @@ export function coords_to_line_number(
   // console.log({ x_normalized, y_normalized, ideal_x, ideal_y });
 
   const l = 2000;
-  const x_offset_lines = 2000 * x_normalized;
-  const y_offset_lines = 2000 * (1.0 - y_normalized) * 2000;
+  const x_offset_lines = lerp(0, 2000, x_normalized);
+  const y_offset_lines = lerp(0, 2000, y_normalized) * 2000;
 
-  return Math.round(x_offset_lines + y_offset_lines);
+  return Math.round(x_offset_lines) + Math.round(y_offset_lines) + 1;
 }
+
+type Vec3 = {
+  x: number;
+  y: number;
+  z: number;
+};
 
 export async function get_entry(
   x_normalized: number,
   y_normalized: number
-): Promise<number> {
+): Promise<Vec3> {
   // console.log("get_entry", x_normalized, y_normalized);
   const line_contents = await get_line(
     coords_to_line_number(x_normalized, y_normalized)
   );
 
-  const [x, y, z] = line_contents.split(" ").map((e) => Number(e));
+  const [x, y, z] = line_contents.split(", ").map((e) => Number(e));
 
-  return z;
+  return { x, y, z };
 }
 
 // export function coords_to_line_number(
@@ -303,4 +301,8 @@ export async function get_line(line_number: number): Promise<string> {
       );
     });
   });
+}
+
+function lerp(a: number, b: number, t: number): number {
+  return (1 - t) * a + t * b;
 }
