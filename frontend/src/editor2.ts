@@ -31,6 +31,8 @@ export async function createEditor(
   const connection = new ConnectionPlugin<Schemes, AreaExtra>();
   const render = new VuePlugin<Schemes, AreaExtra>();
   const arrange = new AutoArrangePlugin<Schemes, AreaExtra>();
+  const engine2 = new DataflowEngine<Schemes>();
+
   const dataflow = new DataflowEngine<Schemes>(({ inputs, outputs }) => {
     return {
       inputs: () =>
@@ -123,8 +125,9 @@ export async function createEditor(
       })
   );
 
-  editor.use(engine);
-  editor.use(dataflow);
+  // editor.use(engine);
+  // editor.use(dataflow);
+  editor.use(engine2);
   editor.use(area);
   area.use(connection);
   area.use(render);
@@ -166,6 +169,20 @@ export async function createEditor(
 
   const nodes = editor.getNodes();
   console.log('nodes', nodes);
+
+  function process() {
+    console.log('process');
+    engine2.reset();
+
+    editor
+      .getNodes()
+      // .filter((n) => n instanceof AddNode)
+      .forEach((n) => engine2.fetch(n.id));
+  }
+
+  setInterval(() => {
+    process();
+  }, 1000);
 
   return {
     destroy: () => area.destroy()
