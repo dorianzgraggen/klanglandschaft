@@ -2,31 +2,41 @@ import { ClassicPreset } from 'rete';
 import { ActionSocket, TextSocket } from '../sockets';
 
 export class SoundNode extends ClassicPreset.Node<
-  { text: ClassicPreset.Socket },
-  { exec: ClassicPreset.Socket },
-  { exec: ClassicPreset.InputControl<'text'> }
+  { volume: ClassicPreset.Socket }, // input
+  { sound_options: ClassicPreset.Socket } // output
+  // { exec: ClassicPreset.InputControl<'text'> } // controls
 > {
   width = 180;
   height = 140;
 
   constructor() {
     super('Piano');
-    this.addInput('text', new ClassicPreset.Input(new TextSocket(), 'Text'));
-    this.addOutput('exec', new ClassicPreset.Output(new ActionSocket(), 'Sound'));
+    this.addInput('volume', new ClassicPreset.Input(new TextSocket(), 'Volume'));
+    this.addOutput('sound_options', new ClassicPreset.Output(new ActionSocket(), 'Sound'));
 
-    this.addControl(
-      'exec',
-      new ClassicPreset.InputControl('text', {
-        readonly: false
-      })
-    );
+    // this.addControl(
+    //   'exec',
+    //   new ClassicPreset.InputControl('text', {
+    //     readonly: false
+    //   })
+    // );
   }
 
   execute() {}
 
-  data() {
+  data(inputs: any) {
+    console.log('inputs', inputs.volume[0]);
+
+    let volume = 0;
+
+    if (inputs.volume) {
+      volume = inputs.volume[0];
+    }
     return {
-      exec: 'aha'
+      sound_options: {
+        volume,
+        track: 'Piano'
+      }
     };
   }
 }

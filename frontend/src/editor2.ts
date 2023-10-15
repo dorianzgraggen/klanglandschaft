@@ -60,7 +60,7 @@ export async function createEditor(
 
   const contextMenu = new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
-      ['Data Input Node', () => new DataNode('')],
+      ['Data Input Node', () => new DataNode()],
       ['Sound Node', () => new SoundNode()],
       ['Output Node', () => new OutputNode()]
     ])
@@ -149,14 +149,14 @@ export async function createEditor(
     return context;
   });
 
-  const message = new DataNode('lol');
+  const population = new DataNode();
   const sound = new SoundNode();
   const output = new OutputNode();
 
-  const con1 = new Connection(message, 'text', sound, 'text');
-  const con2 = new Connection(sound, 'exec', output, 'exec');
+  const con1 = new Connection(population, 'value', sound, 'volume');
+  const con2 = new Connection(sound, 'sound_options', output, 'sound_options');
 
-  await editor.addNode(message);
+  await editor.addNode(population);
   await editor.addNode(sound);
   await editor.addNode(output);
 
@@ -176,7 +176,7 @@ export async function createEditor(
 
     editor
       .getNodes()
-      // .filter((n) => n instanceof AddNode)
+      .filter((n) => n instanceof OutputNode)
       .forEach((n) => engine2.fetch(n.id));
   }
 

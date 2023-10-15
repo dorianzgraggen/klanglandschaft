@@ -2,24 +2,33 @@ import { ClassicPreset } from 'rete';
 import { TextSocket } from '../sockets';
 
 export class DataNode extends ClassicPreset.Node<
-  {},
-  { text: ClassicPreset.Socket },
-  { value: ClassicPreset.InputControl<'text'> }
+  {}, // inputs
+  { value: ClassicPreset.Socket } // outputs
+  // { value: ClassicPreset.InputControl<'number'> } // controls
 > {
   width = 180;
-  height = 140;
+  height = 90;
 
-  constructor(initial: string) {
+  constructor() {
     super('Population');
-    this.addControl('value', new ClassicPreset.InputControl('text', { initial }));
-    this.addOutput('text', new ClassicPreset.Output(new TextSocket(), 'Amount'));
+    // this.addControl(
+    //   'value',
+    //   new ClassicPreset.InputControl('number', { initial: 0, readonly: true })
+    // );
+    this.addOutput('value', new ClassicPreset.Output(new TextSocket(), 'Amount'));
   }
 
   execute() {}
 
   data() {
+    const data_value = Math.random();
+
+    // this.controls.value.setValue(data_value);
+
+    console.log(data_value);
+
     return {
-      text: this.controls.value.value || ''
+      value: Math.random()
     };
   }
 }
