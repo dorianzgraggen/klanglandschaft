@@ -1,11 +1,7 @@
 import { ClassicPreset } from 'rete';
 import { ActionSocket, TextSocket } from '../sockets';
 
-export class OutputNode extends ClassicPreset.Node<
-  { sound_options: ClassicPreset.Socket },
-  {},
-  {}
-> {
+export class OutputNode extends ClassicPreset.Node<{ sound_options: ClassicPreset.Socket }> {
   width = 180;
   height = 140;
 

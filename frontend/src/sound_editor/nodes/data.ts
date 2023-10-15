@@ -4,7 +4,6 @@ import { TextSocket } from '../sockets';
 export class DataNode extends ClassicPreset.Node<
   {}, // inputs
   { value: ClassicPreset.Socket } // outputs
-  // { value: ClassicPreset.InputControl<'number'> } // controls
 > {
   width = 180;
   height = 90;

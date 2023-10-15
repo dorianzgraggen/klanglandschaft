@@ -26,37 +26,13 @@ export async function createEditor(
   container: HTMLElement,
   log: (text: string, type: 'info' | 'error') => void
 ) {
+  // Setup
   const editor = new NodeEditor<Schemes>();
   const area = new AreaPlugin<Schemes, AreaExtra>(container);
   const connection = new ConnectionPlugin<Schemes, AreaExtra>();
   const render = new VuePlugin<Schemes, AreaExtra>();
   const arrange = new AutoArrangePlugin<Schemes, AreaExtra>();
-  const engine2 = new DataflowEngine<Schemes>();
-
-  const dataflow = new DataflowEngine<Schemes>(({ inputs, outputs }) => {
-    return {
-      inputs: () =>
-        Object.entries(inputs)
-          .filter(([_, input]) => input.socket instanceof TextSocket)
-          .map(([name]) => name),
-      outputs: () =>
-        Object.entries(outputs)
-          .filter(([_, output]) => output.socket instanceof TextSocket)
-          .map(([name]) => name)
-    };
-  });
-  const engine = new ControlFlowEngine<Schemes>(({ inputs, outputs }) => {
-    return {
-      inputs: () =>
-        Object.entries(inputs)
-          .filter(([_, input]) => input.socket instanceof ActionSocket)
-          .map(([name]) => name),
-      outputs: () =>
-        Object.entries(outputs)
-          .filter(([_, output]) => output.socket instanceof ActionSocket)
-          .map(([name]) => name)
-    };
-  });
+  const engine = new DataflowEngine<Schemes>();
 
   const contextMenu = new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
@@ -125,9 +101,7 @@ export async function createEditor(
       })
   );
 
-  // editor.use(engine);
-  // editor.use(dataflow);
-  editor.use(engine2);
+  editor.use(engine);
   editor.use(area);
   area.use(connection);
   area.use(render);
@@ -149,6 +123,7 @@ export async function createEditor(
     return context;
   });
 
+  // Default Nodes
   const population = new DataNode();
   const sound = new SoundNode();
   const output = new OutputNode();
@@ -167,17 +142,15 @@ export async function createEditor(
 
   AreaExtensions.zoomAt(area, editor.getNodes());
 
-  const nodes = editor.getNodes();
-  console.log('nodes', nodes);
-
+  // Processing
   function process() {
     console.log('process');
-    engine2.reset();
+    engine.reset();
 
     editor
       .getNodes()
       .filter((n) => n instanceof OutputNode)
-      .forEach((n) => engine2.fetch(n.id));
+      .forEach((n) => engine.fetch(n.id));
   }
 
   setInterval(() => {

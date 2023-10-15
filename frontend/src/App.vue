@@ -2,8 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { init } from './3d/scene'
-// import { createEditor } from './editor'
-import { createEditor } from './editor2'
+import { createEditor } from './sound_editor/editor'
 
 const rete = ref()
 
@@ -46,3 +45,4 @@ onMounted(() => {
   z-index: 0;
 }
 </style>
+./sound_editor/editor
