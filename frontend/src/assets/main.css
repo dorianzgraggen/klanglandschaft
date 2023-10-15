@@ -3,3 +3,18 @@ body {
   color: white;
   background-color: black;
 }
+
+
+div[title="Action"] {
+  background: rgb(232, 74, 74) !important;
+}
+
+.node {
+  background-color: rgba(47, 47, 47, 0.9) !important;
+  border: 2px solid black !important;
+  /* box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.339); */
+}
+
+svg[data-testid="connection"] > path {
+  stroke: rgb(255, 255, 255) !important;
+}
