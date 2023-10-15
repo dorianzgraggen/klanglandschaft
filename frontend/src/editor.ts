@@ -197,7 +197,7 @@ class AddNode extends ClassicPreset.Node<
 
 class Connection<A extends Node, B extends Node> extends ClassicPreset.Connection<A, B> {}
 
-type Node = NumberNode | AddNode | LandscapePropertyNode;
+type Node = NumberNode | AddNode | LandscapePropertyNode | Sender | Receiver | SoundNode;
 // type ConnProps =
 //   | Connection<NumberNode, AddNode>
 //   | Connection<AddNode, AddNode>

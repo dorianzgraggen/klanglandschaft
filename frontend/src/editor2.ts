@@ -14,7 +14,15 @@ import {
   ContextMenuPlugin,
   Presets as ContextMenuPresets
 } from 'rete-context-menu-plugin';
-import { DebugChat, Message, OnMessage, MatchMessage, SendMessage } from './nodes';
+import {
+  DebugChat,
+  Message,
+  OnMessage,
+  MatchMessage,
+  SendMessage,
+  SoundNode,
+  OutputNode
+} from './nodes';
 import { ActionSocket, TextSocket } from './sockets';
 import { type Schemes } from './types';
 import { Connection } from './connection';
@@ -73,7 +81,9 @@ export async function createEditor(
       ['On message', () => new OnMessage()],
       ['Message', () => new Message('')],
       ['Match message', () => new MatchMessage('', dataflow)],
-      ['Send message', () => new SendMessage(dataflow, respond)]
+      ['Send message', () => new SendMessage(dataflow, respond)],
+      ['Sound Node', () => new SoundNode()],
+      ['Output Node', () => new OutputNode()]
     ])
   });
   area.use(contextMenu);
