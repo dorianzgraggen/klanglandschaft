@@ -10,7 +10,27 @@ import {
 } from 'rete-context-menu-plugin';
 import { AutoArrangePlugin, Presets as ArrangePresets } from 'rete-auto-arrange-plugin';
 
-const socket = new ClassicPreset.Socket('socket');
+// const socket = new ClassicPreset.Socket('socket');
+
+export class NumberSocket extends ClassicPreset.Socket {
+  constructor() {
+    super('Number');
+  }
+
+  isCompatibleWith(socket: ClassicPreset.Socket) {
+    return socket instanceof NumberSocket;
+  }
+}
+
+export class SoundSocket extends ClassicPreset.Socket {
+  constructor() {
+    super('Sound');
+  }
+
+  isCompatibleWith(socket: ClassicPreset.Socket) {
+    return socket instanceof SoundSocket;
+  }
+}
 
 class NumberNode extends ClassicPreset.Node<
   {},
@@ -23,7 +43,7 @@ class NumberNode extends ClassicPreset.Node<
   constructor(initial: number, change?: () => void) {
     super('Number');
     this.addControl('value', new ClassicPreset.InputControl('number', { initial, change }));
-    this.addOutput('value', new ClassicPreset.Output(socket, 'Number'));
+    this.addOutput('value', new ClassicPreset.Output(new NumberSocket(), 'Number'));
   }
 
   data(): { value: number } {
@@ -33,23 +53,99 @@ class NumberNode extends ClassicPreset.Node<
   }
 }
 
-class LandscapePropertyNode extends ClassicPreset.Node<
-  {},
-  { value: ClassicPreset.Socket },
-  { value: ClassicPreset.InputControl<'number'> }
-> {
+class LandscapePropertyNode extends ClassicPreset.Node<{}, { value: ClassicPreset.Socket }, {}> {
   height = 120;
   width = 180;
 
   constructor() {
     super('LandscapeProperty');
-    this.addOutput('value', new ClassicPreset.Output(socket, 'Amount'));
+    this.addOutput('value', new ClassicPreset.Output(new NumberSocket(), 'Amount'));
   }
 
   data(): { value: number } {
     return {
       value: Math.random()
     };
+  }
+}
+
+export class Receiver extends ClassicPreset.Node<{ text: ClassicPreset.Socket }, {}, {}> {
+  width = 180;
+  height = 135;
+
+  constructor(
+    private dataflow: DataflowEngine<Schemes>,
+    private respond: (text: string) => void
+  ) {
+    super('Receiver');
+    this.addInput('text', new ClassicPreset.Input(new SoundSocket(), 'Input'));
+  }
+
+  // async execute(_: never, forward: (output: "exec") => void) {
+  //   const inputs = await this.dataflow.fetchInputs(this.id);
+  //   const text = (inputs.text && inputs.text[0]) || "";
+
+  //   this.respond(text);
+  // }
+
+  data() {
+    return {};
+  }
+}
+
+export class Sender extends ClassicPreset.Node<
+  {},
+  { text: ClassicPreset.Socket },
+  { value: ClassicPreset.InputControl<'text'> }
+> {
+  width = 180;
+  height = 140;
+
+  constructor(initial: string) {
+    super('Message');
+    this.addControl('value', new ClassicPreset.InputControl('text', { initial }));
+    this.addOutput('text', new ClassicPreset.Output(new SoundSocket(), 'Text'));
+  }
+
+  execute() {}
+
+  data() {
+    return {
+      text: 'ja lol'
+    };
+  }
+}
+
+class SoundNode extends ClassicPreset.Node<
+  { volume: ClassicPreset.Socket },
+  { value: ClassicPreset.Socket },
+  { lol: ClassicPreset.InputControl<'text'> }
+> {
+  height = 120;
+  width = 180;
+
+  constructor() {
+    super('Piano');
+
+    const volume = new ClassicPreset.Input(new NumberSocket(), 'Volume');
+
+    // volume.addControl(new ClassicPreset.InputControl('number', { initial: 0 }));
+
+    this.addInput('volume', volume);
+    // this.addControl(
+    //   'value',
+    //   new ClassicPreset.InputControl('number', {
+    //     readonly: true
+    //   })
+    // );
+
+    this.addOutput('value', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
+  }
+
+  data(inputs: { value?: number[] }): { value: number } {
+    console.log('piano', this.inputs);
+
+    return { value: 12 };
   }
 }
 
@@ -66,8 +162,8 @@ class AddNode extends ClassicPreset.Node<
     private update?: (control: ClassicPreset.InputControl<'number'>) => void
   ) {
     super('Add');
-    const left = new ClassicPreset.Input(socket, 'Left');
-    const right = new ClassicPreset.Input(socket, 'Right');
+    const left = new ClassicPreset.Input(new NumberSocket(), 'Left');
+    const right = new ClassicPreset.Input(new NumberSocket(), 'Right');
 
     left.addControl(new ClassicPreset.InputControl('number', { initial: 0, change }));
     right.addControl(new ClassicPreset.InputControl('number', { initial: 0, change }));
@@ -80,7 +176,7 @@ class AddNode extends ClassicPreset.Node<
         readonly: true
       })
     );
-    this.addOutput('value', new ClassicPreset.Output(socket, 'Number'));
+    this.addOutput('value', new ClassicPreset.Output(new NumberSocket(), 'Number'));
   }
 
   data(inputs: { left?: number[]; right?: number[] }): { value: number } {
@@ -102,10 +198,13 @@ class AddNode extends ClassicPreset.Node<
 class Connection<A extends Node, B extends Node> extends ClassicPreset.Connection<A, B> {}
 
 type Node = NumberNode | AddNode | LandscapePropertyNode;
-type ConnProps =
-  | Connection<NumberNode, AddNode>
-  | Connection<AddNode, AddNode>
-  | Connection<LandscapePropertyNode, AddNode>;
+// type ConnProps =
+//   | Connection<NumberNode, AddNode>
+//   | Connection<AddNode, AddNode>
+//   | Connection<LandscapePropertyNode, AddNode>
+//   | Connection<Sender, Receiver>;
+
+type ConnProps = Connection<Sender, Receiver>;
 type Schemes = GetSchemes<Node, ConnProps>;
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
@@ -132,6 +231,7 @@ export async function createEditor(container: HTMLElement) {
     items: ContextMenuPresets.classic.setup([
       ['Number', () => new NumberNode(0, process)],
       ['LandscapeProperty', () => new LandscapePropertyNode()],
+      ['Sound', () => new SoundNode()],
       ['Add', () => new AddNode(process, (c) => area.update('control', c.id))]
     ])
   });

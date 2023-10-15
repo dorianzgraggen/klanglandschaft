@@ -2,14 +2,17 @@
 import { onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { init } from './3d/scene'
-import { createEditor } from './editor'
+// import { createEditor } from './editor'
+import { createEditor } from './editor2'
 
 const rete = ref()
 
 
 onMounted(() => {
   init()
-  createEditor(rete.value)
+  createEditor(rete.value, (text, type) => {
+    console.log("[rete]", text, type)
+  })
 })
 </script>
 
