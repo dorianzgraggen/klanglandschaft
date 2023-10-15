@@ -201,47 +201,61 @@ export async function createEditor(
 
   // addCustomBackground(area);
 
-  const onMessage = new OnMessage();
-  const match = new MatchMessage('.*hello.*', dataflow);
-  const message1 = new Message('Hello!');
-  const message2 = new Message('ッ');
-  const send1 = new SendMessage(dataflow, respond);
-  const send2 = new SendMessage(dataflow, respond);
+  // const onMessage = new OnMessage();
+  // const match = new MatchMessage('.*hello.*', dataflow);
+  // const message1 = new Message('Hello!');
+  // const message2 = new Message('ッ');
+  // const send1 = new SendMessage(dataflow, respond);
+  // const send2 = new SendMessage(dataflow, respond);
 
-  const chat = new DebugChat((message) => {
-    area.update('node', chat.id);
-    if (message.own) {
-      onMessage.inputMessage = message.message;
-      dataflow.reset();
-      engine.execute(onMessage.id);
-    }
-  });
+  // const chat = new DebugChat((message) => {
+  //   area.update('node', chat.id);
+  //   if (message.own) {
+  //     onMessage.inputMessage = message.message;
+  //     dataflow.reset();
+  //     engine.execute(onMessage.id);
+  //   }
+  // });
 
-  const con1 = new Connection(onMessage, 'exec', match, 'exec');
-  const con2 = new Connection(onMessage, 'text', match, 'text');
-  const con3 = new Connection(message1, 'text', send1, 'text');
-  const con4 = new Connection(message2, 'text', send2, 'text');
-  const con5 = new Connection(match, 'consequent', send1, 'exec');
-  const con6 = new Connection(match, 'alternate', send2, 'exec');
+  // const con1 = new Connection(onMessage, 'exec', match, 'exec');
+  // const con2 = new Connection(onMessage, 'text', match, 'text');
+  // const con3 = new Connection(message1, 'text', send1, 'text');
+  // const con4 = new Connection(message2, 'text', send2, 'text');
+  // const con5 = new Connection(match, 'consequent', send1, 'exec');
+  // const con6 = new Connection(match, 'alternate', send2, 'exec');
 
-  await editor.addNode(onMessage);
-  await editor.addNode(match);
-  await editor.addNode(message1);
-  await editor.addNode(message2);
-  await editor.addNode(send1);
-  await editor.addNode(send2);
-  await editor.addNode(chat);
+  // await editor.addNode(onMessage);
+  // await editor.addNode(match);
+  // await editor.addNode(message1);
+  // await editor.addNode(message2);
+  // await editor.addNode(send1);
+  // await editor.addNode(send2);
+  // await editor.addNode(chat);
+
+  // await editor.addConnection(con1);
+  // await editor.addConnection(con2);
+  // await editor.addConnection(con3);
+  // await editor.addConnection(con4);
+  // await editor.addConnection(con5);
+  // await editor.addConnection(con6);
+
+  const message = new Message('lol');
+  const sound = new SoundNode();
+  const output = new OutputNode();
+
+  const con1 = new Connection(message, 'text', sound, 'text');
+  const con2 = new Connection(sound, 'exec', output, 'exec');
+
+  await editor.addNode(message);
+  await editor.addNode(sound);
+  await editor.addNode(output);
 
   await editor.addConnection(con1);
   await editor.addConnection(con2);
-  await editor.addConnection(con3);
-  await editor.addConnection(con4);
-  await editor.addConnection(con5);
-  await editor.addConnection(con6);
 
   await arrange.layout();
 
-  await area.translate(chat.id, { x: 1000, y: 500 });
+  // await area.translate(chat.id, { x: 1000, y: 500 });
 
   AreaExtensions.zoomAt(area, editor.getNodes());
 
