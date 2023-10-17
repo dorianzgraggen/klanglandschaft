@@ -22,7 +22,7 @@ export class PanNode extends ClassicPreset.Node<
     let sound = {
       id: 'None',
       volume: 1,
-      pan: 0.5
+      pan: 0
     };
 
     if (inputs.sound_in) {

@@ -32,10 +32,56 @@ import { getConnectionSockets } from './utils';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
+const audioCtx = new AudioContext();
+let track: MediaElementAudioSourceNode;
+
 export async function createEditor(
   container: HTMLElement,
   log: (text: string, type: 'info' | 'error') => void
 ) {
+  // load some sound
+  const audioElement = document.querySelector('audio') as HTMLAudioElement;
+  track = audioCtx.createMediaElementSource(audioElement);
+
+  const dataset = {
+    playing: 'false'
+  };
+
+  // play pause audio
+  window.addEventListener(
+    'keydown',
+    (e) => {
+      console.log(e);
+
+      if (e.key !== 'q') {
+        return;
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (dataset.playing === 'false') {
+        audioElement.play();
+        dataset.playing = 'true';
+        // if track is playing pause it
+      } else if (dataset.playing === 'true') {
+        audioElement.pause();
+        dataset.playing = 'false';
+      }
+    },
+    false
+  );
+
+  // if track ends
+  audioElement.addEventListener(
+    'ended',
+    () => {
+      dataset.playing = 'false';
+    },
+    false
+  );
+
   // Setup
   const editor = new NodeEditor<Schemes>();
   const area = new AreaPlugin<Schemes, AreaExtra>(container);
@@ -54,7 +100,7 @@ export async function createEditor(
       ['Volume Node', () => new VolumeNode()],
       ['Panner Node', () => new PanNode()],
       ['Sine Node', () => new SineNode()],
-      ['Output Node', () => new OutputNode()]
+      ['Output Node', () => new OutputNode(handleOutput)]
     ])
   });
   area.use(contextMenu);
@@ -142,12 +188,13 @@ export async function createEditor(
   // Default Nodes
   const population = new DataNode();
   const sound = new SoundNode();
-  const output = new OutputNode();
+  const output = new OutputNode(handleOutput);
   const volume = new VolumeNode();
   const time = new TimeNode();
   const sine = new SineNode();
-  const add = new AddNode(1);
-  const multiply = new MultiplyNode(0.5);
+  const add = new AddNode(0);
+  const multiply = new MultiplyNode(1);
+  const multiply_time = new MultiplyNode(1);
   const pan = new PanNode();
 
   const con1 = new Connection(sound, 'sound_out', volume, 'sound_in');
@@ -155,7 +202,8 @@ export async function createEditor(
   const con3 = new Connection(population, 'value_out', volume, 'value_in');
   const con3b = new Connection(volume, 'sound_out', pan, 'sound_in');
 
-  const con4 = new Connection(time, 'seconds', sine, 'value_in');
+  const con4 = new Connection(time, 'seconds', multiply_time, 'value_in');
+  const con4b = new Connection(multiply_time, 'value_out', sine, 'value_in');
   const con5 = new Connection(sine, 'value_out', add, 'value_in');
   const con6 = new Connection(add, 'value_out', multiply, 'value_in');
   const con7 = new Connection(multiply, 'value_out', pan, 'value_in');
@@ -170,6 +218,7 @@ export async function createEditor(
   await editor.addNode(sine);
   await editor.addNode(add);
   await editor.addNode(multiply);
+  await editor.addNode(multiply_time);
 
   await editor.addConnection(con1);
   await editor.addConnection(con2);
@@ -177,6 +226,7 @@ export async function createEditor(
   await editor.addConnection(con3b);
 
   await editor.addConnection(con4);
+  await editor.addConnection(con4b);
   await editor.addConnection(con5);
   await editor.addConnection(con6);
   await editor.addConnection(con7);
@@ -203,4 +253,28 @@ export async function createEditor(
   return {
     destroy: () => area.destroy()
   };
+}
+
+let rebuild = true;
+
+function handleOutput(output: { id: string; volume: number; pan: number }): void {
+  console.log(output);
+  if (rebuild) {
+    rebuildAudioNodes();
+    rebuild = false;
+  }
+
+  gainNode.gain.value = output.volume;
+  panner.pan.value = output.pan;
+}
+
+let gainNode: GainNode;
+let panner: StereoPannerNode;
+
+function rebuildAudioNodes() {
+  console.log('rebuilding');
+
+  gainNode = audioCtx.createGain();
+  panner = new StereoPannerNode(audioCtx);
+  track.connect(gainNode).connect(panner).connect(audioCtx.destination);
 }

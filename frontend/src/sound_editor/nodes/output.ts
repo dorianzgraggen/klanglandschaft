@@ -5,7 +5,9 @@ export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Soc
   width = 180;
   height = 90;
 
-  constructor() {
+  constructor(
+    private handle_output: (output: { id: string; volume: number; pan: number }) => void
+  ) {
     super('Sound Output');
     this.addInput('sound_in', new ClassicPreset.Input(new ActionSocket(), 'Sound', true));
 
@@ -29,7 +31,10 @@ export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Soc
   // }
 
   data(inputs: any) {
-    console.log('to play:', inputs.sound_in.length, JSON.stringify(inputs.sound_in));
+    // console.log('to play:', inputs.sound_in.length, JSON.stringify(inputs.sound_in));
+    if (inputs.sound_in.length > 0) {
+      this.handle_output(inputs.sound_in[0]);
+    }
 
     return { text: 'lol' };
   }
