@@ -3,31 +3,31 @@ import { TextSocket } from '../sockets';
 
 export class DataNode extends ClassicPreset.Node<
   {}, // inputs
-  { value: ClassicPreset.Socket } // outputs
+  { value_out: ClassicPreset.Socket }, // outputs
+  { input_id: ClassicPreset.InputControl<'text'> }
 > {
   width = 180;
-  height = 90;
+  height = 120;
+  slider = document.getElementById('slider') as any;
 
   constructor() {
-    super('Population');
-    // this.addControl(
-    //   'value',
-    //   new ClassicPreset.InputControl('number', { initial: 0, readonly: true })
-    // );
-    this.addOutput('value', new ClassicPreset.Output(new TextSocket(), 'Amount'));
+    super('Data Input');
+    this.addControl('input_id', new ClassicPreset.InputControl('text', { initial: 'Population' }));
+    this.addOutput('value_out', new ClassicPreset.Output(new TextSocket(), 'Amount'));
   }
 
   execute() {}
 
   data() {
-    const data_value = Math.random();
+    let value = 1;
 
-    // this.controls.value.setValue(data_value);
-
-    console.log(data_value);
+    if (this.slider) {
+      value = this.slider.value;
+      // console.log('value', value);
+    }
 
     return {
-      value: Math.random()
+      value_out: value / 100
     };
   }
 }

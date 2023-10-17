@@ -3,20 +3,18 @@ import { onMounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { init } from './3d/scene'
 import { createEditor } from './sound_editor/editor'
+import SoundEditor from "./sound_editor/SoundEditor.vue"
 
 const rete = ref()
 
 
 onMounted(() => {
   init()
-  createEditor(rete.value, (text, type) => {
-    console.log("[rete]", text, type)
-  })
 })
 </script>
 
 <template>
-  <div id="rete" ref="rete"></div>
+  <SoundEditor></SoundEditor>
   <div id="canvas-root"></div>
   <div class="top-bar">
     <RouterLink to="/">Home</RouterLink>

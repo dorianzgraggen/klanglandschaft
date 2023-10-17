@@ -13,7 +13,17 @@ import {
   ContextMenuPlugin,
   Presets as ContextMenuPresets
 } from 'rete-context-menu-plugin';
-import { DataNode, SoundNode, OutputNode } from './nodes';
+import {
+  DataNode,
+  SoundNode,
+  OutputNode,
+  PanNode,
+  TimeNode,
+  VolumeNode,
+  MultiplyNode,
+  AddNode,
+  SineNode
+} from './nodes';
 import { ActionSocket, TextSocket } from './sockets';
 import { type Schemes } from './types';
 import { Connection } from './connection';
@@ -38,6 +48,12 @@ export async function createEditor(
     items: ContextMenuPresets.classic.setup([
       ['Data Input Node', () => new DataNode()],
       ['Sound Node', () => new SoundNode()],
+      ['Time Node', () => new TimeNode()],
+      ['Multiply Node', () => new MultiplyNode()],
+      ['Add Node', () => new AddNode()],
+      ['Volume Node', () => new VolumeNode()],
+      ['Panner Node', () => new PanNode()],
+      ['Sine Node', () => new SineNode()],
       ['Output Node', () => new OutputNode()]
     ])
   });
@@ -127,16 +143,43 @@ export async function createEditor(
   const population = new DataNode();
   const sound = new SoundNode();
   const output = new OutputNode();
+  const volume = new VolumeNode();
+  const time = new TimeNode();
+  const sine = new SineNode();
+  const add = new AddNode(1);
+  const multiply = new MultiplyNode(0.5);
+  const pan = new PanNode();
 
-  const con1 = new Connection(population, 'value', sound, 'volume');
-  const con2 = new Connection(sound, 'sound_options', output, 'sound_options');
+  const con1 = new Connection(sound, 'sound_out', volume, 'sound_in');
+  const con2 = new Connection(pan, 'sound_out', output, 'sound_in');
+  const con3 = new Connection(population, 'value_out', volume, 'value_in');
+  const con3b = new Connection(volume, 'sound_out', pan, 'sound_in');
+
+  const con4 = new Connection(time, 'seconds', sine, 'value_in');
+  const con5 = new Connection(sine, 'value_out', add, 'value_in');
+  const con6 = new Connection(add, 'value_out', multiply, 'value_in');
+  const con7 = new Connection(multiply, 'value_out', pan, 'value_in');
 
   await editor.addNode(population);
   await editor.addNode(sound);
   await editor.addNode(output);
+  await editor.addNode(volume);
+  await editor.addNode(pan);
+
+  await editor.addNode(time);
+  await editor.addNode(sine);
+  await editor.addNode(add);
+  await editor.addNode(multiply);
 
   await editor.addConnection(con1);
   await editor.addConnection(con2);
+  await editor.addConnection(con3);
+  await editor.addConnection(con3b);
+
+  await editor.addConnection(con4);
+  await editor.addConnection(con5);
+  await editor.addConnection(con6);
+  await editor.addConnection(con7);
 
   await arrange.layout();
 
@@ -144,7 +187,7 @@ export async function createEditor(
 
   // Processing
   function process() {
-    console.log('process');
+    // console.log('process');
     engine.reset();
 
     editor
@@ -155,7 +198,7 @@ export async function createEditor(
 
   setInterval(() => {
     process();
-  }, 1000);
+  }, 100);
 
   return {
     destroy: () => area.destroy()

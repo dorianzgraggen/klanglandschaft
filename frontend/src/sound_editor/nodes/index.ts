@@ -1,3 +1,9 @@
 export { DataNode } from './data';
 export { SoundNode } from './sound';
 export { OutputNode } from './output';
+export { PanNode } from './panner';
+export { VolumeNode } from './volume';
+export { MultiplyNode } from './multiply';
+export { TimeNode } from './time';
+export { SineNode } from './sine';
+export { AddNode } from './add';
