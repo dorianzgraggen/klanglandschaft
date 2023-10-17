@@ -25,7 +25,7 @@ export class MultiplyNode extends ClassicPreset.Node<
     let value_in = 0;
     let multiplier = 1;
 
-    if (this.controls.multiplier.value) {
+    if (typeof this.controls.multiplier.value !== 'undefined') {
       multiplier = this.controls.multiplier.value;
     }
 

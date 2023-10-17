@@ -22,7 +22,7 @@ export class AddNode extends ClassicPreset.Node<
     let value_in = 0;
     let summand = 0;
 
-    if (this.controls.summand.value) {
+    if (typeof this.controls.summand.value !== 'undefined') {
       summand = this.controls.summand.value;
     }
 
