@@ -20,8 +20,8 @@ onMounted(() => {
       <input type="range" id="slider">
 
 
-      <audio loop="true" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3"
-        crossorigin="anonymous"></audio>
+      <!-- <audio loop="true" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3"
+        crossorigin="anonymous"></audio> -->
 
     </div>
 

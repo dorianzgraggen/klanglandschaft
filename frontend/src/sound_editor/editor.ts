@@ -10,6 +10,8 @@ import {
 } from 'rete-context-menu-plugin';
 import { VuePlugin, Presets, type VueArea2D } from 'rete-vue-plugin';
 
+import * as Tone from 'tone';
+
 import {
   DataNode,
   SoundNode,
@@ -27,8 +29,9 @@ import { getConnectionSockets } from './utils';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
-const audioCtx = new AudioContext();
-let track: MediaElementAudioSourceNode;
+const player = new Tone.Player({
+  loop: true
+});
 
 export async function init_editor(
   container: HTMLElement,
@@ -149,44 +152,16 @@ export async function init_editor(
 let rebuild = true;
 
 function setup_audio() {
-  const audioElement = document.querySelector('audio') as HTMLAudioElement;
-  track = audioCtx.createMediaElementSource(audioElement);
+  player.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3');
 
-  const dataset = {
-    playing: 'false'
-  };
-
-  // play pause audio
   window.addEventListener(
     'keydown',
     (e) => {
-      console.log(e);
-
       if (e.key !== 'q') {
         return;
       }
-
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-
-      if (dataset.playing === 'false') {
-        audioElement.play();
-        dataset.playing = 'true';
-        // if track is playing pause it
-      } else if (dataset.playing === 'true') {
-        audioElement.pause();
-        dataset.playing = 'false';
-      }
-    },
-    false
-  );
-
-  // if track ends
-  audioElement.addEventListener(
-    'ended',
-    () => {
-      dataset.playing = 'false';
+      rebuild_audio_nodes();
+      player.start();
     },
     false
   );
@@ -242,22 +217,20 @@ async function add_default_nodes(
 function handle_output(output: { id: string; volume: number; pan: number }): void {
   console.log(output);
   if (rebuild) {
-    rebuild_audio_nodes();
     rebuild = false;
   }
-
   gainNode.gain.value = output.volume;
-  panner.pan.value = output.pan;
+  pannerNode.pan.value = output.pan;
 }
 
-let gainNode: GainNode;
-let panner: StereoPannerNode;
+const gainNode = new Tone.Gain(1).toDestination();
+const pannerNode = new Tone.Panner(-1);
+pannerNode.connect(gainNode);
+player.connect(pannerNode);
 
 function rebuild_audio_nodes() {
   console.log('rebuilding');
-  gainNode = audioCtx.createGain();
-  panner = new StereoPannerNode(audioCtx);
-  track.connect(gainNode).connect(panner).connect(audioCtx.destination);
+  // TODO: implement
 }
 
 function create_context_menu() {
