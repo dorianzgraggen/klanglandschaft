@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
-import { SoundSocket } from '../sockets';
-import type { AudioEffect } from '../editor';
+import { SoundSocket } from '../../sockets';
+import type { AudioEffect } from '../../editor';
 
 export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Socket }> {
   width = 180;

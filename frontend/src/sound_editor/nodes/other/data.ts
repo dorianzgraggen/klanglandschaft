@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { NumberSocket } from '../sockets';
+import { NumberSocket } from '../../sockets';
 
 export class DataNode extends ClassicPreset.Node<
   {}, // inputs

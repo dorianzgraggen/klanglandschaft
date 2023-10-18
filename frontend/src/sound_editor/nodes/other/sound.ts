@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { SoundSocket } from '../sockets';
+import { SoundSocket } from '../../sockets';
 
 export class SoundNode extends ClassicPreset.Node<
   {}, // input
