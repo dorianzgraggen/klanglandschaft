@@ -30,7 +30,8 @@ import { getConnectionSockets } from './utils';
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
 const player = new Tone.Player({
-  loop: true
+  loop: true,
+  autostart: false
 });
 
 export async function init_editor(
@@ -149,19 +150,25 @@ export async function init_editor(
   }, 100);
 }
 
-let rebuild = true;
+let rebuild = false;
 
 function setup_audio() {
   player.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3');
 
   window.addEventListener(
     'keydown',
-    (e) => {
+    async (e) => {
       if (e.key !== 'q') {
         return;
       }
-      rebuild_audio_nodes();
+      // rebuild_audio_nodes();
+      console.log('start');
+      await player.context.resume();
       player.start();
+
+      console.log('started');
+
+      rebuild = true;
     },
     false
   );
@@ -214,23 +221,57 @@ async function add_default_nodes(
   await arrange.layout();
 }
 
-function handle_output(output: { id: string; volume: number; pan: number }): void {
-  console.log(output);
+let sound_nodes = new Array<Tone.ToneAudioNode>();
+
+function handle_output(output: { effects: Array<AudioEffect> }): void {
+  // console.log(output);
   if (rebuild) {
     rebuild = false;
+    rebuild_audio_nodes(output.effects);
+    connect_audio_nodes();
+    // player.chain
   }
-  gainNode.gain.value = output.volume;
-  pannerNode.pan.value = output.pan;
+
+  sound_nodes.forEach((sound_node, i) => {
+    const settings = output.effects[i].settings;
+
+    for (const [key, value] of Object.entries(settings)) {
+      (sound_node as any)[key].value = value;
+    }
+
+    console.log('settings', settings, 'node', sound_node);
+  });
 }
 
-const gainNode = new Tone.Gain(1).toDestination();
-const pannerNode = new Tone.Panner(-1);
-pannerNode.connect(gainNode);
-player.connect(pannerNode);
+// const gainNode = new Tone.Gain(1).toDestination();
+// const pannerNode = new Tone.Panner(-1);
+// pannerNode.connect(gainNode);
+// player.connect(pannerNode);
 
-function rebuild_audio_nodes() {
+export type AudioEffect = {
+  type: 'pan' | 'gain';
+  settings: {
+    [key: string]: number;
+  };
+};
+
+function rebuild_audio_nodes(effects: Array<AudioEffect>) {
   console.log('rebuilding');
+  sound_nodes = effects.map((effect) => {
+    switch (effect.type) {
+      case 'gain':
+        return new Tone.Gain();
+
+      case 'pan':
+        return new Tone.Panner();
+    }
+  });
+
   // TODO: implement
+}
+
+function connect_audio_nodes() {
+  player.chain(...sound_nodes, Tone.Destination);
 }
 
 function create_context_menu() {

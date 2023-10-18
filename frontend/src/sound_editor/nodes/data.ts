@@ -29,8 +29,6 @@ export class DataNode extends ClassicPreset.Node<
 
     const slider = this.sliders[this.controls.input_id.value as string];
 
-    console.log('id', this.controls.input_id);
-
     if (slider) {
       value = slider.value;
       // console.log('value', value);
