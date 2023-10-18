@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { createEditor } from './editor'
+import { init_editor } from './editor'
 
 const rete = ref()
 
 
 onMounted(() => {
-  createEditor(rete.value, (text, type) => {
+  init_editor(rete.value, (text, type) => {
     console.log("[rete]", text, type)
   })
 })
