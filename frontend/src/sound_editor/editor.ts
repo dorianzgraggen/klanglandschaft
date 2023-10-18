@@ -1,18 +1,15 @@
 import { NodeEditor } from 'rete';
-import { AreaPlugin, AreaExtensions, type Area2D } from 'rete-area-plugin';
-import {
-  ClassicFlow,
-  ConnectionPlugin,
-  Presets as ConnectionPresets,
-  getSourceTarget
-} from 'rete-connection-plugin';
+import { AreaPlugin, AreaExtensions } from 'rete-area-plugin';
+import { ClassicFlow, ConnectionPlugin, getSourceTarget } from 'rete-connection-plugin';
 import { AutoArrangePlugin, Presets as ArrangePresets } from 'rete-auto-arrange-plugin';
-import { DataflowEngine, ControlFlowEngine } from 'rete-engine';
+import { DataflowEngine } from 'rete-engine';
 import {
   type ContextMenuExtra,
   ContextMenuPlugin,
   Presets as ContextMenuPresets
 } from 'rete-context-menu-plugin';
+import { VuePlugin, Presets, type VueArea2D } from 'rete-vue-plugin';
+
 import {
   DataNode,
   SoundNode,
@@ -24,10 +21,9 @@ import {
   AddNode,
   SineNode
 } from './nodes';
-import { SoundSocket, NumberSocket } from './sockets';
+
 import { type Schemes } from './types';
 import { Connection } from './connection';
-import { VuePlugin, Presets, type VueArea2D } from 'rete-vue-plugin';
 import { getConnectionSockets } from './utils';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
