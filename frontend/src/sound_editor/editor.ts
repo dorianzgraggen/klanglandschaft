@@ -24,7 +24,7 @@ import {
   AddNode,
   SineNode
 } from './nodes';
-import { ActionSocket, TextSocket } from './sockets';
+import { SoundSocket, NumberSocket } from './sockets';
 import { type Schemes } from './types';
 import { Connection } from './connection';
 import { VuePlugin, Presets, type VueArea2D } from 'rete-vue-plugin';

@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { ActionSocket, TextSocket } from '../sockets';
+import { SoundSocket } from '../sockets';
 
 export class SoundNode extends ClassicPreset.Node<
   {}, // input
@@ -13,7 +13,7 @@ export class SoundNode extends ClassicPreset.Node<
     super('Sound');
     // this.addInput('volume', new ClassicPreset.Input(new TextSocket(), 'Volume'));
     this.addControl('sound_id', new ClassicPreset.InputControl('text', { initial: 'Piano' }));
-    this.addOutput('sound_out', new ClassicPreset.Output(new ActionSocket(), 'Sound'));
+    this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
   }
 
   execute() {}

@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { ActionSocket, TextSocket } from '../../sockets';
+import { NumberSocket } from '../../sockets';
 
 export class SineNode extends ClassicPreset.Node<
   { value_in: ClassicPreset.Socket }, // input
@@ -11,8 +11,8 @@ export class SineNode extends ClassicPreset.Node<
 
   constructor() {
     super('Sine');
-    this.addInput('value_in', new ClassicPreset.Input(new TextSocket(), 'Value'));
-    this.addOutput('value_out', new ClassicPreset.Output(new TextSocket(), 'Value'));
+    this.addInput('value_in', new ClassicPreset.Input(new NumberSocket(), 'Value'));
+    this.addOutput('value_out', new ClassicPreset.Output(new NumberSocket(), 'Value'));
   }
 
   execute() {}

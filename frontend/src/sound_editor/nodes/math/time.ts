@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { TextSocket } from '../../sockets';
+import { NumberSocket } from '../../sockets';
 
 export class TimeNode extends ClassicPreset.Node<
   {}, // inputs
@@ -11,7 +11,7 @@ export class TimeNode extends ClassicPreset.Node<
 
   constructor() {
     super('Time');
-    this.addOutput('seconds', new ClassicPreset.Output(new TextSocket(), 'Seconds'));
+    this.addOutput('seconds', new ClassicPreset.Output(new NumberSocket(), 'Seconds'));
   }
 
   execute() {}

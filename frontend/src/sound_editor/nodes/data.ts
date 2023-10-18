@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { TextSocket } from '../sockets';
+import { NumberSocket } from '../sockets';
 
 export class DataNode extends ClassicPreset.Node<
   {}, // inputs
@@ -13,7 +13,7 @@ export class DataNode extends ClassicPreset.Node<
   constructor() {
     super('Data Input');
     this.addControl('input_id', new ClassicPreset.InputControl('text', { initial: 'Population' }));
-    this.addOutput('value_out', new ClassicPreset.Output(new TextSocket(), 'Amount'));
+    this.addOutput('value_out', new ClassicPreset.Output(new NumberSocket(), 'Amount'));
   }
 
   execute() {}
