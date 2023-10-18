@@ -43,4 +43,4 @@ onMounted(() => {
   z-index: 0;
 }
 </style>
-./sound_editor/editor
+./sound_editor/editor./sound_editor/connections

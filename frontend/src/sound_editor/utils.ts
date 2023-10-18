@@ -1,6 +1,6 @@
 import { ClassicPreset, NodeEditor } from 'rete';
 import { SoundSocket, NumberSocket } from './sockets';
-import { type Schemes } from './types';
+import { type Schemes } from './connections';
 
 type Sockets = SoundSocket | NumberSocket;
 type Input = ClassicPreset.Input<Sockets>;

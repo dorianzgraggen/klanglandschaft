@@ -22,8 +22,7 @@ import {
   SineNode
 } from './nodes';
 
-import { type Schemes } from './types';
-import { Connection } from './connection';
+import { type Schemes, Connection } from './connections';
 import { getConnectionSockets } from './utils';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
