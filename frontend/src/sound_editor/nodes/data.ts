@@ -8,21 +8,31 @@ export class DataNode extends ClassicPreset.Node<
 > {
   width = 180;
   height = 120;
-  slider = document.getElementById('slider') as any;
+
+  sliders = {
+    trees: document.getElementById('slider-trees'),
+    population: document.getElementById('slider-population'),
+    elevation: document.getElementById('slider-elevation')
+  } as { [key: string]: any };
 
   constructor() {
     super('Data Input');
-    this.addControl('input_id', new ClassicPreset.InputControl('text', { initial: 'Population' }));
+
+    this.addControl('input_id', new ClassicPreset.InputControl('text', { initial: 'population' }));
     this.addOutput('value_out', new ClassicPreset.Output(new NumberSocket(), 'Amount'));
   }
 
   execute() {}
 
   data() {
-    let value = 1;
+    let value = 100;
 
-    if (this.slider) {
-      value = this.slider.value;
+    const slider = this.sliders[this.controls.input_id.value as string];
+
+    console.log('id', this.controls.input_id);
+
+    if (slider) {
+      value = slider.value;
       // console.log('value', value);
     }
 
