@@ -1,21 +1,21 @@
-import { ClassicPreset } from "rete";
+import { ClassicPreset } from 'rete';
 
-export class ActionSocket extends ClassicPreset.Socket {
+export class SoundSocket extends ClassicPreset.Socket {
   constructor() {
-    super("Action");
+    super('Action');
   }
 
   isCompatibleWith(socket: ClassicPreset.Socket) {
-    return socket instanceof ActionSocket;
+    return socket instanceof SoundSocket;
   }
 }
 
-export class TextSocket extends ClassicPreset.Socket {
+export class NumberSocket extends ClassicPreset.Socket {
   constructor() {
-    super("Text");
+    super('Text');
   }
 
   isCompatibleWith(socket: ClassicPreset.Socket) {
-    return socket instanceof TextSocket;
+    return socket instanceof NumberSocket;
   }
 }

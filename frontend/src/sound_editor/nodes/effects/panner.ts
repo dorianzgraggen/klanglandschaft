@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { ActionSocket, TextSocket } from '../sockets';
+import { SoundSocket, NumberSocket } from '../../sockets';
 
 export class PanNode extends ClassicPreset.Node<
   { value_in: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
@@ -11,9 +11,9 @@ export class PanNode extends ClassicPreset.Node<
 
   constructor() {
     super('Panner');
-    this.addInput('sound_in', new ClassicPreset.Input(new ActionSocket(), 'Sound'));
-    this.addInput('value_in', new ClassicPreset.Input(new TextSocket(), 'Pan'));
-    this.addOutput('sound_out', new ClassicPreset.Output(new ActionSocket(), 'Sound'));
+    this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound'));
+    this.addInput('value_in', new ClassicPreset.Input(new NumberSocket(), 'Pan'));
+    this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
   }
 
   execute() {}
