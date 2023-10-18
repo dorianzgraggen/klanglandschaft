@@ -21,8 +21,7 @@ export class VolumeNode extends ClassicPreset.Node<
   data(inputs: any) {
     let sound = {
       id: 'None',
-      volume: 1,
-      pan: 0.5
+      effects: new Array<any>()
     };
 
     if (inputs.sound_in) {
@@ -30,7 +29,12 @@ export class VolumeNode extends ClassicPreset.Node<
     }
 
     if (inputs.value_in) {
-      sound.volume = inputs.value_in[0];
+      sound.effects.push({
+        type: 'gain',
+        settings: {
+          gain: inputs.value_in[0]
+        }
+      });
     }
 
     return {

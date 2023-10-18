@@ -21,8 +21,7 @@ export class PanNode extends ClassicPreset.Node<
   data(inputs: any) {
     let sound = {
       id: 'None',
-      volume: 1,
-      pan: 0
+      effects: new Array<any>()
     };
 
     if (inputs.sound_in) {
@@ -30,8 +29,14 @@ export class PanNode extends ClassicPreset.Node<
     }
 
     if (inputs.value_in) {
-      sound.pan = inputs.value_in[0];
+      sound.effects.push({
+        type: 'pan',
+        settings: {
+          pan: inputs.value_in[0]
+        }
+      });
     }
+
     return {
       sound_out: sound
     };

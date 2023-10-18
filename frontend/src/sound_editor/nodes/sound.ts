@@ -19,12 +19,13 @@ export class SoundNode extends ClassicPreset.Node<
   execute() {}
 
   data(inputs: any) {
+    const sound = {
+      id: 'Piano',
+      effects: new Array<any>()
+    };
+
     return {
-      sound_out: {
-        volume: 1,
-        pan: 0.5,
-        track: 'Piano'
-      }
+      sound_out: sound
     };
   }
 }
