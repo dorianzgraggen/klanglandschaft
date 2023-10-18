@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { ActionSocket, TextSocket } from '../sockets';
+import { ActionSocket, TextSocket } from '../../sockets';
 
 export class SineNode extends ClassicPreset.Node<
   { value_in: ClassicPreset.Socket }, // input

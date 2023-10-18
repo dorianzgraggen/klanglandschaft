@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { TextSocket } from '../sockets';
+import { TextSocket } from '../../sockets';
 
 export class TimeNode extends ClassicPreset.Node<
   {}, // inputs
