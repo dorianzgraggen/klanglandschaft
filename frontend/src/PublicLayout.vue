@@ -1,14 +1,13 @@
-
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import SoundEditor from "./sound_editor/SoundEditor.vue"
-import { onMounted } from 'vue'
-import { init } from './3d/scene'
+import { RouterLink, RouterView } from 'vue-router';
+import SoundEditor from './sound_editor/SoundEditor.vue';
+import { onMounted } from 'vue';
+import { init } from './3d/scene';
 
 onMounted(async () => {
-  init()
-})
-</script >
+  init();
+});
+</script>
 
 <template>
   <SoundEditor></SoundEditor>
@@ -29,7 +28,6 @@ onMounted(async () => {
   right: 0;
   z-index: -1;
 }
-
 
 #rete {
   position: absolute;
