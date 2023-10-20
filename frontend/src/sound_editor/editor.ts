@@ -120,6 +120,7 @@ export async function init_editor(
   AreaExtensions.showInputControl(area);
 
   editor.addPipe((context) => {
+    console.log('conecction', context.type);
     if (context.type === 'connectioncreate') {
       const { data } = context;
       const { source, target } = getConnectionSockets(editor, data);
@@ -127,6 +128,23 @@ export async function init_editor(
       if (!source.isCompatibleWith(target)) {
         log('Sockets are not compatible', 'error');
         return;
+      }
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'connectioncreated') {
+      const node = editor.getNode(context.data.target);
+      console.log('node', node);
+
+      if (node instanceof BaseNode) {
+        const bnode = node as BaseNode;
+        console.log('instance+');
+        if (context.data.targetInput.includes('sound_in')) {
+          bnode.addSoundInput();
+          area.update('node', context.data.target);
+        }
       }
     }
     return context;
@@ -145,17 +163,6 @@ export async function init_editor(
       .getNodes()
       .filter((n) => n instanceof OutputNode)
       .forEach((n) => engine.fetch(n.id));
-
-    editor
-      .getNodes()
-      .filter((n) => n instanceof BaseNode)
-      .map((n) => n as BaseNode)
-      .forEach((n) => {
-        if (n.needs_rerender) {
-          area.update('node', n.id);
-          n.needs_rerender = false;
-        }
-      });
 
     // editor.getNodes().forEach((n) => area.update('node', n.id));
   }
@@ -217,7 +224,7 @@ async function add_default_nodes(
     new Connection(multiply, 'value_out', pan, 'value_in'),
 
     new Connection(pan, 'sound_out', vibrato, 'sound_in'),
-    new Connection(vibrato, 'sound_out', output, 'sound_in')
+    new Connection(vibrato, 'sound_out', output, 'sound_in #1')
   ];
 
   await editor.addNode(population);

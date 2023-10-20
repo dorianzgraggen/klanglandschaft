@@ -127,7 +127,7 @@ export function init() {
 
   const camPos = new THREE.Vector3();
   function animate() {
-    requestAnimationFrame(animate);
+    // requestAnimationFrame(animate);
 
     camera.getWorldPosition(camPos);
 

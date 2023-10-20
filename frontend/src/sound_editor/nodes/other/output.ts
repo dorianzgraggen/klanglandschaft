@@ -5,22 +5,14 @@ import { BaseNode, type Inputs } from '../base_node';
 
 export class OutputNode extends BaseNode {
   width = 180;
-  height = 90;
+  height = 55;
 
   constructor(
     private handle_output: (output: { id: string; effects: Array<AudioEffect> }) => void
   ) {
     super('Sound Output');
-    this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound', true));
-
-    window.setTimeout(() => {
-      this.addInput('lol', new ClassicPreset.Input(new SoundSocket(), 'Sound 2', true));
-      this.height += 30;
-      // alert('lol');
-      // this.
-
-      this.needs_rerender = true;
-    }, 1500);
+    // this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound', true));
+    this.addSoundInput();
   }
 
   execute() {}
