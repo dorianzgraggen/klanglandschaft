@@ -1,5 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
+import { use_default_sound_or_else } from '../util';
 
 export class PanNode extends ClassicPreset.Node<
   { value_in: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
@@ -19,19 +20,17 @@ export class PanNode extends ClassicPreset.Node<
   execute() {}
 
   data(inputs: any) {
-    let sound = {
-      id: 'None',
-      volume: 1,
-      pan: 0
-    };
-
-    if (inputs.sound_in) {
-      sound = inputs.sound_in[0];
-    }
+    const sound = use_default_sound_or_else(inputs.sound_in[0]);
 
     if (inputs.value_in) {
-      sound.pan = inputs.value_in[0];
+      sound.effects.push({
+        type: 'pan',
+        settings: {
+          pan: inputs.value_in[0]
+        }
+      });
     }
+
     return {
       sound_out: sound
     };

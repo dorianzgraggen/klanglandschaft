@@ -1,12 +1,13 @@
 import { ClassicPreset } from 'rete';
-import { SoundSocket } from '../sockets';
+import { SoundSocket } from '../../sockets';
+import type { AudioEffect } from '../../editor';
 
 export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Socket }> {
   width = 180;
   height = 90;
 
   constructor(
-    private handle_output: (output: { id: string; volume: number; pan: number }) => void
+    private handle_output: (output: { id: string; effects: Array<AudioEffect> }) => void
   ) {
     super('Sound Output');
     this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound', true));

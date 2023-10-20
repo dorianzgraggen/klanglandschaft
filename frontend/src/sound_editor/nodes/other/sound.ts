@@ -1,5 +1,5 @@
 import { ClassicPreset } from 'rete';
-import { SoundSocket } from '../sockets';
+import { SoundSocket } from '../../sockets';
 
 export class SoundNode extends ClassicPreset.Node<
   {}, // input
@@ -19,12 +19,13 @@ export class SoundNode extends ClassicPreset.Node<
   execute() {}
 
   data(inputs: any) {
+    const sound = {
+      id: 'Piano',
+      effects: new Array<any>()
+    };
+
     return {
-      sound_out: {
-        volume: 1,
-        pan: 0.5,
-        track: 'Piano'
-      }
+      sound_out: sound
     };
   }
 }

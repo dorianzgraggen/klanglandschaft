@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { init_editor } from './editor'
 
 const rete = ref()
 
 
-onMounted(() => {
+onMounted(async () => {
+  console.log("soundi")
+  const { init_editor } = await import("./editor")
   init_editor(rete.value, (text, type) => {
     console.log("[rete]", text, type)
   })
 })
+
 </script>
 
 <template>
   <div id="sound-editor">
     <div class="top">
+      Trees
+      <input type="range" id="slider-trees">
       Population
-
-      <input type="range" id="slider">
-
-
-      <!-- <audio loop="true" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3"
-        crossorigin="anonymous"></audio> -->
-
+      <input type="range" id="slider-population">
+      Elevation
+      <input type="range" id="slider-elevation">
     </div>
 
     <div id="rete" ref="rete"></div>
