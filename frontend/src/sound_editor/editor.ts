@@ -21,7 +21,8 @@ import {
   VolumeNode,
   MultiplyNode,
   AddNode,
-  SineNode
+  SineNode,
+  VibratoNode
 } from './nodes';
 
 import { type Schemes, Connection } from './connections';
@@ -188,10 +189,10 @@ async function add_default_nodes(
   const multiply = new MultiplyNode(1);
   const multiply_time = new MultiplyNode(1);
   const pan = new PanNode();
+  const vibrato = new VibratoNode();
 
   const connections = [
     new Connection(sound, 'sound_out', volume, 'sound_in'),
-    new Connection(pan, 'sound_out', output, 'sound_in'),
     new Connection(population, 'value_out', volume, 'value_in'),
     new Connection(volume, 'sound_out', pan, 'sound_in'),
 
@@ -199,7 +200,10 @@ async function add_default_nodes(
     new Connection(multiply_time, 'value_out', sine, 'value_in'),
     new Connection(sine, 'value_out', add, 'value_in'),
     new Connection(add, 'value_out', multiply, 'value_in'),
-    new Connection(multiply, 'value_out', pan, 'value_in')
+    new Connection(multiply, 'value_out', pan, 'value_in'),
+
+    new Connection(pan, 'sound_out', vibrato, 'sound_in'),
+    new Connection(vibrato, 'sound_out', output, 'sound_in')
   ];
 
   await editor.addNode(population);
@@ -213,6 +217,8 @@ async function add_default_nodes(
   await editor.addNode(add);
   await editor.addNode(multiply);
   await editor.addNode(multiply_time);
+
+  await editor.addNode(vibrato);
 
   for (const connection of connections) {
     await editor.addConnection(connection);
@@ -249,7 +255,7 @@ function handle_output(output: { effects: Array<AudioEffect> }): void {
 // player.connect(pannerNode);
 
 export type AudioEffect = {
-  type: 'pan' | 'gain';
+  type: 'pan' | 'gain' | 'vibrato';
   settings: {
     [key: string]: number;
   };
@@ -264,6 +270,9 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
 
       case 'pan':
         return new Tone.Panner();
+
+      case 'vibrato':
+        return new Tone.Vibrato();
     }
   });
 
@@ -283,6 +292,7 @@ function create_context_menu() {
       ['Multiply Node', () => new MultiplyNode()],
       ['Add Node', () => new AddNode()],
       ['Volume Node', () => new VolumeNode()],
+      ['Tremolo Node', () => new VibratoNode()],
       ['Panner Node', () => new PanNode()],
       ['Sine Node', () => new SineNode()],
       ['Output Node', () => new OutputNode(handle_output)]

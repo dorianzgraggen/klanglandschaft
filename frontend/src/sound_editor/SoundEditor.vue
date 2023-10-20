@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { init_editor } from './editor'
 
 const rete = ref()
 
-onMounted(() => {
+
+onMounted(async () => {
+  console.log("soundi")
+  const { init_editor } = await import("./editor")
   init_editor(rete.value, (text, type) => {
     console.log("[rete]", text, type)
   })
 })
+
 </script>
 
 <template>

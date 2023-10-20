@@ -9,20 +9,33 @@ import {
   VolumeNode,
   TimeNode,
   AddNode,
-  SineNode
+  SineNode,
+  VibratoNode
 } from './nodes';
 
 export type EffectNode = VolumeNode | PanNode;
 export type ValueChangeNode = AddNode | MultiplyNode | SineNode;
 
-export type NodeProps = EffectNode | ValueChangeNode | DataNode | SoundNode | OutputNode | TimeNode;
+export type EffectNodeTwoInputs = VibratoNode;
+
+export type NodeProps =
+  | EffectNode
+  | ValueChangeNode
+  | DataNode
+  | SoundNode
+  | OutputNode
+  | TimeNode
+  | EffectNodeTwoInputs;
 
 export type ConnProps =
   | Connection<ValueChangeNode, ValueChangeNode>
   | Connection<ValueChangeNode, EffectNode>
+  | Connection<ValueChangeNode, EffectNodeTwoInputs>
   | Connection<TimeNode, ValueChangeNode>
   | Connection<SoundNode, EffectNode>
+  | Connection<SoundNode, EffectNodeTwoInputs>
   | Connection<EffectNode, OutputNode>
+  | Connection<EffectNodeTwoInputs, OutputNode>
   | Connection<SoundNode, OutputNode>;
 
 export type Schemes = GetSchemes<NodeProps, ConnProps>;

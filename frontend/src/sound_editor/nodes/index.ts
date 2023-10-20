@@ -2,6 +2,7 @@ export { DataNode } from './other/data';
 export { SoundNode } from './other/sound';
 export { OutputNode } from './other/output';
 export { PanNode } from './effects/panner';
+export { VibratoNode } from './effects/vibrato';
 export { VolumeNode } from './effects/volume';
 export { MultiplyNode } from './math/multiply';
 export { TimeNode } from './math/time';
