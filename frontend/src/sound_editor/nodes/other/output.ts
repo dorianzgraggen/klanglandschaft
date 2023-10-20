@@ -1,8 +1,9 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket } from '../../sockets';
 import type { AudioEffect } from '../../editor';
+import { BaseNode, type Inputs } from '../base_node';
 
-export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Socket }> {
+export class OutputNode extends BaseNode {
   width = 180;
   height = 90;
 
@@ -12,28 +13,20 @@ export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Soc
     super('Sound Output');
     this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound', true));
 
-    // this.addControl(
-    //   'text',
-    //   new ClassicPreset.InputControl('text', {
-    //     readonly: true
-    //   })
-    // );
+    window.setTimeout(() => {
+      this.addInput('lol', new ClassicPreset.Input(new SoundSocket(), 'Sound 2', true));
+      this.height += 30;
+      // alert('lol');
+      // this.
 
-    // this.addOutput('text', new ClassicPreset.Output(new ActionSocket(), 'Number'));
+      this.needs_rerender = true;
+    }, 1500);
   }
 
   execute() {}
 
-  // data() {
-  //   console.log('output', this);
-  //   return {
-  //     text: 'lol'
-  //   };
-  // }
-
-  data(inputs: any) {
-    // console.log('to play:', inputs.sound_in.length, JSON.stringify(inputs.sound_in));
-    if (inputs.sound_in.length > 0) {
+  data(inputs: Inputs) {
+    if (typeof inputs.sound_in !== 'undefined' && inputs.sound_in.length > 0) {
       this.handle_output(inputs.sound_in[0]);
     }
 

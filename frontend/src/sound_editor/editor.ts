@@ -27,6 +27,7 @@ import {
 
 import { type Schemes, Connection } from './connections';
 import { getConnectionSockets } from './utils';
+import { BaseNode } from './nodes/base_node';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -144,6 +145,19 @@ export async function init_editor(
       .getNodes()
       .filter((n) => n instanceof OutputNode)
       .forEach((n) => engine.fetch(n.id));
+
+    editor
+      .getNodes()
+      .filter((n) => n instanceof BaseNode)
+      .map((n) => n as BaseNode)
+      .forEach((n) => {
+        if (n.needs_rerender) {
+          area.update('node', n.id);
+          n.needs_rerender = false;
+        }
+      });
+
+    // editor.getNodes().forEach((n) => area.update('node', n.id));
   }
 
   setInterval(() => {
