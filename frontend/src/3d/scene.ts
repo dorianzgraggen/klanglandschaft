@@ -15,11 +15,6 @@ export function init() {
   renderer.setSize(window.innerWidth, window.innerHeight);
   root.appendChild(renderer.domElement);
 
-  const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
   camera.position.z = -1;
   camera.position.x = -1;
   camera.position.y = 1;
@@ -50,9 +45,6 @@ export function init() {
 
   function animate() {
     requestAnimationFrame(animate);
-
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
 
     controls.update();
     landscape.update(camera);
