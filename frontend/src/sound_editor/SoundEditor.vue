@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
+const open = ref(false);
+
 const rete = ref();
 
 onMounted(async () => {
@@ -13,7 +15,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="sound-editor">
+  <div id="sound-editor" v-show="open">
     <div class="top">
       Trees
       <input type="range" id="slider-trees" />
@@ -26,6 +28,7 @@ onMounted(async () => {
     <div id="rete" ref="rete"></div>
     <div class="bottom">ja haha</div>
   </div>
+  <button id="toggle" @click="open = !open">{{ open ? "Close" : "Open" }}</button>
 </template>
 
 <style scoped>
@@ -52,5 +55,12 @@ onMounted(async () => {
 
 .bottom {
   background-color: rgb(29, 29, 29);
+}
+
+#toggle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 8px 12px;
 }
 </style>
