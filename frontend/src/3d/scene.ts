@@ -11,7 +11,7 @@ export function init() {
   scene.background = new THREE.Color(0x2222222);
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.localClippingEnabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   root.appendChild(renderer.domElement);
@@ -44,7 +44,7 @@ export function init() {
 
   // const landscape = new LandscapeMeshTest(scene, camera);
 
-  const tile = new Landscape(scene);
+  const tile = new Landscape(scene, renderer);
 
   function animate() {
     requestAnimationFrame(animate);
