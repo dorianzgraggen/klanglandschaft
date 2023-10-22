@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 
 import { LandscapeMeshTest } from './mesh';
+import { Landscape } from './landscape';
 
 export function init() {
   const root = document.getElementById('canvas-root') as HTMLElement; // iuuu
@@ -41,13 +42,15 @@ export function init() {
   const axes = new THREE.AxesHelper(20);
   scene.add(axes);
 
-  const landscape = new LandscapeMeshTest(scene, camera);
+  // const landscape = new LandscapeMeshTest(scene, camera);
+
+  const tile = new Landscape(scene);
 
   function animate() {
     requestAnimationFrame(animate);
 
     controls.update();
-    landscape.update(camera);
+    // landscape.update(camera);
 
     renderer.render(scene, camera);
   }
