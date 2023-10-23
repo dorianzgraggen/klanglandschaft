@@ -6,6 +6,8 @@ import { pathify } from "./lib/util.mjs";
 import { alles } from "./lib/vernunft.mjs";
 import readline from "readline";
 import events from "events";
+import { download_if_missing, download_geotiffs } from "./lib/download.mjs";
+
 run();
 
 async function run() {
@@ -14,37 +16,17 @@ async function run() {
   // );
   // get_entry(0.93, 0.92);
 
+  await download_geotiffs(2667, 1200, 2681, 1208);
+
   // await build_mesh();
-  await alles();
   return;
+  await alles();
   await download_if_missing(
     "xyz.zip",
     "https://data.geo.admin.ch/ch.swisstopo.swisssurface3d-raster/swisssurface3d-raster_2020_2666-1211/swisssurface3d-raster_2020_2666-1211_0.5_2056_5728.xyz.zip"
   );
 
   unzip("xyz.zip", { delete_source: false });
-}
-
-async function download_if_missing(filepath: string, url: string) {
-  const _filepath = pathify(filepath);
-
-  if (fs.existsSync(_filepath)) {
-    console.log("exists");
-    return;
-  }
-
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(_filepath);
-    const request = https.get(url, function (response) {
-      response.pipe(file);
-
-      file.on("finish", () => {
-        file.close();
-        console.log("Download Completed");
-        resolve;
-      });
-    });
-  });
 }
 
 function unzip(filepath: string, args?: { delete_source: boolean }) {
