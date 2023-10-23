@@ -18,6 +18,9 @@
     "@gltf-transform/functions": "^3.7.2",
     "@types/adm-zip": "^0.5.2",
     "adm-zip": "^0.5.10",
+    "geotiff": "^2.0.7",
+    "jimp": "^0.22.10",
+    "sharp": "^0.32.6",
     "sqlite3": "^5.1.6"
   }
 }

@@ -7,6 +7,12 @@ import { alles } from "./lib/vernunft.mjs";
 import readline from "readline";
 import events from "events";
 import { download_if_missing, download_geotiffs } from "./lib/download.mjs";
+import {
+  geotiffff,
+  jimppp,
+  process_all,
+  sharppp,
+} from "./lib/image_manipulation.mjs";
 
 run();
 
@@ -16,7 +22,13 @@ async function run() {
   // );
   // get_entry(0.93, 0.92);
 
-  await download_geotiffs(2667, 1200, 2681, 1208);
+  // await download_geotiffs(2667, 1200, 2681, 1208);
+  // process_all();
+
+  // jimppp();
+  // sharppp();
+
+  geotiffff();
 
   // await build_mesh();
   return;
