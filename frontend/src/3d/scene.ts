@@ -9,6 +9,7 @@ export function init() {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x2222222);
+  scene.background = new THREE.Color(0xffaa44);
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -28,12 +29,12 @@ export function init() {
 
   controls.screenSpacePanning = false;
 
-  controls.minDistance = 10;
+  controls.minDistance = 4;
   controls.maxDistance = 500;
 
   controls.maxPolarAngle = Math.PI / 2;
-  controls.enableRotate = false;
-  controls.enableZoom = false;
+  controls.enableRotate = true;
+  controls.enableZoom = true;
 
   controls.panSpeed = 5;
 
@@ -44,7 +45,12 @@ export function init() {
 
   // const landscape = new LandscapeMeshTest(scene, camera);
 
-  const tile = new Landscape(scene, renderer);
+  const tiles = [
+    new Landscape(scene, renderer, 2665, 1210),
+    new Landscape(scene, renderer, 2666, 1210),
+    new Landscape(scene, renderer, 2665, 1211),
+    new Landscape(scene, renderer, 2666, 1211)
+  ];
 
   function animate() {
     requestAnimationFrame(animate);
