@@ -41,6 +41,7 @@ export class Landscape {
 
     const clone = this.mesh.clone();
     parent.add(clone);
+    clone.scale.multiplyScalar(1.05);
 
     clone.position.y -= 0.2;
   }

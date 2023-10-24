@@ -87,10 +87,16 @@ export async function remap_all_geotiffs() {
     let output = file.replace("raw", "png");
 
     // output = output.replace(".tif", ".png");
-    // output = output.substring(27, 36) + ".png";
-    // output = pathify("geotiff/png/" + output);
-    console.log({ file });
+    output = output.substring(39, 48) + ".png";
+    output = "geotiff/png/" + output;
+    console.log({ file, output });
+
+    await geotiff_to_png(pathify(file), pathify(output), {
+      from: 400,
+      to: 2000,
+    });
     // await remap_geotiff(file, output);
+
     i++;
     console.log("remapped", i, files.length);
   }

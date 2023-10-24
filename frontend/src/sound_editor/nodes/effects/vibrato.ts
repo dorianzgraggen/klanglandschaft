@@ -43,7 +43,7 @@ export class VibratoNode extends ClassicPreset.Node<
       }
     });
 
-    console.log('tremolo', sound);
+    // console.log('tremolo', sound);
 
     return {
       sound_out: sound

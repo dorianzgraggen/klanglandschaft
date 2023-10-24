@@ -36,13 +36,13 @@ async function run() {
 
   const n = "swisssurface3d-raster_2020_2678-1205_0.5_2056_5728";
 
-  await geotiff_to_png(
-    pathify(`geotiff/raw/${n}.tif`),
-    pathify(`geotiff/png/${n}.png`),
-    { from: 400, to: 2000 }
-  );
+  // await geotiff_to_png(
+  //   pathify(`geotiff/raw/${n}.tif`),
+  //   pathify(`geotiff/png/${n}.png`),
+  //   { from: 400, to: 2000 }
+  // );
 
-  // remap_all_geotiffs();
+  remap_all_geotiffs();
 
   // await build_mesh();
   return;
