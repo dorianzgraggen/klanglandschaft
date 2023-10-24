@@ -17,7 +17,7 @@ void main()
     float v = mix(0.5/512.0, 510.5/512.0, uv.y);
     vec2 uvc = vec2(u, v);
 
-    float height = texture2D(u_height, uvc).x;
+    float height = texture2D(u_height, uv).x;
 
 
     vec3 new_pos = position;

@@ -27,6 +27,6 @@ void main()
   normal *= 6.0;
   normal += 0.5;
 
-  gl_FragColor = vec4(height * 3.0, 1.0);
+  gl_FragColor = vec4(height, 1.0);
   // gl_FragColor = vec4(normal, 1.0, 1.0);
 }   

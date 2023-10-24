@@ -45,12 +45,27 @@ export function init() {
 
   // const landscape = new LandscapeMeshTest(scene, camera);
 
-  const tiles = [
-    new Landscape(scene, renderer, 2665, 1210),
-    new Landscape(scene, renderer, 2666, 1210),
-    new Landscape(scene, renderer, 2665, 1211),
-    new Landscape(scene, renderer, 2666, 1211)
-  ];
+  // const tiles = [
+  //   new Landscape(scene, renderer, 2665, 1210),
+  //   new Landscape(scene, renderer, 2666, 1210),
+  //   new Landscape(scene, renderer, 2665, 1211),
+  //   new Landscape(scene, renderer, 2666, 1211)
+  // ];
+
+  // 2668 1202 2680 1210
+
+  const from_x = 2668;
+  const to_x = 2680;
+  const from_y = 1202;
+  const to_y = 1210;
+
+  Landscape.set_base_coords(from_x, from_y);
+
+  for (let x = from_x; x <= to_x; x++) {
+    for (let y = from_y; y <= to_y; y++) {
+      new Landscape(scene, renderer, x, y);
+    }
+  }
 
   function animate() {
     requestAnimationFrame(animate);
