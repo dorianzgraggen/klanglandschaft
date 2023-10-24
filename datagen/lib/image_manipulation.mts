@@ -2,73 +2,175 @@ import sharp from "sharp";
 import fs from "fs";
 import { pathify } from "./util.mjs";
 import Jimp from "jimp";
-import GeoTIFF, { fromArrayBuffer } from "geotiff";
+// import { fromArrayBuffer } from "geotiff";
+import UTIF from "utif";
+import tiff from "tiff";
+import { exec } from "node:child_process";
 
-export async function geotiffff() {
+// gdal_translate -of PNG -ot Byte -scale 400 1000 0 255 -outsize 256 256 in.tif out.png
+
+export async function geotiff_to_png(
+  in_path: string,
+  out_path: string,
+  options?: {
+    from?: number;
+    to?: number;
+    width?: number;
+    height?: number;
+  }
+) {
+  const { from, to, width, height } = Object.assign(
+    {
+      from: 0,
+      to: 8000,
+      width: 512,
+      height: 512,
+    },
+    options ? options : {}
+  );
+
+  const command = `gdal_translate -of PNG -ot Byte -scale ${from} ${to} 0 255 -outsize ${width} ${height} ${in_path} ${out_path}`;
+
+  return new Promise<void>((resolve, reject) => {
+    exec(command, (err, stdout, stderr) => {
+      if (err) {
+        // node couldn't execute the command
+        reject(err);
+      }
+
+      // the *entire* stdout and stderr (buffered)
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+
+      resolve();
+    });
+  });
+}
+
+export async function ut() {
   const filepath = pathify(
     "geotiff/raw/swisssurface3d-raster_2020_2679-1208_0.5_2056_5728.tif"
   );
 
   const buffer = fs.readFileSync(filepath);
+  const ifds = UTIF.decode(buffer);
 
-  const tiff = await fromArrayBuffer(buffer.buffer);
+  console.log(ifds);
+  const img = UTIF.decodeImage(buffer, ifds[0]);
 
-  const image = await tiff.getImage(); // by default, the first image is read.
+  console.log(img);
 
-  const width = image.getWidth();
-  const height = image.getHeight();
-  const tileWidth = image.getTileWidth();
-  const tileHeight = image.getTileHeight();
-  const samplesPerPixel = image.getSamplesPerPixel();
+  return;
 
-  // when we are actually dealing with geo-data the following methods return
-  // meaningful results:
-  const origin = image.getOrigin();
-  const resolution = image.getResolution();
-  const bbox = image.getBoundingBox();
+  const a = tiff.decode(buffer, { ignoreImageData: true });
 
-  console.log({
-    width,
-    height,
-    tileWidth,
-    tileHeight,
-    samplesPerPixel,
-    origin,
-    resolution,
-    bbox,
-  });
+  console.log(a);
 
-  const [data] = (await image.readRasters()) as Array<Float32Array>;
-
-  console.log(data);
-
-  const remapped = data.map((v) => ((v - 400) / 3000) * 255);
-
-  console.log("lol", typeof data);
-  console.log("lol", remapped);
-
-  const img = await sharp(remapped, {
-    raw: {
-      width: 2000,
-      height: 2000,
-      channels: 1,
-    },
-  });
-
-  await img.toFile(pathify("tiff-to-png.png"));
-
-  // GeoTIFF.fromSource(filepath);
+  const pages = tiff.pageCount(buffer);
+  const multipage = tiff.isMultiPage(buffer);
+  console.log({ multipage, pages });
 }
+
+export async function remap_all_geotiffs() {
+  const files = fs
+    .readdirSync(pathify("geotiff/raw"))
+    .map((f) => "geotiff/raw/" + f);
+  console.log(files);
+
+  const out_folder = pathify("geotiff/png");
+  if (!fs.existsSync(out_folder)) {
+    fs.mkdirSync(out_folder);
+  }
+
+  let i = 0;
+  for (const file of files) {
+    let output = file.replace("raw", "png");
+
+    // output = output.replace(".tif", ".png");
+    // output = output.substring(27, 36) + ".png";
+    // output = pathify("geotiff/png/" + output);
+    console.log({ file });
+    // await remap_geotiff(file, output);
+    i++;
+    console.log("remapped", i, files.length);
+  }
+}
+
+// export async function remap_geotiff(
+//   file_in: string,
+//   file_out: string
+// ): Promise<sharp.OutputInfo> {
+//   const filepath = pathify(file_in);
+
+//   const buffer = fs.readFileSync(filepath);
+
+//   const tiff = await fromArrayBuffer(buffer.buffer);
+
+//   const image = await tiff.getImage(); // by default, the first image is read.
+
+//   const width = image.getWidth();
+//   const height = image.getHeight();
+//   const tileWidth = image.getTileWidth();
+//   const tileHeight = image.getTileHeight();
+//   const samplesPerPixel = image.getSamplesPerPixel();
+
+//   // when we are actually dealing with geo-data the following methods return
+//   // meaningful results:
+//   const origin = image.getOrigin();
+//   const resolution = image.getResolution();
+//   const bbox = image.getBoundingBox();
+
+//   console.log({
+//     width,
+//     height,
+//     tileWidth,
+//     tileHeight,
+//     samplesPerPixel,
+//     origin,
+//     resolution,
+//     bbox,
+//   });
+
+//   const [data] = (await image.readRasters()) as Array<Float32Array>;
+
+//   console.log(data);
+
+//   const remapped = data.map((v) => ((v - 400) / 3000) * 255);
+
+//   console.log("lol", typeof data);
+//   console.log("lol", remapped);
+
+//   const img = await sharp(remapped, {
+//     raw: {
+//       width: 2000,
+//       height: 2000,
+//       channels: 1,
+//     },
+//   });
+
+//   return img.toFile(pathify(file_out));
+// }
 
 export async function sharppp() {
   sharp(
     pathify(
       "geotiff/raw/swisssurface3d-raster_2020_2679-1208_0.5_2056_5728.tif"
-    )
+    ),
+    {
+      raw: {
+        width: 2000,
+        height: 2000,
+        channels: 1,
+      },
+    }
   )
-    .toBuffer()
-    .then((data) => {
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+    .then(({ data, info }) => {
+      console.log(info);
       console.log(data);
+      console.log(data.buffer);
+      console.log(data[230]);
       // Handle the image data here
       // The data variable now contains the raw image data
     })

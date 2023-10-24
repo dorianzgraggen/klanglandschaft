@@ -8,10 +8,12 @@ import readline from "readline";
 import events from "events";
 import { download_if_missing, download_geotiffs } from "./lib/download.mjs";
 import {
-  geotiffff,
   jimppp,
   process_all,
   sharppp,
+  remap_all_geotiffs,
+  ut,
+  geotiff_to_png,
 } from "./lib/image_manipulation.mjs";
 
 run();
@@ -28,7 +30,19 @@ async function run() {
   // jimppp();
   // sharppp();
 
-  geotiffff();
+  // remap_geotiff();
+
+  // ut();
+
+  const n = "swisssurface3d-raster_2020_2678-1205_0.5_2056_5728";
+
+  await geotiff_to_png(
+    pathify(`geotiff/raw/${n}.tif`),
+    pathify(`geotiff/png/${n}.png`),
+    { from: 400, to: 2000 }
+  );
+
+  // remap_all_geotiffs();
 
   // await build_mesh();
   return;
