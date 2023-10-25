@@ -15,10 +15,21 @@ export class Landscape {
 
   constructor(parent: THREE.Object3D, renderer: THREE.WebGLRenderer, x = 2665, y = 1210) {
     const texture = new THREE.TextureLoader().load(
-      `http://localhost:8080/data/geotiff/png/${x}-${y}.png`
+      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/extended/${x}-${y}.png`
     );
     texture.generateMipmaps = false;
-    texture.minFilter = THREE.LinearFilter;
+    texture.minFilter = THREE.NearestFilter;
+    texture.magFilter = THREE.NearestFilter;
+
+    const debug_texture = new THREE.TextureLoader().load(`/debug_edges.png`);
+    debug_texture.generateMipmaps = false;
+    debug_texture.minFilter = THREE.NearestFilter;
+    debug_texture.magFilter = THREE.NearestFilter;
+
+    const debug_height = new THREE.TextureLoader().load(`/debug_height.png`);
+    debug_height.generateMipmaps = false;
+    debug_height.minFilter = THREE.NearestFilter;
+    debug_height.magFilter = THREE.NearestFilter;
 
     // const nrm = new THREE.TextureLoader().load(`/${x}-${y}_normal.png`);
 
@@ -27,6 +38,8 @@ export class Landscape {
       vertexShader,
       uniforms: {
         u_height: { value: texture },
+        u_debug: { value: debug_texture },
+        u_debug_height: { value: debug_height },
         // u_nrm: { value: nrm },
         u_resolution: { value: new THREE.Vector2() }
       }
@@ -36,7 +49,7 @@ export class Landscape {
 
     console.log(material.uniforms.u_resolution);
 
-    const segments = 8;
+    const segments = 28;
 
     const geometry = new THREE.PlaneGeometry(10, 10, segments, segments);
 
@@ -46,11 +59,11 @@ export class Landscape {
     this.mesh.position.x = -(Landscape.base_x - x) * 10;
     this.mesh.position.z = (Landscape.base_y - y) * 10;
 
-    // this.mesh.scale.multiplyScalar(512 / 510);
+    // this.mesh.scale.multiplyScalar(0.9);
     parent.add(this.mesh);
 
     const clone = this.mesh.clone();
-    parent.add(clone);
+    // parent.add(clone);
     // clone.scale.multiplyScalar(1.05);
 
     clone.position.y -= 0.2;
