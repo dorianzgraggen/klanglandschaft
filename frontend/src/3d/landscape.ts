@@ -59,13 +59,6 @@ export class Landscape {
     this.mesh.position.x = -(Landscape.base_x - x) * 10;
     this.mesh.position.z = (Landscape.base_y - y) * 10;
 
-    // this.mesh.scale.multiplyScalar(0.9);
     parent.add(this.mesh);
-
-    const clone = this.mesh.clone();
-    // parent.add(clone);
-    // clone.scale.multiplyScalar(1.05);
-
-    clone.position.y -= 0.2;
   }
 }
