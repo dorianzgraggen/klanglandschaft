@@ -28,7 +28,7 @@ onMounted(async () => {
     <div id="rete" ref="rete"></div>
     <div class="bottom">ja haha</div>
   </div>
-  <button id="toggle" @click="open = !open">{{ open ? "Close" : "Open" }}</button>
+  <button id="toggle" @click="open = !open">{{ open ? 'Close' : 'Open' }}</button>
 </template>
 
 <style scoped>
