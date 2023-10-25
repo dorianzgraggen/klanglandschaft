@@ -21,33 +21,16 @@ export class Landscape {
     texture.minFilter = THREE.NearestFilter;
     texture.magFilter = THREE.NearestFilter;
 
-    const debug_texture = new THREE.TextureLoader().load(`/debug_edges.png`);
-    debug_texture.generateMipmaps = false;
-    debug_texture.minFilter = THREE.NearestFilter;
-    debug_texture.magFilter = THREE.NearestFilter;
-
-    const debug_height = new THREE.TextureLoader().load(`/debug_height.png`);
-    debug_height.generateMipmaps = false;
-    debug_height.minFilter = THREE.NearestFilter;
-    debug_height.magFilter = THREE.NearestFilter;
-
-    // const nrm = new THREE.TextureLoader().load(`/${x}-${y}_normal.png`);
-
     const material = new THREE.ShaderMaterial({
       fragmentShader,
       vertexShader,
       uniforms: {
         u_height: { value: texture },
-        u_debug: { value: debug_texture },
-        u_debug_height: { value: debug_height },
-        // u_nrm: { value: nrm },
         u_resolution: { value: new THREE.Vector2() }
       }
     });
 
     renderer.getSize(material.uniforms.u_resolution.value);
-
-    console.log(material.uniforms.u_resolution);
 
     const segments = 28;
 
