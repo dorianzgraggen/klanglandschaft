@@ -61,8 +61,8 @@ export function init() {
 
   Landscape.set_base_coords(from_x, from_y);
 
-  for (let x = from_x; x <= to_x; x++) {
-    for (let y = from_y; y <= to_y; y++) {
+  for (let x = from_x; x < to_x; x++) {
+    for (let y = from_y; y < to_y; y++) {
       new Landscape(scene, renderer, x, y);
     }
   }
