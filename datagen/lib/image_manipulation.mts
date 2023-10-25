@@ -1,9 +1,11 @@
 import sharp from "sharp";
 import fs from "fs";
-import { pathify } from "./util.mjs";
+import { mk_dir_if_not_exists, pathify } from "./util.mjs";
 import { exec } from "node:child_process";
 
 export async function extend_all() {
+  mk_dir_if_not_exists(pathify("geotiff/extended"));
+
   const from_x = 2668;
   const to_x = 2680;
   const from_y = 1202;
@@ -102,9 +104,7 @@ export async function remap_all_geotiffs() {
   console.log(files);
 
   const out_folder = pathify("geotiff/png");
-  if (!fs.existsSync(out_folder)) {
-    fs.mkdirSync(out_folder);
-  }
+  mk_dir_if_not_exists(out_folder);
 
   let i = 0;
   for (const file of files) {

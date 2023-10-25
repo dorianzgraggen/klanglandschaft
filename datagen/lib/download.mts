@@ -1,14 +1,9 @@
 import fs from "fs";
 import https from "https";
-import { pathify } from "./util.mjs";
+import { mk_dir_if_not_exists, pathify } from "./util.mjs";
 
-export async function download_geotiffs(
-  from_x: number,
-  from_y: number,
-  to_x: number,
-  to_y: number
-): Promise<void> {
-  const coords = new Array<{ x: number; y: number }>();
+export async function download_geotiffs(): Promise<void> {
+  mk_dir_if_not_exists(pathify("geotiff/raw"));
 
   const file = fs.readFileSync("tiff-links.csv", { encoding: "utf8" });
 
