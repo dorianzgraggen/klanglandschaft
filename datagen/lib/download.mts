@@ -17,7 +17,7 @@ export async function download_geotiffs(
   let i = 1;
   for (const url of urls) {
     console.log(i, "/", urls.length);
-    const filepath = "geotiff/" + url.split("/")[5];
+    const filepath = "geotiff/raw/" + url.split("/")[5];
     await download_if_missing(filepath, url);
     i++;
   }
