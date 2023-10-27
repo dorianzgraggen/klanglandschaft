@@ -150,6 +150,22 @@ export async function init_editor(
     return context;
   });
 
+  editor.addPipe((context) => {
+    if (context.type === 'connectionremoved') {
+      const node = editor.getNode(context.data.target);
+      console.log('removed', context.data, node);
+
+      if (node instanceof BaseNode) {
+        const bnode = node as BaseNode;
+        if (context.data.targetInput.includes('sound_in')) {
+          bnode.removeSoundInput(context.data.targetInput);
+          area.update('node', context.data.target);
+        }
+      }
+    }
+    return context;
+  });
+
   await add_default_nodes(editor, arrange);
 
   AreaExtensions.zoomAt(area, editor.getNodes());

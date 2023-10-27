@@ -19,6 +19,11 @@ export abstract class BaseNode extends ClassicPreset.Node<InSockets> {
     super(name);
   }
 
+  public removeSoundInput(key: string) {
+    this.removeInput(key);
+    this.height -= 36;
+  }
+
   public addSoundInput() {
     this.addInput(
       'sound_in #' + this.sound_id,
