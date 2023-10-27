@@ -5,7 +5,8 @@
     "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.mjs\"",
     "db": "tsc --project tsconfig.build_database.json && node dist/build_database.mjs",
     "test": "tsc --project tsconfig.testing.json && node dist/testing/index.mjs",
-    "serve": "http-server -o /data --cors"
+    "serve": "http-server -o /data --cors",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/node": "^20.8.2",
@@ -13,6 +14,7 @@
     "http-server": "^14.1.1",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
     "typescript": "^5.2.2"
   },
   "dependencies": {

@@ -1,11 +1,9 @@
 {
-    "compilerOptions": {
-        "target": "ESNext",
-        "module": "NodeNext",   
-        "outDir": "dist/",
-        "moduleResolution": "NodeNext"
-    },
-    "files": [
-        "build_database.mts"
-    ]
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "outDir": "dist/",
+    "moduleResolution": "NodeNext"
+  },
+  "files": ["build_database.mts"]
 }

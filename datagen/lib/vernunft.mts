@@ -7,7 +7,7 @@ export async function alles() {
   const buffer = document.createBuffer();
 
   const filePath = pathify(
-    "swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz_normalized"
+    "swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz_normalized",
   );
 
   const bytes_to_read = 30;
@@ -38,7 +38,7 @@ export async function alles() {
             },
             (err, bytes_read, buffer) => {
               resolve(buffer.toString("utf8"));
-            }
+            },
           );
         });
       }

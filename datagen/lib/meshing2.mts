@@ -9,7 +9,7 @@ type DataPoint = {
 export function constructMap(
   data_file_contents_array: string[],
   smallest_x: number,
-  smallest_y: number
+  smallest_y: number,
 ): number[][] {
   const interval = 2; // difference between two points in the XYZ file
 
@@ -58,7 +58,7 @@ export function getGeometry(
   index: number,
   offset_x: number,
   offset_y: number,
-  detail_base = 2
+  detail_base = 2,
 ): THREE.BufferGeometry {
   const data_file_contents = data_file_contents_array[index];
   const width_in_entries = 500;
@@ -200,7 +200,7 @@ export function getGeometry(
   geometry.setIndex(indices);
   geometry.setAttribute(
     "position",
-    new THREE.Float32BufferAttribute(vertices, 3)
+    new THREE.Float32BufferAttribute(vertices, 3),
   );
   geometry.setAttribute("uv", new THREE.Float32BufferAttribute(vertices, 2));
   geometry.setAttribute("normal", new THREE.Float32BufferAttribute(normals, 3));

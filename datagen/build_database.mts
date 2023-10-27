@@ -19,14 +19,14 @@ db.serialize(async () => {
   db.run(command);
 
   const statement = db.prepare(
-    "INSERT INTO Points (XCoordLV95,YCoordLV95,ZCoordLV95) VALUES (?, ?, ?)"
+    "INSERT INTO Points (XCoordLV95,YCoordLV95,ZCoordLV95) VALUES (?, ?, ?)",
   );
 
   await extract_xyz_and_process(
     pathify("swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz"),
     (x, y, z) => {
       statement.run(x, y, z);
-    }
+    },
   );
 
   //   stmt.run(2666004.75, 1211999.75, 469.82) ;
@@ -38,7 +38,7 @@ db.close();
 
 async function extract_xyz_and_process(
   filepath: string,
-  callback: (x, y, z) => void
+  callback: (x, y, z) => void,
 ) {
   try {
     const rl = readline.createInterface({
@@ -65,7 +65,7 @@ async function extract_xyz_and_process(
     console.log("Reading file line by line with readline done.");
     const used = process.memoryUsage().heapUsed / 1024 / 1024;
     console.log(
-      `The script uses approximately ${Math.round(used * 100) / 100} MB`
+      `The script uses approximately ${Math.round(used * 100) / 100} MB`,
     );
   } catch (err) {
     console.error(err);

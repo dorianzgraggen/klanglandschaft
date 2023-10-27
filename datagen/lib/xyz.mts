@@ -49,7 +49,7 @@ export async function normalize_lines_in_file(filepath) {
     }
 
     const [x, y, z] = split.map((n) =>
-      (Math.round(Number(n) * 100) / 100).toFixed(2)
+      (Math.round(Number(n) * 100) / 100).toFixed(2),
     );
 
     outputFile.write(`${x}, ${y}, ${z}\n`);
@@ -64,6 +64,6 @@ export async function normalize_lines_in_file(filepath) {
   console.log("Reading file line by line with readline done.");
   const used = process.memoryUsage().heapUsed / 1024 / 1024;
   console.log(
-    `The script uses approximately ${Math.round(used * 100) / 100} MB`
+    `The script uses approximately ${Math.round(used * 100) / 100} MB`,
   );
 }

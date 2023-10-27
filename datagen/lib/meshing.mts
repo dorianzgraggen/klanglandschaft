@@ -154,14 +154,14 @@ export async function sample_elevation_xyz_file(
   base_x: number,
   base_y: number,
   x: number,
-  y: number
+  y: number,
 ): Promise<number> {
   return (await get_entry(x, y)).z;
 }
 
 async function sample_elevation_cos_sine(
   x: number,
-  z: number
+  z: number,
 ): Promise<number> {
   return (Math.sin(x * Math.PI * 12) + Math.cos(z * Math.PI * 16)) * 0.2 - 1.8;
 }
@@ -192,7 +192,7 @@ async function sample_elevation_cos_sine(
 
 export function coords_to_line_number(
   x_normalized: number,
-  y_normalized: number
+  y_normalized: number,
 ): number {
   const bytes_first_line = 0;
   const bytes_per_line = 30;
@@ -219,11 +219,11 @@ type Vec3 = {
 
 export async function get_entry(
   x_normalized: number,
-  y_normalized: number
+  y_normalized: number,
 ): Promise<Vec3> {
   // console.log("get_entry", x_normalized, y_normalized);
   const line_contents = await get_line(
-    coords_to_line_number(x_normalized, y_normalized)
+    coords_to_line_number(x_normalized, y_normalized),
   );
 
   const [x, y, z] = line_contents.split(", ").map((e) => Number(e));
@@ -269,7 +269,7 @@ export async function get_entry(
 
 export async function get_line(line_number: number): Promise<string> {
   const filePath = pathify(
-    "swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz_normalized"
+    "swissSURFACE3D_Raster_0.5_xyz_CHLV95_LN02_2666_1211.xyz_normalized",
   );
 
   const bytes_to_read = 30;
@@ -280,8 +280,8 @@ export async function get_line(line_number: number): Promise<string> {
     if (line_number < 1 || line_number > 4_000_000) {
       reject(
         new Error(
-          `line_number must be between 1 and 4_000_000, not '${line_number}'`
-        )
+          `line_number must be between 1 and 4_000_000, not '${line_number}'`,
+        ),
       );
     }
 
@@ -297,7 +297,7 @@ export async function get_line(line_number: number): Promise<string> {
         },
         (err, bytes_read, buffer) => {
           resolve(buffer.toString("utf8"));
-        }
+        },
       );
     });
   });

@@ -67,7 +67,7 @@ export async function geotiff_to_png(
     to?: number;
     width?: number;
     height?: number;
-  }
+  },
 ) {
   const { from, to, width, height } = Object.assign(
     {
@@ -76,7 +76,7 @@ export async function geotiff_to_png(
       width: 512,
       height: 512,
     },
-    options ? options : {}
+    options ? options : {},
   );
 
   const command = `gdal_translate -of PNG -ot Byte -scale ${from} ${to} 0 255 -outsize ${width} ${height} ${in_path} ${out_path}`;
@@ -163,7 +163,7 @@ export async function resize(input: string, output: string): Promise<any> {
       },
       (b) => {
         console.log("rejected", b);
-      }
+      },
     )
     .catch((e) => {
       console.log("error:", e);
