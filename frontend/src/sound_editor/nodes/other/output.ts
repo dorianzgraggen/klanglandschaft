@@ -18,9 +18,11 @@ export class OutputNode extends BaseNode {
   execute() {}
 
   data(inputs: Inputs) {
-    if (typeof inputs.sound_in !== 'undefined' && inputs.sound_in.length > 0) {
-      this.handle_output(inputs.sound_in[0]);
+    if (typeof inputs['sound_in #1'] !== 'undefined' && inputs['sound_in #1'].length > 0) {
+      this.handle_output(inputs['sound_in #1'][0]);
     }
+
+    // console.log(inputs);
 
     return { text: 'lol' };
   }

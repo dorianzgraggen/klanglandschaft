@@ -28,13 +28,11 @@ import {
 import { type Schemes, Connection } from './connections';
 import { getConnectionSockets } from './utils';
 import { BaseNode } from './nodes/base_node';
+import type { AudioEffect, SoundEffectKey } from './nodes/util';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
-const player = new Tone.Player({
-  loop: true,
-  autostart: false
-});
+const players = new Array<Tone.Player>();
 
 export async function init_editor(
   container: HTMLElement,
@@ -191,22 +189,28 @@ export async function init_editor(
 let rebuild = false;
 
 function setup_audio() {
-  player.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3');
-
   window.addEventListener(
     'keydown',
     async (e) => {
-      if (e.key !== 'q') {
-        return;
+      switch (e.key) {
+        case 'q': {
+          rebuild = true;
+          break;
+        }
+
+        case 'e': {
+          for (const player of players) {
+            console.log('start');
+            await player.context.resume();
+            player.start();
+            console.log('started');
+          }
+          break;
+        }
+
+        default:
+          break;
       }
-      // rebuild_audio_nodes();
-      console.log('start');
-      await player.context.resume();
-      player.start();
-
-      console.log('started');
-
-      rebuild = true;
     },
     false
   );
@@ -278,11 +282,11 @@ function handle_output(output: { effects: Array<AudioEffect> }): void {
   sound_nodes.forEach((sound_node, i) => {
     const settings = output.effects[i].settings;
 
-    for (const [key, value] of Object.entries(settings)) {
-      (sound_node as any)[key].value = value;
+    if (settings) {
+      for (const [key, value] of Object.entries(settings)) {
+        (sound_node as any)[key].value = value;
+      }
     }
-
-    console.log('settings', settings, 'node', sound_node);
   });
 }
 
@@ -291,14 +295,14 @@ function handle_output(output: { effects: Array<AudioEffect> }): void {
 // pannerNode.connect(gainNode);
 // player.connect(pannerNode);
 
-export type AudioEffect = {
-  type: 'pan' | 'gain' | 'vibrato';
-  settings: {
-    [key: string]: number;
-  };
-};
-
 function rebuild_audio_nodes(effects: Array<AudioEffect>) {
+  // TODO: only remove the players that aren't needed anymore
+  players.forEach((player) => {
+    player.stop();
+  });
+
+  players.length = 0;
+
   console.log('rebuilding');
   sound_nodes = effects.map((effect) => {
     switch (effect.type) {
@@ -310,6 +314,18 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
 
       case 'vibrato':
         return new Tone.Vibrato();
+
+      case 'source': {
+        const url = effect.meta!.url as string;
+        const _player = new Tone.Player({
+          url,
+          loop: true
+        });
+        console.log('ulr', url);
+        // _player.load(url);
+        players.push(_player);
+        return _player;
+      }
     }
   });
 
@@ -317,7 +333,20 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
 }
 
 function connect_audio_nodes() {
-  player.chain(...sound_nodes, Tone.Destination);
+  // player.connect("", 2, )
+
+  console.log(sound_nodes);
+
+  // player.connect(sound_nodes[0]);
+
+  for (let i = 0; i < sound_nodes.length - 1; i++) {
+    const current = sound_nodes[i];
+    const next = sound_nodes[i + 1];
+    current.connect(next);
+  }
+
+  sound_nodes[sound_nodes.length - 1].toDestination();
+  // player.chain(...sound_nodes, Tone.Destination);
 }
 
 function create_context_menu() {

@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
-import { use_default_sound_or_else } from '../util';
+import { use_default_sound_unless } from '../util';
 
 export class VibratoNode extends ClassicPreset.Node<
   { frequency: ClassicPreset.Socket; depth: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
@@ -21,7 +21,7 @@ export class VibratoNode extends ClassicPreset.Node<
   }
 
   data(inputs: any) {
-    const sound = use_default_sound_or_else(inputs.sound_in[0]);
+    const sound = use_default_sound_unless(inputs.sound_in[0]);
 
     let frequency = this.controls.frequency.value as number;
 
