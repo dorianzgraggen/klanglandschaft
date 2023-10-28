@@ -7,7 +7,7 @@ export async function download_geotiffs(): Promise<void> {
 
   const file = fs.readFileSync("tiff-links.csv", { encoding: "utf8" });
 
-  const urls = file.split("\n");
+  const urls = file.split(/\r?\n/);
 
   let i = 1;
   for (const url of urls) {

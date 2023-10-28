@@ -1,7 +1,7 @@
 {
   "scripts": {
     "compile": "tsc --project tsconfig.json",
-    "start": "node dist/app.mjs",
+    "start": "tsc --project tsconfig.json && node dist/app.mjs",
     "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.mjs\"",
     "db": "tsc --project tsconfig.build_database.json && node dist/build_database.mjs",
     "test": "tsc --project tsconfig.testing.json && node dist/testing/index.mjs",
