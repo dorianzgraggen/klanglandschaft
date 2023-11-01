@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import vertexShader from './landscape.vert.glsl?raw';
 import fragmentShader from './landscape.frag.glsl?raw';
+import { TIFFLoader } from 'three/examples/jsm/loaders/TIFFLoader.js';
 
 export class Landscape {
   mesh: THREE.Mesh;
@@ -17,22 +18,29 @@ export class Landscape {
     const texture = new THREE.TextureLoader().load(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/extended/${x}-${y}.png`
     );
+
     texture.generateMipmaps = false;
     texture.minFilter = THREE.NearestFilter;
     texture.magFilter = THREE.NearestFilter;
+
+    const tiff = new TIFFLoader().load(
+      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${x}-${y}.tif`
+    );
+    tiff.colorSpace = THREE.LinearSRGBColorSpace;
 
     const material = new THREE.ShaderMaterial({
       fragmentShader,
       vertexShader,
       uniforms: {
         u_height: { value: texture },
+        u_satellite: { value: tiff },
         u_resolution: { value: new THREE.Vector2() }
       }
     });
 
     renderer.getSize(material.uniforms.u_resolution.value);
 
-    const segments = 28;
+    const segments = 8;
 
     const geometry = new THREE.PlaneGeometry(10, 10, segments, segments);
 

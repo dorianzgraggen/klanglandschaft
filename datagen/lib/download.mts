@@ -20,6 +20,37 @@ export async function download_geotiffs(): Promise<void> {
   console.log("done");
 }
 
+export async function download_satellite(): Promise<void> {
+  return download_from_csv(
+    "tiff-links-satellite.csv",
+    "geotiff/satellite",
+    (url) => url.split("/")[4].substring(22) + ".tif",
+  );
+}
+
+export async function download_from_csv(
+  csv_path: string,
+  destination_path: string,
+  generate_filename: (url: string) => string,
+): Promise<void> {
+  mk_dir_if_not_exists(pathify(destination_path));
+
+  const file = fs.readFileSync(csv_path, { encoding: "utf8" });
+
+  const urls = file.split(/\r?\n/);
+
+  let i = 1;
+  for (const url of urls) {
+    console.log(i, "/", urls.length);
+    console.log(url.split("/"));
+    const filepath = destination_path + "/" + generate_filename(url);
+    await download_if_missing(filepath, url);
+    i++;
+  }
+
+  console.log("done");
+}
+
 export async function download_if_missing(filepath: string, url: string) {
   const _filepath = pathify(filepath);
 
