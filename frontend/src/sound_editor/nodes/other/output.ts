@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket } from '../../sockets';
-import type { AudioEffect } from '../../editor';
+import type { AudioEffect } from '../util';
 import { BaseNode, type Inputs } from '../base_node';
 
 export class OutputNode extends BaseNode {

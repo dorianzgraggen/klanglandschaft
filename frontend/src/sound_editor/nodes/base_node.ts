@@ -15,6 +15,8 @@ export abstract class BaseNode extends ClassicPreset.Node<InSockets> {
   public needs_rerender = false;
   private sound_id = 1;
 
+  private open_input = '';
+
   constructor(name: string) {
     super(name);
   }
@@ -25,13 +27,17 @@ export abstract class BaseNode extends ClassicPreset.Node<InSockets> {
   }
 
   public addSoundInput() {
+    this.open_input = 'sound_in #' + this.sound_id;
     this.addInput(
-      'sound_in #' + this.sound_id,
-      new ClassicPreset.Input(new SoundSocket(), 'Sound ' + this.sound_id)
+      this.open_input,
+      new ClassicPreset.Input(new SoundSocket(), 'Sound ' + this.sound_id, false)
     );
-
     this.height += 36;
     this.sound_id++;
+  }
+
+  public getOpenInput() {
+    return this.open_input;
   }
 
   abstract data(inputs: Inputs): any;

@@ -25,7 +25,7 @@ import {
   VibratoNode
 } from './nodes';
 
-import { type Schemes, Connection } from './connections';
+import { type Schemes, Connection, type ConnProps, type NodeProps } from './connections';
 import { getConnectionSockets } from './utils';
 import { BaseNode } from './nodes/base_node';
 import type { AudioEffect, SoundEffectKey } from './nodes/util';
@@ -79,7 +79,18 @@ export async function init_editor(
               target.key as never
             )
           );
-          console.log(sockets);
+          console.log({ sockets, source, target });
+
+          const target_node = editor.getNode(target.nodeId);
+
+          if (target_node instanceof BaseNode) {
+            const bnode = target_node as BaseNode;
+            if (target.key !== bnode.getOpenInput()) {
+              log('Target is occupied', 'error');
+              connection.drop();
+              return false;
+            }
+          }
 
           if (!sockets.source.isCompatibleWith(sockets.target)) {
             log('Sockets are not compatible', 'error');
@@ -117,8 +128,9 @@ export async function init_editor(
   AreaExtensions.simpleNodesOrder(area);
   AreaExtensions.showInputControl(area);
 
+  // TODO: maybe unify addPipe and flow stuff? need to research
   editor.addPipe((context) => {
-    console.log('conecction', context.type);
+    // console.log('conecction', context.type);
     if (context.type === 'connectioncreate') {
       const { data } = context;
       const { source, target } = getConnectionSockets(editor, data);
@@ -233,18 +245,19 @@ async function add_default_nodes(
   const vibrato = new VibratoNode();
 
   const connections = [
-    new Connection(sound, 'sound_out', volume, 'sound_in'),
-    new Connection(population, 'value_out', volume, 'value_in'),
-    new Connection(volume, 'sound_out', pan, 'sound_in'),
+    new ConnectionInfo(sound, 'sound_out', volume, 'sound_in'),
+    new ConnectionInfo(population, 'value_out', volume, 'value_in'),
+    new ConnectionInfo(volume, 'sound_out', pan, 'sound_in'),
 
-    new Connection(time, 'seconds', multiply_time, 'value_in'),
-    new Connection(multiply_time, 'value_out', sine, 'value_in'),
-    new Connection(sine, 'value_out', add, 'value_in'),
-    new Connection(add, 'value_out', multiply, 'value_in'),
-    new Connection(multiply, 'value_out', pan, 'value_in'),
+    new ConnectionInfo(time, 'seconds', multiply_time, 'value_in'),
+    new ConnectionInfo(multiply_time, 'value_out', sine, 'value_in'),
+    new ConnectionInfo(sine, 'value_out', add, 'value_in'),
+    new ConnectionInfo(add, 'value_out', multiply, 'value_in'),
+    new ConnectionInfo(multiply, 'value_out', pan, 'value_in'),
 
-    new Connection(pan, 'sound_out', vibrato, 'sound_in'),
-    new Connection(vibrato, 'sound_out', output, 'sound_in #1')
+    new ConnectionInfo(pan, 'sound_out', vibrato, 'sound_in'),
+    new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in'),
+    new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in')
   ];
 
   await editor.addNode(population);
@@ -261,11 +274,37 @@ async function add_default_nodes(
 
   await editor.addNode(vibrato);
 
-  for (const connection of connections) {
+  for (const connection_info of connections) {
+    let target_input = connection_info.targetInput;
+
+    if (connection_info.target instanceof BaseNode) {
+      console.log('Base Node');
+      const b_target_node = connection_info.target as BaseNode;
+      target_input = b_target_node.getOpenInput();
+    }
+
+    // need to create connection here because otherwise it says there's no
+    // such input on nodes with a dynamic number of inputs
+    const connection = new Connection<NodeProps, NodeProps>(
+      connection_info.source,
+      connection_info.sourceOutput as never,
+      connection_info.target,
+      target_input as never
+    ); // (am i just bad at typescript? is it the libraries fault? we will never know)
+
     await editor.addConnection(connection);
   }
 
   await arrange.layout();
+}
+
+class ConnectionInfo {
+  constructor(
+    public source: NodeProps,
+    public sourceOutput: string,
+    public target: NodeProps,
+    public targetInput: string
+  ) {}
 }
 
 let sound_nodes = new Array<Tone.ToneAudioNode>();
