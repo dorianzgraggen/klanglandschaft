@@ -244,6 +244,9 @@ async function add_default_nodes(
   const pan = new PanNode();
   const vibrato = new VibratoNode();
 
+  const sound2 = new SoundNode('percussion');
+  const volume2 = new VolumeNode(0.3);
+
   const connections = [
     new ConnectionInfo(sound, 'sound_out', volume, 'sound_in'),
     new ConnectionInfo(population, 'value_out', volume, 'value_in'),
@@ -257,7 +260,10 @@ async function add_default_nodes(
 
     new ConnectionInfo(pan, 'sound_out', vibrato, 'sound_in'),
     new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in'),
-    new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in')
+    // new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in')
+
+    new ConnectionInfo(sound2, 'sound_out', volume2, 'sound_in'),
+    new ConnectionInfo(volume2, 'sound_out', output, 'sound_in')
   ];
 
   await editor.addNode(population);
@@ -273,6 +279,8 @@ async function add_default_nodes(
   await editor.addNode(multiply_time);
 
   await editor.addNode(vibrato);
+  await editor.addNode(sound2);
+  await editor.addNode(volume2);
 
   for (const connection_info of connections) {
     let target_input = connection_info.targetInput;
@@ -309,24 +317,41 @@ class ConnectionInfo {
 
 let sound_nodes = new Array<Tone.ToneAudioNode>();
 
-function handle_output(output: { effects: Array<AudioEffect> }): void {
-  // console.log(output);
+function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
+  console.log('tracks:', output_tracks);
+
   if (rebuild) {
-    rebuild = false;
-    rebuild_audio_nodes(output.effects);
-    connect_audio_nodes();
-    // player.chain
+    // TODO: only remove the players that aren't needed anymore
+    players.forEach((player) => {
+      player.stop();
+    });
+
+    players.length = 0;
   }
 
-  sound_nodes.forEach((sound_node, i) => {
-    const settings = output.effects[i].settings;
-
-    if (settings) {
-      for (const [key, value] of Object.entries(settings)) {
-        (sound_node as any)[key].value = value;
-      }
+  output_tracks.forEach((output) => {
+    if (rebuild) {
+      rebuild_audio_nodes(output.effects);
+      connect_audio_nodes();
+      // player.chain
     }
+
+    sound_nodes.forEach((sound_node, i) => {
+      const settings = output.effects[i].settings;
+
+      if (settings) {
+        for (const [key, value] of Object.entries(settings)) {
+          (sound_node as any)[key].value = value;
+        }
+      }
+    });
   });
+
+  if (rebuild) {
+    console.log({ players });
+  }
+
+  rebuild = false;
 }
 
 // const gainNode = new Tone.Gain(1).toDestination();
@@ -335,13 +360,6 @@ function handle_output(output: { effects: Array<AudioEffect> }): void {
 // player.connect(pannerNode);
 
 function rebuild_audio_nodes(effects: Array<AudioEffect>) {
-  // TODO: only remove the players that aren't needed anymore
-  players.forEach((player) => {
-    player.stop();
-  });
-
-  players.length = 0;
-
   console.log('rebuilding');
   sound_nodes = effects.map((effect) => {
     switch (effect.type) {
@@ -356,6 +374,7 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
 
       case 'source': {
         const url = effect.meta!.url as string;
+
         const _player = new Tone.Player({
           url,
           loop: true

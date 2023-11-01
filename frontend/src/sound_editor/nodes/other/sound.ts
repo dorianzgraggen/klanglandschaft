@@ -15,10 +15,10 @@ export class SoundNode extends ClassicPreset.Node<
   width = 180;
   height = 130;
 
-  constructor() {
+  constructor(track = 'piano') {
     super('Sound');
     // this.addInput('volume', new ClassicPreset.Input(new TextSocket(), 'Volume'));
-    this.addControl('sound_id', new ClassicPreset.InputControl('text', { initial: 'piano' }));
+    this.addControl('sound_id', new ClassicPreset.InputControl('text', { initial: track }));
     this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
   }
 

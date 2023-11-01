@@ -24,7 +24,7 @@ export function use_default_sound_unless(sound_info: SoundInfo) {
 
 export function use_default_sound() {
   return {
-    id: 'None',
+    id: '#' + Math.floor(Math.random() * 10000),
     effects: new Array<AudioEffect>()
   };
 }
