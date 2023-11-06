@@ -103,7 +103,7 @@ export function init() {
   const to_y = 1201;
 
   Landscape.set_base_coords(from_x, from_y);
-  const center = new Center(scene, user_camera, renderer, user_controls);
+  const center = new Center(scene, debug_camera, renderer, user_controls);
 
   Landscape.center = center.root;
 
@@ -115,14 +115,16 @@ export function init() {
 
   function animate() {
     requestAnimationFrame(animate);
+    debug_controls.update();
+    user_controls.update();
+    center.update(user_controls);
 
     if (debug_view) {
-      debug_controls.update();
       renderer.render(scene, debug_camera);
     } else {
-      user_controls.update();
       renderer.render(scene, user_camera);
     }
+
     // landscape.update(camera);
   }
 

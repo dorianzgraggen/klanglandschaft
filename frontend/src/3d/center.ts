@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 
@@ -26,5 +27,9 @@ export class Center {
     transform_controls.addEventListener('dragging-changed', function (event) {
       orbit_controls.enabled = !event.value;
     });
+  }
+
+  update(controls: MapControls) {
+    this.root.position.copy(controls.target);
   }
 }
