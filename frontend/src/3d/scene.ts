@@ -3,16 +3,17 @@ import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 
 import { LandscapeMeshTest } from './mesh';
 import { Landscape } from './landscape';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import { Center } from './center';
 
 export function init() {
   const root = document.getElementById('canvas-root') as HTMLElement; // iuuu
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x2222222);
-  scene.background = new THREE.Color(0xffaa44);
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: false });
   renderer.localClippingEnabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   root.appendChild(renderer.domElement);
@@ -54,12 +55,15 @@ export function init() {
 
   // 2668 1202 2680 1210
 
-  const from_x = 2668;
-  const to_x = 2680;
-  const from_y = 1202;
-  const to_y = 1210;
+  const from_x = 2658;
+  const to_x = 2694;
+  const from_y = 1191;
+  const to_y = 1217;
 
   Landscape.set_base_coords(from_x, from_y);
+  const center = new Center(scene, camera, renderer, controls);
+
+  Landscape.center = center.root;
 
   for (let x = from_x; x < to_x; x++) {
     for (let y = from_y; y < to_y; y++) {

@@ -6,14 +6,14 @@ import { exec } from "node:child_process";
 export async function extend_all() {
   mk_dir_if_not_exists(pathify("geotiff/extended"));
 
-  const from_x = 2668;
-  const to_x = 2680;
-  const from_y = 1202;
-  const to_y = 1210;
+  const from_x = 2658;
+  const to_x = 2695;
+  const from_y = 1191;
+  const to_y = 1218;
 
   let i = 0;
-  for (let x = from_x; x < to_x; x++) {
-    for (let y = from_y; y < to_y; y++) {
+  for (let x = from_x; x < to_x - 1; x++) {
+    for (let y = from_y; y < to_y - 1; y++) {
       console.log("extending", x, y);
 
       await extend_height_map({
@@ -117,7 +117,7 @@ export async function remap_all_geotiffs() {
 
     await geotiff_to_png(pathify(file), pathify(output), {
       from: 400,
-      to: 2000,
+      to: 3000,
       width: 63,
       height: 63,
     });
