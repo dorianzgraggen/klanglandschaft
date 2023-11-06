@@ -7,6 +7,7 @@ uniform sampler2D u_satellite;
 uniform sampler2D u_nrm;
 uniform vec3 u_center;
 uniform vec3 u_background;
+uniform bool u_data_mode;
 
 varying vec2 v_uv;
 varying vec3 v_world_pos;
@@ -47,5 +48,10 @@ void main()
   gl_FragColor = color;
   gl_FragColor = vec4(vec3(fog_mask), 1.0);
   gl_FragColor = satellite;
-  gl_FragColor = color_fog;
+  if (u_data_mode) {
+    gl_FragColor = vec4(height, 1.0);
+  } else {
+    gl_FragColor = color_fog;
+    // gl_FragColor = vec4(height, 1.0);
+  }
 }   

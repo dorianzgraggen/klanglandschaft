@@ -31,10 +31,15 @@ export function init() {
   );
   debug_camera.layers.enable(DEBUG_LAYER);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: false });
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.localClippingEnabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   root.appendChild(renderer.domElement);
+
+  const renderer_data = new THREE.WebGLRenderer();
+  renderer_data.setSize(100, 100);
+  document.body.appendChild(renderer_data.domElement);
+  renderer_data.domElement.classList.add('renderer-data');
 
   user_camera.position.set(-1, 20, -1);
   user_camera.lookAt(new THREE.Vector3());
@@ -123,7 +128,9 @@ export function init() {
     }
   }
 
-  function animate() {
+  function animate(time: number) {
+    Landscape.data_mode = false;
+
     requestAnimationFrame(animate);
     debug_controls.update();
     user_controls.update();
@@ -135,8 +142,11 @@ export function init() {
       renderer.render(scene, user_camera);
     }
 
+    Landscape.data_mode = true;
+    renderer_data.render(scene, user_camera);
+
     // landscape.update(camera);
   }
 
-  animate();
+  animate(0);
 }

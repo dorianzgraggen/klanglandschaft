@@ -18,6 +18,8 @@ export class Landscape {
 
   private landscape_material = new THREE.ShaderMaterial({ fragmentShader, vertexShader });
 
+  public static data_mode = false;
+
   static set_base_coords(x: number, y: number) {
     this.base_x = x;
     this.base_y = y;
@@ -42,6 +44,8 @@ export class Landscape {
 
     scene.add(this.mesh);
 
+    this.mesh.onBeforeRender = this.on_before_render.bind(this);
+
     const interval = 100;
     setTimeout(() => {
       setInterval(() => {
@@ -58,6 +62,29 @@ export class Landscape {
         }
       }, interval);
     }, Math.random() * interval);
+  }
+
+  on_before_render(
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>,
+    material: THREE.Material,
+    group: THREE.Group
+  ) {
+    if (material.type !== 'ShaderMaterial') {
+      return;
+    }
+
+    const mat = material as THREE.ShaderMaterial;
+
+    if (!Landscape.data_mode) {
+      mat.uniforms.u_data_mode.value = false;
+      return;
+    }
+    console.log('data modeeee+++');
+
+    mat.uniforms.u_data_mode.value = true;
   }
 
   async show() {
@@ -95,7 +122,8 @@ export class Landscape {
       u_height: { value: texture },
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
-      u_background: { value: this.scene.background }
+      u_background: { value: this.scene.background },
+      u_data_mode: { value: false }
     };
 
     this.mesh.material = this.landscape_material;
