@@ -79,10 +79,16 @@ export function init() {
 
   window.addEventListener('keydown', (ev) => {
     switch (ev.key) {
-      case 'Q':
+      case 'Y':
         debug_view = !debug_view;
         debug_controls.enabled = debug_view;
         user_controls.enabled = !debug_view;
+        break;
+
+      case 'X':
+        debug_controls.target.copy(center.root.position);
+        debug_camera.position.copy(user_camera.position);
+        debug_controls.update();
         break;
 
       default:
