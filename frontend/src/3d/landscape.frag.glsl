@@ -5,22 +5,13 @@
 uniform sampler2D u_height;
 uniform sampler2D u_satellite;
 uniform sampler2D u_nrm;
-uniform vec2 u_resolution;
 uniform vec3 u_center;
 uniform vec3 u_background;
 
 varying vec2 v_uv;
 varying vec3 v_world_pos;
 
-// https://www.shadertoy.com/view/3sSSW1
-vec2 normal_from_height(in vec2 uv) 
-{
-  vec2 ratio = u_resolution / vec2(512.0, 512.0); 
-  float height = texture(u_height, uv).r;
-  return -vec2(dFdx(height), dFdy(height)) * ratio;
-}
-
-
+// https://gamedev.stackexchange.com/a/148088
 vec4 fromLinear(vec4 linearRGB)
 {
     bvec3 cutoff = lessThan(linearRGB.rgb, vec3(0.0031308));

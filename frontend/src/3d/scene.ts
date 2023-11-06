@@ -102,9 +102,9 @@ export function init() {
   // 2668 1202 2680 1210
 
   const from_x = 2658;
-  const to_x = 2668;
+  const to_x = 2694;
   const from_y = 1191;
-  const to_y = 1201;
+  const to_y = 1217;
 
   Landscape.set_base_coords(from_x, from_y);
   const center = new Center(scene, debug_camera, renderer, user_controls);
