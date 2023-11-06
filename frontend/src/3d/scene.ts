@@ -5,6 +5,7 @@ import { LandscapeMeshTest } from './mesh';
 import { Landscape } from './landscape';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { Center } from './center';
+import { DEBUG_LAYER } from './consts';
 
 export function init() {
   let debug_view = false;
@@ -20,12 +21,15 @@ export function init() {
     1000
   );
 
+  user_camera.layers.disable(DEBUG_LAYER);
+
   const debug_camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
+  debug_camera.layers.enable(DEBUG_LAYER);
 
   const renderer = new THREE.WebGLRenderer({ antialias: false });
   renderer.localClippingEnabled = true;
@@ -117,7 +121,7 @@ export function init() {
     requestAnimationFrame(animate);
     debug_controls.update();
     user_controls.update();
-    center.update(user_controls);
+    center.update(user_controls, debug_view);
 
     if (debug_view) {
       renderer.render(scene, debug_camera);
