@@ -82,7 +82,6 @@ export class Landscape {
       mat.uniforms.u_data_mode.value = false;
       return;
     }
-    console.log('data modeeee+++');
 
     mat.uniforms.u_data_mode.value = true;
   }

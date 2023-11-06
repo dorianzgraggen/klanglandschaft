@@ -40,6 +40,9 @@ export function init() {
   renderer_data.setSize(100, 100);
   document.body.appendChild(renderer_data.domElement);
   renderer_data.domElement.classList.add('renderer-data');
+  // renderer_data.outputColorSpace = THREE.LinearSRGBColorSpace;
+
+  const rt = new THREE.WebGLRenderTarget(100, 100);
 
   user_camera.position.set(-1, 20, -1);
   user_camera.lookAt(new THREE.Vector3());
@@ -128,6 +131,10 @@ export function init() {
     }
   }
 
+  const pixels = new Uint8Array(100 * 100 * 4);
+
+  renderer_data.setRenderTarget(rt);
+
   function animate(time: number) {
     Landscape.data_mode = false;
 
@@ -143,9 +150,49 @@ export function init() {
     }
 
     Landscape.data_mode = true;
+
+    // render data view to canvas (for debugging)
+    renderer_data.setRenderTarget(null);
+    renderer_data.render(scene, user_camera);
+    // render data view to render texture (for reading pixels)
+    renderer_data.setRenderTarget(rt);
     renderer_data.render(scene, user_camera);
 
-    // landscape.update(camera);
+    renderer_data.readRenderTargetPixels(rt, 0, 0, 100, 100, pixels);
+
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    let a = 0;
+
+    pixels.forEach((pixel, i) => {
+      switch (i % 4) {
+        case 0:
+          r += pixel;
+          break;
+
+        case 1:
+          g += pixel;
+          break;
+
+        case 2:
+          b += pixel;
+          break;
+
+        case 3:
+          a += pixel;
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    r = r / (100 * 100) / 255;
+    g = g / (100 * 100) / 255;
+    b = b / (100 * 100) / 255;
+    a = a / (100 * 100) / 255;
+    console.log(`r:${r} g:${g} b:${b} a:${a}`);
   }
 
   animate(0);

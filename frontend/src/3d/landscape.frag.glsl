@@ -22,6 +22,15 @@ vec4 fromLinear(vec4 linearRGB)
     return vec4(mix(higher, lower, cutoff), linearRGB.a);
 }
 
+vec4 toLinear(vec4 sRGB)
+{
+    bvec4 cutoff = lessThan(sRGB, vec4(0.04045));
+    vec4 higher = pow((sRGB + vec4(0.055))/vec4(1.055), vec4(2.4));
+    vec4 lower = sRGB/vec4(12.92);
+
+    return mix(higher, lower, cutoff);
+}
+
 void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
@@ -49,7 +58,7 @@ void main()
   gl_FragColor = vec4(vec3(fog_mask), 1.0);
   gl_FragColor = satellite;
   if (u_data_mode) {
-    gl_FragColor = vec4(height, 1.0);
+    gl_FragColor = (vec4(height, 0.7));
   } else {
     gl_FragColor = color_fog;
     // gl_FragColor = vec4(height, 1.0);
