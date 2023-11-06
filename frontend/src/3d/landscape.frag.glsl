@@ -53,8 +53,8 @@ void main()
   gl_FragColor = vec4(v_world_pos, 1.0);
   gl_FragColor = vec4(vec3(mask), 1.0);
   gl_FragColor = vec4(height, 1.0);
-  gl_FragColor = color_fog;
-  gl_FragColor = satellite;
   gl_FragColor = color;
   gl_FragColor = vec4(vec3(fog_mask), 1.0);
+  gl_FragColor = satellite;
+  gl_FragColor = color_fog;
 }   

@@ -47,6 +47,7 @@ export class Landscape {
     const segments = 3;
 
     const geometry = new THREE.PlaneGeometry(10, 10, segments, segments);
+    geometry.scale(0.9, 0.9, 0.9);
 
     geometry.rotateX(-Math.PI / 2);
 
