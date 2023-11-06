@@ -36,7 +36,7 @@ void main()
 
   vec4 color = mix(satellite, fromLinear(vec4(u_background, 1.0)), mask);
 
-  float fog_mask = (distance(v_world_pos, cameraPosition) - 10.0) * 0.01;
+  float fog_mask = (distance(v_world_pos, cameraPosition) - 30.0) * 0.01;
   fog_mask = clamp(fog_mask, 0.0, 1.0);
 
   vec4 color_fog = mix(satellite, fromLinear(vec4(u_background, 1.0)), fog_mask);
