@@ -39,5 +39,6 @@ export class Center {
 
     // for some reason layers don't seem to work on the gizmos
     this.transform_controls.visible = debug_view;
+    this.transform_controls.enabled = debug_view;
   }
 }
