@@ -138,7 +138,12 @@ export function init() {
 
   renderer_data.setRenderTarget(rt);
 
+  let previous_time = 0;
   function animate(time: number) {
+    const delta_ms = time - previous_time;
+    const fps = 1000 / delta_ms;
+    previous_time = time;
+
     Landscape.data_mode = false;
 
     requestAnimationFrame(animate);
@@ -197,13 +202,23 @@ export function init() {
     a = a / (100 * 100) / 255;
     console.log(`r:${r} g:${g} b:${b} a:${a}`);
 
+    let heap = 0;
+
+    // @ts-ignore
+    if (typeof performance.memory !== 'undefined') {
+      // @ts-ignore
+      heap = performance.memory.usedJSHeapSize / 1_000_000;
+    }
+
     debug_info.innerHTML = `
       <strong>memory:</strong>
       textures: ${renderer.info.memory.textures}
       geometries: ${renderer.info.memory.geometries}
+      heap: ${Math.round(heap)} mb
       | <strong>frame:</strong>
       calls: ${renderer.info.render.calls}
       triangles: ${renderer.info.render.triangles}
+      fps: ${Math.round(fps)}
     `;
   }
 
