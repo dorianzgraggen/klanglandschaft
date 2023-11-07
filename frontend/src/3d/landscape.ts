@@ -110,6 +110,12 @@ export class Landscape {
     texture.minFilter = THREE.NearestFilter;
     texture.magFilter = THREE.NearestFilter;
 
+    const noise_texture = await new THREE.TextureLoader().loadAsync(`/test-noise.png`);
+
+    noise_texture.generateMipmaps = false;
+    noise_texture.minFilter = THREE.NearestFilter;
+    noise_texture.magFilter = THREE.NearestFilter;
+
     const tiff = await new TIFFLoader().loadAsync(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
         this.y
@@ -119,6 +125,7 @@ export class Landscape {
 
     this.landscape_material.uniforms = {
       u_height: { value: texture },
+      u_noise: { value: noise_texture },
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },

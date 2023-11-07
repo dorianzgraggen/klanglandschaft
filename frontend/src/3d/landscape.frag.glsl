@@ -5,6 +5,7 @@
 uniform sampler2D u_height;
 uniform sampler2D u_satellite;
 uniform sampler2D u_nrm;
+uniform sampler2D u_noise;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
@@ -34,6 +35,7 @@ vec4 toLinear(vec4 sRGB)
 void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
+  vec4 noise = texture2D(u_noise, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
 
   float dist = distance(v_world_pos.xz, u_center.xz);
@@ -59,7 +61,9 @@ void main()
   gl_FragColor = satellite;
   if (u_data_mode) {
     gl_FragColor = (vec4(height, 0.7));
+    gl_FragColor = noise;
   } else {
+    color_fog.r = noise.r * 3.0;
     gl_FragColor = color_fog;
     // gl_FragColor = vec4(height, 1.0);
   }
