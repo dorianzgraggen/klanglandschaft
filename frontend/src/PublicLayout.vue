@@ -12,6 +12,7 @@ onMounted(async () => {
 <template>
   <SoundEditor></SoundEditor>
   <div id="canvas-root"></div>
+  <div id="debug-info">lol</div>
   <div class="top-bar">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/edit">Edit</RouterLink>
@@ -36,5 +37,16 @@ onMounted(async () => {
   left: 0;
   right: 0;
   z-index: 0;
+}
+
+#debug-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: white;
+  background-color: #00000060;
+  font-family: sans-serif;
+  padding: 6px;
+  font-size: 14px;
 }
 </style>

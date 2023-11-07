@@ -10,6 +10,8 @@ import { DEBUG_LAYER } from './consts';
 export function init() {
   let debug_view = false;
 
+  const debug_info = document.querySelector('#debug-info')!;
+
   const root = document.getElementById('canvas-root') as HTMLElement; // iuuu
 
   const scene = new THREE.Scene();
@@ -193,6 +195,15 @@ export function init() {
     b = b / (100 * 100) / 255;
     a = a / (100 * 100) / 255;
     console.log(`r:${r} g:${g} b:${b} a:${a}`);
+
+    debug_info.innerHTML = `
+      <strong>memory:</strong>
+      textures: ${renderer.info.memory.textures}
+      geometries: ${renderer.info.memory.geometries}
+      | <strong>frame:</strong>
+      calls: ${renderer.info.render.calls}
+      triangles: ${renderer.info.render.triangles}
+    `;
   }
 
   animate(0);
