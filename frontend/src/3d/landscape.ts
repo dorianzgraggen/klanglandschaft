@@ -20,6 +20,10 @@ export class Landscape {
 
   public static data_mode = false;
 
+  private static segments = 6;
+
+  private static geometry = new THREE.PlaneGeometry(10, 10, Landscape.segments, Landscape.segments);
+
   static set_base_coords(x: number, y: number) {
     this.base_x = x;
     this.base_y = y;
@@ -31,16 +35,10 @@ export class Landscape {
     private x = 2665,
     private y = 1210
   ) {
-    const segments = 6;
-
-    const geometry = new THREE.PlaneGeometry(10, 10, segments, segments);
-    // geometry.scale(0.9, 0.9, 0.9);
-
-    geometry.rotateX(-Math.PI / 2);
-
-    this.mesh = new THREE.Mesh(geometry, Landscape.empty_material);
+    this.mesh = new THREE.Mesh(Landscape.geometry, Landscape.empty_material);
     this.mesh.position.x = -(Landscape.base_x - x) * 10;
     this.mesh.position.z = (Landscape.base_y - y) * 10;
+    this.mesh.rotateX(-Math.PI / 2);
 
     scene.add(this.mesh);
 
