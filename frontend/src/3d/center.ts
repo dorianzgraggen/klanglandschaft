@@ -4,6 +4,11 @@ import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { DEBUG_LAYER, DEFAULT_LAYER } from './consts';
 
+/**
+ * Center is an object that always moves to the user controls' orbit target,
+ * it is only visible in debug view, which is handy, because sometimes you need
+ * to check where the user is looking at.
+ */
 export class Center {
   public root: THREE.Object3D;
   private transform_controls: TransformControls;

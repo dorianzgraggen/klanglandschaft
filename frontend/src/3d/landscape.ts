@@ -30,10 +30,7 @@ export class Landscape {
     private y = 1210
   ) {
     const segments = 6;
-
     const geometry = new THREE.PlaneGeometry(10, 10, segments, segments);
-    // geometry.scale(0.9, 0.9, 0.9);
-
     geometry.rotateX(-Math.PI / 2);
 
     this.mesh = new THREE.Mesh(geometry, Landscape.empty_material);
@@ -42,6 +39,8 @@ export class Landscape {
 
     scene.add(this.mesh);
 
+    // Checks every 100ms whether this tile should be enabled. Starts counting
+    // after a random offset so not all tiles enable/disable at the same time.
     const interval = 100;
     setTimeout(() => {
       setInterval(() => {
@@ -64,7 +63,7 @@ export class Landscape {
     }
   }
 
-  // downloads textures and creates material if it doesn't exist yet
+  // Downloads textures and creates material if it doesn't exist yet.
   async show() {
     this.visible = true;
 

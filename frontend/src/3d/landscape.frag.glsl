@@ -25,10 +25,8 @@ void main()
   vec3 height = texture2D(u_height, v_uv).xyz;
   vec4 satellite = texture2D(u_satellite, v_uv);
 
-  float fog_mask = (distance(v_world_pos, cameraPosition) - 30.0) * 0.01;
-  fog_mask = clamp(fog_mask, 0.0, 1.0);
+  float distance_fog = (distance(v_world_pos, cameraPosition) - 30.0) * 0.01;
+  distance_fog = clamp(distance_fog, 0.0, 1.0);
 
-  vec4 color_fog = mix(satellite, fromLinear(vec4(u_background, 1.0)), fog_mask);
-
-  gl_FragColor = color_fog;
+  gl_FragColor =  mix(satellite, fromLinear(vec4(u_background, 1.0)), distance_fog);
 }   
