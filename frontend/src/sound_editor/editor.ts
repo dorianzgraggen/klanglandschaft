@@ -25,15 +25,14 @@ import {
   VibratoNode
 } from './nodes';
 
-import { type Schemes, Connection } from './connections';
+import { type Schemes, Connection, type ConnProps, type NodeProps } from './connections';
 import { getConnectionSockets } from './utils';
+import { BaseNode } from './nodes/base_node';
+import type { AudioEffect, SoundEffectKey } from './nodes/util';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
-const player = new Tone.Player({
-  loop: true,
-  autostart: false
-});
+const players = new Array<Tone.Player>();
 
 export async function init_editor(
   container: HTMLElement,
@@ -80,7 +79,18 @@ export async function init_editor(
               target.key as never
             )
           );
-          console.log(sockets);
+          console.log({ sockets, source, target });
+
+          const target_node = editor.getNode(target.nodeId);
+
+          if (target_node instanceof BaseNode) {
+            const bnode = target_node as BaseNode;
+            if (target.key !== bnode.getOpenInput()) {
+              log('Target is occupied', 'error');
+              connection.drop();
+              return false;
+            }
+          }
 
           if (!sockets.source.isCompatibleWith(sockets.target)) {
             log('Sockets are not compatible', 'error');
@@ -118,7 +128,9 @@ export async function init_editor(
   AreaExtensions.simpleNodesOrder(area);
   AreaExtensions.showInputControl(area);
 
+  // TODO: maybe unify addPipe and flow stuff? need to research
   editor.addPipe((context) => {
+    // console.log('conecction', context.type);
     if (context.type === 'connectioncreate') {
       const { data } = context;
       const { source, target } = getConnectionSockets(editor, data);
@@ -126,6 +138,39 @@ export async function init_editor(
       if (!source.isCompatibleWith(target)) {
         log('Sockets are not compatible', 'error');
         return;
+      }
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'connectioncreated') {
+      const node = editor.getNode(context.data.target);
+      console.log('node', node);
+
+      if (node instanceof BaseNode) {
+        const bnode = node as BaseNode;
+        console.log('instance+');
+        if (context.data.targetInput.includes('sound_in')) {
+          bnode.addSoundInput();
+          area.update('node', context.data.target);
+        }
+      }
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'connectionremoved') {
+      const node = editor.getNode(context.data.target);
+      console.log('removed', context.data, node);
+
+      if (node instanceof BaseNode) {
+        const bnode = node as BaseNode;
+        if (context.data.targetInput.includes('sound_in')) {
+          bnode.removeSoundInput(context.data.targetInput);
+          area.update('node', context.data.target);
+        }
       }
     }
     return context;
@@ -144,6 +189,8 @@ export async function init_editor(
       .getNodes()
       .filter((n) => n instanceof OutputNode)
       .forEach((n) => engine.fetch(n.id));
+
+    // editor.getNodes().forEach((n) => area.update('node', n.id));
   }
 
   setInterval(() => {
@@ -154,22 +201,28 @@ export async function init_editor(
 let rebuild = false;
 
 function setup_audio() {
-  player.load('https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3');
-
   window.addEventListener(
     'keydown',
     async (e) => {
-      if (e.key !== 'q') {
-        return;
+      switch (e.key) {
+        case 'q': {
+          rebuild = true;
+          break;
+        }
+
+        case 'e': {
+          for (const player of players) {
+            console.log('start');
+            await player.context.resume();
+            player.start();
+            console.log('started');
+          }
+          break;
+        }
+
+        default:
+          break;
       }
-      // rebuild_audio_nodes();
-      console.log('start');
-      await player.context.resume();
-      player.start();
-
-      console.log('started');
-
-      rebuild = true;
     },
     false
   );
@@ -191,19 +244,26 @@ async function add_default_nodes(
   const pan = new PanNode();
   const vibrato = new VibratoNode();
 
+  const sound2 = new SoundNode('percussion');
+  const volume2 = new VolumeNode(0.3);
+
   const connections = [
-    new Connection(sound, 'sound_out', volume, 'sound_in'),
-    new Connection(population, 'value_out', volume, 'value_in'),
-    new Connection(volume, 'sound_out', pan, 'sound_in'),
+    new ConnectionInfo(sound, 'sound_out', volume, 'sound_in'),
+    new ConnectionInfo(population, 'value_out', volume, 'value_in'),
+    new ConnectionInfo(volume, 'sound_out', pan, 'sound_in'),
 
-    new Connection(time, 'seconds', multiply_time, 'value_in'),
-    new Connection(multiply_time, 'value_out', sine, 'value_in'),
-    new Connection(sine, 'value_out', add, 'value_in'),
-    new Connection(add, 'value_out', multiply, 'value_in'),
-    new Connection(multiply, 'value_out', pan, 'value_in'),
+    new ConnectionInfo(time, 'seconds', multiply_time, 'value_in'),
+    new ConnectionInfo(multiply_time, 'value_out', sine, 'value_in'),
+    new ConnectionInfo(sine, 'value_out', add, 'value_in'),
+    new ConnectionInfo(add, 'value_out', multiply, 'value_in'),
+    new ConnectionInfo(multiply, 'value_out', pan, 'value_in'),
 
-    new Connection(pan, 'sound_out', vibrato, 'sound_in'),
-    new Connection(vibrato, 'sound_out', output, 'sound_in')
+    new ConnectionInfo(pan, 'sound_out', vibrato, 'sound_in'),
+    new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in'),
+    // new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in')
+
+    new ConnectionInfo(sound2, 'sound_out', volume2, 'sound_in'),
+    new ConnectionInfo(volume2, 'sound_out', output, 'sound_in')
   ];
 
   await editor.addNode(population);
@@ -219,47 +279,85 @@ async function add_default_nodes(
   await editor.addNode(multiply_time);
 
   await editor.addNode(vibrato);
+  await editor.addNode(sound2);
+  await editor.addNode(volume2);
 
-  for (const connection of connections) {
+  for (const connection_info of connections) {
+    let target_input = connection_info.targetInput;
+
+    if (connection_info.target instanceof BaseNode) {
+      console.log('Base Node');
+      const b_target_node = connection_info.target as BaseNode;
+      target_input = b_target_node.getOpenInput();
+    }
+
+    // need to create connection here because otherwise it says there's no
+    // such input on nodes with a dynamic number of inputs
+    const connection = new Connection<NodeProps, NodeProps>(
+      connection_info.source,
+      connection_info.sourceOutput as never,
+      connection_info.target,
+      target_input as never
+    ); // (am i just bad at typescript? is it the libraries fault? we will never know)
+
     await editor.addConnection(connection);
   }
 
   await arrange.layout();
 }
 
+class ConnectionInfo {
+  constructor(
+    public source: NodeProps,
+    public sourceOutput: string,
+    public target: NodeProps,
+    public targetInput: string
+  ) {}
+}
+
 let sound_nodes = new Array<Tone.ToneAudioNode>();
 
-function handle_output(output: { effects: Array<AudioEffect> }): void {
-  // console.log(output);
+function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
+  console.log('tracks:', output_tracks);
+
   if (rebuild) {
-    rebuild = false;
-    rebuild_audio_nodes(output.effects);
-    connect_audio_nodes();
-    // player.chain
+    // TODO: only remove the players that aren't needed anymore
+    players.forEach((player) => {
+      player.stop();
+    });
+
+    players.length = 0;
   }
 
-  sound_nodes.forEach((sound_node, i) => {
-    const settings = output.effects[i].settings;
-
-    for (const [key, value] of Object.entries(settings)) {
-      (sound_node as any)[key].value = value;
+  output_tracks.forEach((output) => {
+    if (rebuild) {
+      rebuild_audio_nodes(output.effects);
+      connect_audio_nodes();
+      // player.chain
     }
 
-    console.log('settings', settings, 'node', sound_node);
+    sound_nodes.forEach((sound_node, i) => {
+      const settings = output.effects[i].settings;
+
+      if (settings) {
+        for (const [key, value] of Object.entries(settings)) {
+          (sound_node as any)[key].value = value;
+        }
+      }
+    });
   });
+
+  if (rebuild) {
+    console.log({ players });
+  }
+
+  rebuild = false;
 }
 
 // const gainNode = new Tone.Gain(1).toDestination();
 // const pannerNode = new Tone.Panner(-1);
 // pannerNode.connect(gainNode);
 // player.connect(pannerNode);
-
-export type AudioEffect = {
-  type: 'pan' | 'gain' | 'vibrato';
-  settings: {
-    [key: string]: number;
-  };
-};
 
 function rebuild_audio_nodes(effects: Array<AudioEffect>) {
   console.log('rebuilding');
@@ -273,6 +371,19 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
 
       case 'vibrato':
         return new Tone.Vibrato();
+
+      case 'source': {
+        const url = effect.meta!.url as string;
+
+        const _player = new Tone.Player({
+          url,
+          loop: true
+        });
+        console.log('ulr', url);
+        // _player.load(url);
+        players.push(_player);
+        return _player;
+      }
     }
   });
 
@@ -280,7 +391,20 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
 }
 
 function connect_audio_nodes() {
-  player.chain(...sound_nodes, Tone.Destination);
+  // player.connect("", 2, )
+
+  console.log(sound_nodes);
+
+  // player.connect(sound_nodes[0]);
+
+  for (let i = 0; i < sound_nodes.length - 1; i++) {
+    const current = sound_nodes[i];
+    const next = sound_nodes[i + 1];
+    current.connect(next);
+  }
+
+  sound_nodes[sound_nodes.length - 1].toDestination();
+  // player.chain(...sound_nodes, Tone.Destination);
 }
 
 function create_context_menu() {

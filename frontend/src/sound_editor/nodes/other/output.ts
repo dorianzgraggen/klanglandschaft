@@ -1,41 +1,36 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket } from '../../sockets';
-import type { AudioEffect } from '../../editor';
+import type { AudioEffect } from '../util';
+import { BaseNode, type Inputs } from '../base_node';
 
-export class OutputNode extends ClassicPreset.Node<{ sound_in: ClassicPreset.Socket }> {
+export class OutputNode extends BaseNode {
   width = 180;
-  height = 90;
+  height = 55;
 
   constructor(
-    private handle_output: (output: { id: string; effects: Array<AudioEffect> }) => void
+    private handle_output: (
+      output_tracks: Array<{ id: string; effects: Array<AudioEffect> }>
+    ) => void
   ) {
     super('Sound Output');
-    this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound', true));
-
-    // this.addControl(
-    //   'text',
-    //   new ClassicPreset.InputControl('text', {
-    //     readonly: true
-    //   })
-    // );
-
-    // this.addOutput('text', new ClassicPreset.Output(new ActionSocket(), 'Number'));
+    // this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound', true));
+    this.addSoundInput();
   }
 
   execute() {}
 
-  // data() {
-  //   console.log('output', this);
-  //   return {
-  //     text: 'lol'
-  //   };
-  // }
+  data(inputs: Inputs) {
+    // if (typeof inputs['sound_in #1'] !== 'undefined' && inputs['sound_in #1'].length > 0) {
+    //   // this.handle_output(inputs['sound_in #1'][0]);
+    // }
 
-  data(inputs: any) {
-    // console.log('to play:', inputs.sound_in.length, JSON.stringify(inputs.sound_in));
-    if (inputs.sound_in.length > 0) {
-      this.handle_output(inputs.sound_in[0]);
-    }
+    const results = Object.entries(inputs).map(([key, value]) => {
+      return value[0];
+    });
+
+    this.handle_output(results);
+
+    // console.log('inputs:', inputs, results);
 
     return { text: 'lol' };
   }

@@ -1,5 +1,11 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket } from '../../sockets';
+import { use_default_sound } from '../util';
+
+const sound_urls: { [key: string]: string } = {
+  piano: 'https://cdn.freesound.org/previews/629/629170_12574855-lq.mp3',
+  percussion: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3'
+};
 
 export class SoundNode extends ClassicPreset.Node<
   {}, // input
@@ -9,20 +15,27 @@ export class SoundNode extends ClassicPreset.Node<
   width = 180;
   height = 130;
 
-  constructor() {
+  constructor(track = 'piano') {
     super('Sound');
     // this.addInput('volume', new ClassicPreset.Input(new TextSocket(), 'Volume'));
-    this.addControl('sound_id', new ClassicPreset.InputControl('text', { initial: 'Piano' }));
+    this.addControl('sound_id', new ClassicPreset.InputControl('text', { initial: track }));
     this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
   }
 
   execute() {}
 
   data(inputs: any) {
-    const sound = {
-      id: 'Piano',
-      effects: new Array<any>()
-    };
+    const sound = use_default_sound();
+
+    const id = this.controls.sound_id.value || '';
+    const sound_url = sound_urls[id];
+
+    sound.effects.push({
+      type: 'source',
+      meta: {
+        url: sound_url
+      }
+    });
 
     return {
       sound_out: sound
