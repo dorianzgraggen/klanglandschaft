@@ -10,13 +10,13 @@ export class VibratoNode extends ClassicPreset.Node<
   width = 180;
   height = 270;
 
-  constructor() {
+  constructor(frequency = 30, depth = 0.75) {
     super('Vibrato');
     this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound'));
     this.addInput('frequency', new ClassicPreset.Input(new NumberSocket(), 'Frequency'));
-    this.addControl('frequency', new ClassicPreset.InputControl('number', { initial: 29 }));
+    this.addControl('frequency', new ClassicPreset.InputControl('number', { initial: frequency }));
     this.addInput('depth', new ClassicPreset.Input(new NumberSocket(), 'Depth'));
-    this.addControl('depth', new ClassicPreset.InputControl('number', { initial: 0.75 }));
+    this.addControl('depth', new ClassicPreset.InputControl('number', { initial: depth }));
     this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
   }
 

@@ -6,6 +6,7 @@ import { Landscape } from './landscape';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { Center } from './center';
 import { BG_COLOR, DEBUG_LAYER } from './consts';
+import { bridge } from '@/bridge';
 
 export function init() {
   let debug_view = false;
@@ -201,6 +202,9 @@ export function init() {
     b = b / (100 * 100) / 255;
     a = a / (100 * 100) / 255;
     console.log(`r:${r} g:${g} b:${b} a:${a}`);
+
+    bridge.elevation = r;
+    bridge.traffic_noise = g;
 
     let heap = 0;
 

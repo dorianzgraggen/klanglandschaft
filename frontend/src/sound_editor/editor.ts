@@ -29,7 +29,12 @@ import { type Schemes, Connection, type ConnProps, type NodeProps } from './conn
 import { getConnectionSockets } from './utils';
 import { BaseNode } from './nodes/base_node';
 import type { AudioEffect, SoundEffectKey } from './nodes/util';
-import { test_preset, type NodeTreePreset, demo_preset } from './nodes/node_tree_presets';
+import {
+  test_preset,
+  type NodeTreePreset,
+  preset_traffic,
+  preset_elevation
+} from './nodes/node_tree_presets';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -177,7 +182,13 @@ export async function init_editor(
     return context;
   });
 
-  await add_nodes_from_preset(editor, arrange, demo_preset);
+  let preset = preset_traffic;
+
+  if (new URLSearchParams(window.location.search).get('preset') === 'elevation') {
+    preset = preset_elevation;
+  }
+
+  await add_nodes_from_preset(editor, arrange, preset);
 
   AreaExtensions.zoomAt(area, editor.getNodes());
 
