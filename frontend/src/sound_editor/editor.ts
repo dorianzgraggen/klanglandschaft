@@ -29,6 +29,7 @@ import { type Schemes, Connection, type ConnProps, type NodeProps } from './conn
 import { getConnectionSockets } from './utils';
 import { BaseNode } from './nodes/base_node';
 import type { AudioEffect, SoundEffectKey } from './nodes/util';
+import { test_preset, type NodeTreePreset } from './nodes/node_tree_presets';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -176,7 +177,7 @@ export async function init_editor(
     return context;
   });
 
-  await add_default_nodes(editor, arrange);
+  await add_nodes_from_preset(editor, arrange, test_preset);
 
   AreaExtensions.zoomAt(area, editor.getNodes());
 
@@ -228,75 +229,30 @@ function setup_audio() {
   );
 }
 
-async function add_default_nodes(
+async function add_nodes_from_preset(
   editor: NodeEditor<Schemes>,
-  arrange: AutoArrangePlugin<Schemes, AreaExtra>
+  arrange: AutoArrangePlugin<Schemes, AreaExtra>,
+  preset: NodeTreePreset
 ) {
-  const population = new DataNode();
-  const sound = new SoundNode();
-  const output = new OutputNode(handle_output);
-  const volume = new VolumeNode();
-  const time = new TimeNode();
-  const sine = new SineNode();
-  const add = new AddNode(0);
-  const multiply = new MultiplyNode(1);
-  const multiply_time = new MultiplyNode(1);
-  const pan = new PanNode();
-  const vibrato = new VibratoNode();
+  for (const node of Object.values(preset.nodes)) {
+    await editor.addNode(node);
+  }
 
-  const sound2 = new SoundNode('percussion');
-  const volume2 = new VolumeNode(0.3);
-
-  const connections = [
-    new ConnectionInfo(sound, 'sound_out', volume, 'sound_in'),
-    new ConnectionInfo(population, 'value_out', volume, 'value_in'),
-    new ConnectionInfo(volume, 'sound_out', pan, 'sound_in'),
-
-    new ConnectionInfo(time, 'seconds', multiply_time, 'value_in'),
-    new ConnectionInfo(multiply_time, 'value_out', sine, 'value_in'),
-    new ConnectionInfo(sine, 'value_out', add, 'value_in'),
-    new ConnectionInfo(add, 'value_out', multiply, 'value_in'),
-    new ConnectionInfo(multiply, 'value_out', pan, 'value_in'),
-
-    new ConnectionInfo(pan, 'sound_out', vibrato, 'sound_in'),
-    new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in'),
-    // new ConnectionInfo(vibrato, 'sound_out', output, 'sound_in')
-
-    new ConnectionInfo(sound2, 'sound_out', volume2, 'sound_in'),
-    new ConnectionInfo(volume2, 'sound_out', output, 'sound_in')
-  ];
-
-  await editor.addNode(population);
-  await editor.addNode(sound);
-  await editor.addNode(output);
-  await editor.addNode(volume);
-  await editor.addNode(pan);
-
-  await editor.addNode(time);
-  await editor.addNode(sine);
-  await editor.addNode(add);
-  await editor.addNode(multiply);
-  await editor.addNode(multiply_time);
-
-  await editor.addNode(vibrato);
-  await editor.addNode(sound2);
-  await editor.addNode(volume2);
-
-  for (const connection_info of connections) {
+  for (const connection_info of preset.connections) {
     let target_input = connection_info.targetInput;
 
-    if (connection_info.target instanceof BaseNode) {
+    if (preset.nodes[connection_info.target] instanceof BaseNode) {
       console.log('Base Node');
-      const b_target_node = connection_info.target as BaseNode;
+      const b_target_node = preset.nodes[connection_info.target] as BaseNode;
       target_input = b_target_node.getOpenInput();
     }
 
     // need to create connection here because otherwise it says there's no
     // such input on nodes with a dynamic number of inputs
     const connection = new Connection<NodeProps, NodeProps>(
-      connection_info.source,
+      preset.nodes[connection_info.source],
       connection_info.sourceOutput as never,
-      connection_info.target,
+      preset.nodes[connection_info.target],
       target_input as never
     ); // (am i just bad at typescript? is it the libraries fault? we will never know)
 
@@ -306,18 +262,9 @@ async function add_default_nodes(
   await arrange.layout();
 }
 
-class ConnectionInfo {
-  constructor(
-    public source: NodeProps,
-    public sourceOutput: string,
-    public target: NodeProps,
-    public targetInput: string
-  ) {}
-}
-
 let sound_nodes = new Array<Tone.ToneAudioNode>();
 
-function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
+export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
   console.log('tracks:', output_tracks);
 
   if (rebuild) {

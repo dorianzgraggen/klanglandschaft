@@ -4,7 +4,9 @@ import { use_default_sound } from '../util';
 
 const sound_urls: { [key: string]: string } = {
   piano: 'https://cdn.freesound.org/previews/629/629170_12574855-lq.mp3',
-  percussion: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3'
+  percussion: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3',
+  ambient: '/120365__stk13__untitled-13.wav',
+  chaos: '/398867__gis_sweden__shaped-by-chaos.wav'
 };
 
 export class SoundNode extends ClassicPreset.Node<
