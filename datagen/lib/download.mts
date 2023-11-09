@@ -1,6 +1,22 @@
 import fs from "fs";
 import https from "https";
 import { mk_dir_if_not_exists, pathify } from "./util.mjs";
+import AdmZip from "adm-zip";
+
+export async function get_and_prepare_large_geotiffs() {
+  mk_dir_if_not_exists(pathify("geotiff/strassenlaerm_tag"));
+
+  await download_if_missing(
+    "geotiff/strassenlaerm_tag/ch.bafu.laerm-strassenlaerm_tag.zip",
+    "https://data.geo.admin.ch/ch.bafu.laerm-strassenlaerm_tag/data.zip",
+  );
+
+  const zip = new AdmZip(
+    pathify("geotiff/strassenlaerm_tag/ch.bafu.laerm-strassenlaerm_tag.zip"),
+  );
+  zip.extractAllTo(pathify("geotiff/strassenlaerm_tag"));
+  console.log("unzipped");
+}
 
 export async function download_geotiffs(): Promise<void> {
   mk_dir_if_not_exists(pathify("geotiff/raw"));

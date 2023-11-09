@@ -3,13 +3,44 @@ import fs from "fs";
 import { mk_dir_if_not_exists, pathify } from "./util.mjs";
 import { exec } from "node:child_process";
 
+const from_x = 2658;
+const to_x = 2695;
+const from_y = 1191;
+const to_y = 1218;
+
+async function for_every_tile(
+  callback: (x: number, y: number, i: number) => Promise<void>,
+) {
+  let i = 0;
+  for (let x = from_x; x < to_x - 1; x++) {
+    for (let y = from_y; y < to_y - 1; y++) {
+      i++;
+      await callback(x, y, i);
+    }
+  }
+}
+
+export async function crop_all_noise_levels() {
+  for_every_tile((x, y, i) =>
+    crop_geotiff(
+      pathify(
+        "geotiff/strassenlaerm_tag/STRASSENLAERM_Tag/StrassenLaerm_Tag_LV95.tif",
+      ),
+      pathify(`geotiff/cropped/${x}-${y}-strassenlaerm.png`),
+      {
+        from_x: x,
+        from_y: y,
+        to_x: x + 1,
+        to_y: y + 1,
+        out_width: 256,
+        out_height: 256,
+      },
+    ),
+  );
+}
+
 export async function extend_all() {
   mk_dir_if_not_exists(pathify("geotiff/extended"));
-
-  const from_x = 2658;
-  const to_x = 2695;
-  const from_y = 1191;
-  const to_y = 1218;
 
   let i = 0;
   for (let x = from_x; x < to_x - 1; x++) {
@@ -57,6 +88,36 @@ export async function extend_height_map(options: {
       },
     ])
     .toFile(options.out);
+}
+
+export async function crop_geotiff(
+  in_path: string,
+  out_path: string,
+  options: {
+    out_width: number;
+    out_height: number;
+    from_x: number;
+    from_y: number;
+    to_x: number;
+    to_y: number;
+  },
+): Promise<void> {
+  const command = `gdal_translate -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${options.from_y}000 ${in_path} ${out_path}`;
+
+  return new Promise<void>((resolve, reject) => {
+    exec(command, (err, stdout, stderr) => {
+      if (err) {
+        // node couldn't execute the command
+        reject(err);
+      }
+
+      // the *entire* stdout and stderr (buffered)
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+
+      resolve();
+    });
+  });
 }
 
 export async function geotiff_to_png(
