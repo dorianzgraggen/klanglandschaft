@@ -20,9 +20,17 @@ export async function download_geotiffs(): Promise<void> {
   console.log("done");
 }
 
+export async function download_elevation_lake_lucerne(): Promise<void> {
+  return download_from_csv(
+    "tiff-links-lake-lucerne.csv",
+    "geotiff/raw",
+    (url) => url.split("/")[5],
+  );
+}
+
 export async function download_satellite(): Promise<void> {
   return download_from_csv(
-    "tiff-links-satellite.csv",
+    "tiff-links-satellite-lake-lucerne.csv",
     "geotiff/satellite",
     (url) => url.split("/")[4].substring(22) + ".tif",
   );
@@ -42,7 +50,6 @@ export async function download_from_csv(
   let i = 1;
   for (const url of urls) {
     console.log(i, "/", urls.length);
-    console.log(url.split("/"));
     const filepath = destination_path + "/" + generate_filename(url);
     await download_if_missing(filepath, url);
     i++;

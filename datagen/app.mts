@@ -7,15 +7,20 @@ import {
   extend_all,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
-import { download_geotiffs, download_satellite } from "./lib/download.mjs";
+import {
+  download_elevation_lake_lucerne,
+  download_geotiffs,
+  download_satellite,
+} from "./lib/download.mjs";
 
 run();
 
 async function run() {
   // await download_geotiffs();
-  // await remap_all_geotiffs();
-  // await extend_all();
-  await download_satellite();
+  await remap_all_geotiffs();
+  await extend_all();
+  // await download_satellite();
+  // await download_elevation_lake_lucerne();
 }
 
 async function test() {

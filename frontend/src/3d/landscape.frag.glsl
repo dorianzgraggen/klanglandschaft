@@ -4,24 +4,29 @@
 
 uniform sampler2D u_height;
 uniform sampler2D u_satellite;
-uniform sampler2D u_nrm;
-uniform vec2 u_resolution;
+uniform vec3 u_center;
+uniform vec3 u_background;
 
 varying vec2 v_uv;
+varying vec3 v_world_pos;
 
-// https://www.shadertoy.com/view/3sSSW1
-vec2 normal_from_height(in vec2 uv) 
+// https://gamedev.stackexchange.com/a/148088
+vec4 fromLinear(vec4 linearRGB)
 {
-  vec2 ratio = u_resolution / vec2(512.0, 512.0); 
-  float height = texture(u_height, uv).r;
-  return -vec2(dFdx(height), dFdy(height)) * ratio;
-}
+    bvec3 cutoff = lessThan(linearRGB.rgb, vec3(0.0031308));
+    vec3 higher = vec3(1.055)*pow(linearRGB.rgb, vec3(1.0/2.4)) - vec3(0.055);
+    vec3 lower = linearRGB.rgb * vec3(12.92);
 
+    return vec4(mix(higher, lower, cutoff), linearRGB.a);
+}
 
 void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
   vec4 satellite = texture2D(u_satellite, v_uv);
-  gl_FragColor = vec4(height, 1.0);
-  gl_FragColor = satellite;
+
+  float distance_fog = (distance(v_world_pos, cameraPosition) - 30.0) * 0.01;
+  distance_fog = clamp(distance_fog, 0.0, 1.0);
+
+  gl_FragColor =  mix(satellite, fromLinear(vec4(u_background, 1.0)), distance_fog);
 }   

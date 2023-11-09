@@ -6,14 +6,14 @@ import { exec } from "node:child_process";
 export async function extend_all() {
   mk_dir_if_not_exists(pathify("geotiff/extended"));
 
-  const from_x = 2668;
-  const to_x = 2680;
-  const from_y = 1202;
-  const to_y = 1210;
+  const from_x = 2658;
+  const to_x = 2695;
+  const from_y = 1191;
+  const to_y = 1218;
 
   let i = 0;
-  for (let x = from_x; x < to_x; x++) {
-    for (let y = from_y; y < to_y; y++) {
+  for (let x = from_x; x < to_x - 1; x++) {
+    for (let y = from_y; y < to_y - 1; y++) {
       console.log("extending", x, y);
 
       await extend_height_map({
@@ -108,20 +108,22 @@ export async function remap_all_geotiffs() {
 
   let i = 0;
   for (const file of files) {
-    let output = file.replace("raw", "png");
+    let output_path = file.replace("raw", "png");
+    output_path = output_path.substring(39, 48) + ".png";
+    output_path = "geotiff/png/" + output_path;
+    console.log({ file, output: output_path });
 
-    // output = output.replace(".tif", ".png");
-    output = output.substring(39, 48) + ".png";
-    output = "geotiff/png/" + output;
-    console.log({ file, output });
-
-    await geotiff_to_png(pathify(file), pathify(output), {
+    await geotiff_to_png(pathify(file), pathify(output_path), {
+      // there's no point in the area with an elevation <400m above sea level,
+      // so we set it as the lower limit
       from: 400,
-      to: 2000,
+      // there's no point in the area with an elevation >3000m above sea level,
+      // so we set it as the upper limit
+      to: 3000,
+      // only 63 pixels wide, because we're gonna add a one pixel row on each side later
       width: 63,
       height: 63,
     });
-    // await remap_geotiff(file, output);
 
     i++;
     console.log("remapped", i, files.length);
