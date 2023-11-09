@@ -42,7 +42,7 @@ onMounted(async () => {
 #debug-info {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 100px;
   color: white;
   background-color: #00000060;
   font-family: sans-serif;

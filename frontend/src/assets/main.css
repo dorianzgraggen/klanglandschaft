@@ -21,6 +21,6 @@ svg[data-testid='connection'] > path {
 .renderer-data {
   background-color: gray;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 0px;
+  left: 0;
 }
