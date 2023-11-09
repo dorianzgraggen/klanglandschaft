@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import vertexShader from './landscape.vert.glsl?raw';
 import fragmentShader from './landscape.frag.glsl?raw';
 import { TIFFLoader } from 'three/examples/jsm/loaders/TIFFLoader.js';
+import { BG_COLOR } from './consts';
 
 export class Landscape {
   mesh: THREE.Mesh;
@@ -14,7 +15,7 @@ export class Landscape {
   private download_state: 'empty' | 'loading' | 'loaded' = 'empty';
   private visible = false;
 
-  private static empty_material = new THREE.MeshBasicMaterial({ color: 0x334433 });
+  private static empty_material = new THREE.MeshBasicMaterial({ color: BG_COLOR });
 
   private landscape_material = new THREE.ShaderMaterial({ fragmentShader, vertexShader });
 

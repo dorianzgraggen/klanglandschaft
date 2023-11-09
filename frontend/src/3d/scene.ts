@@ -5,7 +5,7 @@ import { LandscapeMeshTest } from './mesh';
 import { Landscape } from './landscape';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { Center } from './center';
-import { DEBUG_LAYER } from './consts';
+import { BG_COLOR, DEBUG_LAYER } from './consts';
 
 export function init() {
   let debug_view = false;
@@ -15,7 +15,7 @@ export function init() {
   const root = document.getElementById('canvas-root') as HTMLElement; // iuuu
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xb8dbf5);
+  scene.background = BG_COLOR;
   const user_camera = new THREE.PerspectiveCamera(
     30,
     window.innerWidth / window.innerHeight,
