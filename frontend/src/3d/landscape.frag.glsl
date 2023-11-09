@@ -185,7 +185,7 @@ void main()
   gl_FragColor = satellite;
   if (u_data_mode) {
     gl_FragColor = (vec4(height, 0.7));
-    gl_FragColor = vec4(0.0, noise_mapped, 0.0, 1.0);
+    gl_FragColor = vec4(height.x, noise_mapped, 0.0, 1.0);
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;

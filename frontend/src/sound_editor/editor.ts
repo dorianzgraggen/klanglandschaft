@@ -29,7 +29,7 @@ import { type Schemes, Connection, type ConnProps, type NodeProps } from './conn
 import { getConnectionSockets } from './utils';
 import { BaseNode } from './nodes/base_node';
 import type { AudioEffect, SoundEffectKey } from './nodes/util';
-import { test_preset, type NodeTreePreset } from './nodes/node_tree_presets';
+import { test_preset, type NodeTreePreset, demo_preset } from './nodes/node_tree_presets';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -177,7 +177,7 @@ export async function init_editor(
     return context;
   });
 
-  await add_nodes_from_preset(editor, arrange, test_preset);
+  await add_nodes_from_preset(editor, arrange, demo_preset);
 
   AreaExtensions.zoomAt(area, editor.getNodes());
 
@@ -288,7 +288,9 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
 
       if (settings) {
         for (const [key, value] of Object.entries(settings)) {
-          (sound_node as any)[key].value = value;
+          const nd = (sound_node as any)[key];
+          console.log('setting', nd.value, 'value to', value);
+          nd.value = value;
         }
       }
     });

@@ -62,3 +62,26 @@ export const test_preset: NodeTreePreset = {
     new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
   ]
 };
+
+export const demo_preset: NodeTreePreset = {
+  nodes: {
+    output: new OutputNode(handle_output),
+    noise_levels: new DataNode('traffic_noise'),
+    elevation: new DataNode('elevation'),
+
+    ambient: new SoundNode('ambient'),
+    chaos: new SoundNode('chaos'),
+
+    volume1: new VolumeNode(),
+    volume2: new VolumeNode(0.5)
+  },
+  connections: [
+    new ConnectionInfo('chaos', 'sound_out', 'volume1', 'sound_in'),
+    new ConnectionInfo('noise_levels', 'value_out', 'volume1', 'value_in'),
+    new ConnectionInfo('volume1', 'sound_out', 'output', 'sound_in'),
+    //
+    new ConnectionInfo('ambient', 'sound_out', 'volume2', 'sound_in'),
+    new ConnectionInfo('elevation', 'value_out', 'volume2', 'value_in')
+    // new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
+  ]
+};
