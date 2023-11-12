@@ -13,7 +13,8 @@ onMounted(async () => {
   <SoundEditor></SoundEditor>
   <div id="canvas-root"></div>
   <div id="debug-info" class="debug">
-    <span></span> | <span class="r"></span> <span class="g"></span> <span class="b"></span> <span class="a"></span>
+    <span></span> | <span class="r"></span> <span class="g"></span> <span class="b"></span>
+    <span class="a"></span>
   </div>
   <div id="sound-info" class="debug"></div>
   <div class="top-bar">
@@ -56,7 +57,6 @@ onMounted(async () => {
   right: 0px;
   bottom: 40px;
 }
-
 
 #debug-info {
   position: absolute;
