@@ -191,7 +191,24 @@ void main()
     color_fog += noise_levels_colored;
     vec3 col = tinted + noise_levels_colored;
     col = tonemap_agx(col);
+
+
+    vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
+
+    // if (pos_a.x > 1.0) {
+    //   discard;
+    // }
+
+
+    // if (pos_a.z > 1.0) {
+    //   discard;
+    // }
+
+
     gl_FragColor = vec4(col * 1.1, 1.0);
+
+    // gl_FragColor = vec4(distance(u_center, v_world_pos), 0.0, 0.0, 1.0);
+    // gl_FragColor = vec4(pos_a.x, pos_a.z, 0.0, 1.0);
     // gl_FragColor = vec4(noise_levels_colored, 1.0);
     // gl_FragColor = vec4(vec3(noise.r * 3.0), 1.0);
     // gl_FragColor = vec4(height, 1.0);

@@ -12,7 +12,10 @@ onMounted(async () => {
 <template>
   <SoundEditor></SoundEditor>
   <div id="canvas-root"></div>
-  <div id="debug-info">lol</div>
+  <div id="debug-info" class="debug">
+    <span></span> | <span class="r"></span> <span class="g"></span> <span class="b"></span> <span class="a"></span>
+  </div>
+  <div id="sound-info" class="debug"></div>
   <div class="top-bar">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/edit">Edit</RouterLink>
@@ -39,14 +42,41 @@ onMounted(async () => {
   z-index: 0;
 }
 
+.debug {
+  font-family: monospace;
+  background-color: #00000060;
+  color: white;
+  padding: 3px;
+  font-size: 11px;
+  margin: 0;
+}
+
+#sound-info {
+  position: absolute;
+  right: 0px;
+  bottom: 40px;
+}
+
+
 #debug-info {
   position: absolute;
   bottom: 0;
   left: 100px;
-  color: white;
-  background-color: #00000060;
-  font-family: sans-serif;
-  padding: 6px;
-  font-size: 14px;
+}
+
+.r {
+  color: #ff3333;
+}
+
+.b {
+  color: #3333ff;
+}
+
+.g {
+  color: #33ff33;
+}
+
+.a {
+  color: #aaaaaa;
 }
 </style>

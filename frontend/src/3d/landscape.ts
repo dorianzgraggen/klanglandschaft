@@ -76,13 +76,7 @@ export class Landscape {
     }
 
     const mat = material as THREE.ShaderMaterial;
-
-    if (!Landscape.data_mode) {
-      mat.uniforms.u_data_mode.value = false;
-      return;
-    }
-
-    mat.uniforms.u_data_mode.value = true;
+    mat.uniforms.u_data_mode.value = Landscape.data_mode;
   }
 
   async show() {
@@ -128,7 +122,7 @@ export class Landscape {
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },
-      u_data_mode: { value: false }
+      u_data_mode: { value: Landscape.data_mode }
     };
 
     this.mesh.material = this.landscape_material;

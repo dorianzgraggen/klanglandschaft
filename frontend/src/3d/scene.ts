@@ -60,7 +60,7 @@ export function init() {
   user_controls.dampingFactor = 0.05;
   user_controls.screenSpacePanning = false;
   user_controls.minDistance = 30;
-  user_controls.maxDistance = 50;
+  user_controls.maxDistance = 100;
   user_controls.maxPolarAngle = Math.PI / 4;
   user_controls.enableRotate = true;
   user_controls.enableZoom = true;
@@ -206,6 +206,10 @@ export function init() {
     bridge.elevation = r;
     bridge.traffic_noise = g;
 
+    debug_info.children[1].innerHTML = (Math.round(r * 1000) / 1000).toString();
+    debug_info.children[2].innerHTML = (Math.round(g * 1000) / 1000).toString();
+    debug_info.children[3].innerHTML = (Math.round(b * 1000) / 1000).toString();
+    debug_info.children[4].innerHTML = (Math.round(a * 1000) / 1000).toString();
     let heap = 0;
 
     // @ts-ignore
@@ -214,7 +218,7 @@ export function init() {
       heap = performance.memory.usedJSHeapSize / 1_000_000;
     }
 
-    debug_info.innerHTML = `
+    debug_info.children[0].innerHTML = `
       <strong>memory:</strong>
       textures: ${renderer.info.memory.textures}
       geometries: ${renderer.info.memory.geometries}
