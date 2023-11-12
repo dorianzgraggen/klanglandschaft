@@ -1,3 +1,4 @@
+
 // precision highp float;
 // precision highp int;
 // precision highp sampler2DArray;
@@ -194,18 +195,37 @@ void main()
 
 
     vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
+    vec3 pos = ((v_world_pos-u_center) * 0.05);
 
-    // if (pos_a.x > 1.0) {
-    //   discard;
-    // }
+    vec4 bg = vec4(1.0, 0.8, 0.8, 1.0);
 
+    float border = 0.01;
 
-    // if (pos_a.z > 1.0) {
-    //   discard;
-    // }
+    if (pos_a.x > 1.0 + border) {
+      discard;
+    }
+
+    if (pos_a.z > 1.0 + border) {
+      discard;
+    }
 
 
     gl_FragColor = vec4(col * 1.1, 1.0);
+
+
+    if (pos.z > 1.0) {
+      gl_FragColor = bg;
+    }
+
+
+    if (-pos.x > 1.0) {
+      gl_FragColor = bg;
+    }
+
+
+
+
+
 
     // gl_FragColor = vec4(distance(u_center, v_world_pos), 0.0, 0.0, 1.0);
     // gl_FragColor = vec4(pos_a.x, pos_a.z, 0.0, 1.0);
