@@ -1,5 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { NumberSocket } from '../../sockets';
+import { bridge } from '@/bridge';
 
 export class DataNode extends ClassicPreset.Node<
   {}, // inputs
@@ -10,32 +11,34 @@ export class DataNode extends ClassicPreset.Node<
   height = 120;
 
   sliders = {
-    trees: document.getElementById('slider-trees'),
+    traffic_noise: document.getElementById('slider-traffic'),
     population: document.getElementById('slider-population'),
     elevation: document.getElementById('slider-elevation')
   } as { [key: string]: any };
 
-  constructor() {
+  constructor(type = 'none') {
     super('Data Input');
 
-    this.addControl('input_id', new ClassicPreset.InputControl('text', { initial: 'population' }));
+    this.addControl('input_id', new ClassicPreset.InputControl('text', { initial: type }));
     this.addOutput('value_out', new ClassicPreset.Output(new NumberSocket(), 'Amount'));
   }
 
   execute() {}
 
   data() {
-    let value = 100;
+    let value = 0.5;
 
-    const slider = this.sliders[this.controls.input_id.value as string];
+    const prop = (bridge as any)[this.controls.input_id.value as string];
 
-    if (slider) {
-      value = slider.value;
-      // console.log('value', value);
+    if (typeof prop !== 'undefined') {
+      value = prop;
+      console.log('value', this.controls.input_id.value, value);
+    } else {
+      console.warn('slider', this.controls.input_id.value, 'does not exst');
     }
 
     return {
-      value_out: value / 100
+      value_out: value
     };
   }
 }

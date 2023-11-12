@@ -3,15 +3,18 @@ import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 
 import { Landscape } from './landscape';
 import { Center } from './center';
-import { DEBUG_LAYER } from './consts';
+import { BG_COLOR, DEBUG_LAYER } from './consts';
+import { bridge } from '@/bridge';
 
 export function init() {
   let debug_view = false;
 
+  const debug_info = document.querySelector('#debug-info')!;
+
   const root = document.getElementById('canvas-root') as HTMLElement; // iuuu
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xb8dbf5);
+  scene.background = BG_COLOR;
 
   // USER CAMERA
   const user_camera = new THREE.PerspectiveCamera(
@@ -35,14 +38,19 @@ export function init() {
   );
   debug_camera.layers.enable(DEBUG_LAYER);
 
-  debug_camera.position.set(-1, -1, 20);
-  debug_camera.lookAt(new THREE.Vector3());
-
   // RENDERER
-  const renderer = new THREE.WebGLRenderer({ antialias: false });
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.localClippingEnabled = true;
   renderer.setSize(window.innerWidth, window.innerHeight);
   root.appendChild(renderer.domElement);
+
+  const renderer_data = new THREE.WebGLRenderer();
+  renderer_data.setSize(100, 100);
+  document.body.appendChild(renderer_data.domElement);
+  renderer_data.domElement.classList.add('renderer-data');
+  // renderer_data.outputColorSpace = THREE.LinearSRGBColorSpace;
+
+  const rt = new THREE.WebGLRenderTarget(100, 100);
 
   // USER MAP CONTROLS
   const user_controls = new MapControls(user_camera, renderer.domElement);
@@ -50,11 +58,13 @@ export function init() {
   user_controls.dampingFactor = 0.05;
   user_controls.screenSpacePanning = false;
   user_controls.minDistance = 30;
-  user_controls.maxDistance = 50;
+  user_controls.maxDistance = 100;
   user_controls.maxPolarAngle = Math.PI / 4;
   user_controls.enableRotate = true;
   user_controls.enableZoom = true;
   user_controls.panSpeed = 5;
+  user_controls.target.set(82, 0, -200); // center camera at lucerne train station
+
   user_controls.update();
 
   // DEBUG CONTROLS - You can switch to a debug view using Shift + Y and
@@ -110,8 +120,19 @@ export function init() {
     }
   }
 
+  renderer_data.setRenderTarget(rt);
+
   // RENDER LOOP
-  function animate() {
+  const pixels = new Uint8Array(100 * 100 * 4);
+  let previous_time = 0;
+
+  function animate(time: number) {
+    const delta_ms = time - previous_time;
+    const fps = 1000 / delta_ms;
+    previous_time = time;
+
+    Landscape.data_mode = false;
+
     requestAnimationFrame(animate);
     debug_controls.update();
     user_controls.update();
@@ -122,7 +143,78 @@ export function init() {
     } else {
       renderer.render(scene, user_camera);
     }
+
+    Landscape.data_mode = true;
+
+    // render data view to canvas (for debugging)
+    renderer_data.setRenderTarget(null);
+    renderer_data.render(scene, user_camera);
+    // render data view to render texture (for reading pixels)
+    renderer_data.setRenderTarget(rt);
+    renderer_data.render(scene, user_camera);
+
+    renderer_data.readRenderTargetPixels(rt, 0, 0, 100, 100, pixels);
+
+    let r = 0;
+    let g = 0;
+    let b = 0;
+    let a = 0;
+
+    pixels.forEach((pixel, i) => {
+      switch (i % 4) {
+        case 0:
+          r += pixel;
+          break;
+
+        case 1:
+          g += pixel;
+          break;
+
+        case 2:
+          b += pixel;
+          break;
+
+        case 3:
+          a += pixel;
+          break;
+
+        default:
+          break;
+      }
+    });
+
+    r = r / (100 * 100) / 255;
+    g = g / (100 * 100) / 255;
+    b = b / (100 * 100) / 255;
+    a = a / (100 * 100) / 255;
+    console.log(`r:${r} g:${g} b:${b} a:${a}`);
+
+    bridge.elevation = r;
+    bridge.traffic_noise = g;
+
+    debug_info.children[1].innerHTML = (Math.round(r * 1000) / 1000).toString();
+    debug_info.children[2].innerHTML = (Math.round(g * 1000) / 1000).toString();
+    debug_info.children[3].innerHTML = (Math.round(b * 1000) / 1000).toString();
+    debug_info.children[4].innerHTML = (Math.round(a * 1000) / 1000).toString();
+    let heap = 0;
+
+    // @ts-ignore
+    if (typeof performance.memory !== 'undefined') {
+      // @ts-ignore
+      heap = performance.memory.usedJSHeapSize / 1_000_000;
+    }
+
+    debug_info.children[0].innerHTML = `
+      <strong>memory:</strong>
+      textures: ${renderer.info.memory.textures}
+      geometries: ${renderer.info.memory.geometries}
+      heap: ${Math.round(heap)} mb
+      | <strong>frame:</strong>
+      calls: ${renderer.info.render.calls}
+      triangles: ${renderer.info.render.triangles}
+      fps: ${Math.round(fps)}
+    `;
   }
 
-  animate();
+  animate(0);
 }

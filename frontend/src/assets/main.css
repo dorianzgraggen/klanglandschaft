@@ -17,3 +17,10 @@ div[title='Action'] {
 svg[data-testid='connection'] > path {
   stroke: rgb(255, 255, 255) !important;
 }
+
+.renderer-data {
+  background-color: gray;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+}

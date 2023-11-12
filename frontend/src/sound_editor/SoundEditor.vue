@@ -17,8 +17,8 @@ onMounted(async () => {
 <template>
   <div id="sound-editor" v-show="open">
     <div class="top">
-      Trees
-      <input type="range" id="slider-trees" />
+      Traffic Noise
+      <input type="range" id="slider-traffic" />
       Population
       <input type="range" id="slider-population" />
       Elevation

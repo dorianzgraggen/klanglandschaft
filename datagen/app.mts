@@ -5,20 +5,27 @@ import {
   geotiff_to_png,
   extend_height_map,
   extend_all,
+  crop_geotiff,
+  crop_all_noise_levels,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
   download_elevation_lake_lucerne,
   download_geotiffs,
   download_satellite,
+  get_and_prepare_large_geotiffs,
 } from "./lib/download.mjs";
+import { pathify } from "./lib/util.mjs";
 
 run();
 
 async function run() {
+  // await get_and_prepare_large_geotiffs();
+  await crop_all_noise_levels();
+
   // await download_geotiffs();
-  await remap_all_geotiffs();
-  await extend_all();
+  // await remap_all_geotiffs();
+  // await extend_all();
   // await download_satellite();
   // await download_elevation_lake_lucerne();
 }

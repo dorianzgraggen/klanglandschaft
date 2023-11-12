@@ -12,7 +12,7 @@ void main()
 
     vec3 new_pos = position;
 
-    new_pos.y = height * (3000.0 - 400.0) * 0.01;
+    new_pos.z = height * (3000.0 - 400.0) * 0.01;
 
 
     vec4 vert_pos = projectionMatrix * viewMatrix * modelMatrix * vec4(new_pos, 1.0);
