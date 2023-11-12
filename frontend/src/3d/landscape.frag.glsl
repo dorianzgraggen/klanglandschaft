@@ -13,6 +13,8 @@ uniform bool u_data_mode;
 
 varying vec2 v_uv;
 varying vec3 v_world_pos;
+varying vec4 v_gl_pos;
+
 
 // https://gamedev.stackexchange.com/a/148088
 vec4 fromLinear(vec4 linearRGB)
@@ -152,6 +154,7 @@ vec3 mix3(vec3 color_a, vec3 color_b, vec3 color_c, float t)  {
   return mix(c1, color_c, t2);
 }
 
+
 void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
@@ -201,11 +204,18 @@ void main()
 
     float border = 0.01;
 
-    if (pos_a.x > 1.0 + border) {
+
+    vec2 vCoords = v_gl_pos.xy;
+		vCoords /= v_gl_pos.w;
+		vCoords = vCoords * 0.5 + 0.5;
+  
+  	vec2 uv = fract( vCoords * 10.0 );
+
+    if (-pos.x > 1.0) {
       discard;
     }
 
-    if (pos_a.z > 1.0 + border) {
+    if (-pos.z > 1.0) {
       discard;
     }
 
@@ -213,12 +223,49 @@ void main()
     gl_FragColor = vec4(col * 1.1, 1.0);
 
 
+
+    bg = vec4(vCoords.x, 0.0, 0.0, 1.0);
+
+    float g = 0.23;
+    if (vCoords.x < g) {
+      discard;
+    }
+
+    if (vCoords.x > 1.0 - g) {
+      discard;
+    }
+
+    // if (vCoords.x + )
+
+    //bg = ;
+
+    vec3 base = vec3(0.3);
+    if (vCoords.x > 0.5) {
+      base = vec3(0.2);
+    }
+
+    bg = vec4(base, 1.0);
+
+    float gradient_left = vCoords.y + vCoords.x;
+    float gradient_right = vCoords.y + (1.0 - vCoords.x);
+
+    float gradient = gradient_left;
+    if (vCoords.x > 0.5) {
+      gradient = gradient_right;
+    }
+
+    bg = vec4(vec3(gradient), 1.0);
+
+    vec3 t = vec3(gradient * base) * vec3(0.0, 0.1, 0.2) * 2.6;
+    t = tonemap_agx(t);
+    bg = vec4(t, 1.0);
+
     if (pos.z > 1.0) {
       gl_FragColor = bg;
     }
 
 
-    if (-pos.x > 1.0) {
+    if (pos.x > 1.0) {
       gl_FragColor = bg;
     }
 

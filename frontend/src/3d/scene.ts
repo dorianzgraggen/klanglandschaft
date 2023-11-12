@@ -18,7 +18,7 @@ export function init() {
 
   // USER CAMERA
   const user_camera = new THREE.PerspectiveCamera(
-    30,
+    10,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
@@ -57,13 +57,15 @@ export function init() {
   user_controls.enabled = !debug_view;
   user_controls.dampingFactor = 0.05;
   user_controls.screenSpacePanning = false;
-  user_controls.minDistance = 30;
-  user_controls.maxDistance = 100;
-  user_controls.maxPolarAngle = Math.PI / 4;
-  user_controls.enableRotate = true;
-  user_controls.enableZoom = true;
+  user_controls.minDistance = user_controls.maxDistance = 300;
+  user_controls.maxPolarAngle = user_controls.minPolarAngle = Math.PI / 180 * 55;
+  user_controls.enableRotate = false;
+  user_controls.enableZoom = false;
   user_controls.panSpeed = 5;
-  user_controls.target.set(82, 0, -200); // center camera at lucerne train station
+  user_controls.target.set(80, 0, -200); // center camera at lucerne train station
+
+  user_camera.position.set(180, 100, -100);
+  // user_camera.lookAt(user_controls);
 
   user_controls.update();
 
