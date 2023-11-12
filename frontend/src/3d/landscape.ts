@@ -45,22 +45,28 @@ export class Landscape {
 
     this.mesh.onBeforeRender = this.on_before_render.bind(this);
 
+    // Checks every 100ms whether this tile should be enabled. Starts counting
+    // after a random offset so not all tiles enable/disable at the same time.
     const interval = 100;
     setTimeout(() => {
       setInterval(() => {
-        const distance = Landscape.center.position.distanceToSquared(this.mesh.position);
-        const should_be_visible = distance < Math.pow(60, 2);
-
-        if (should_be_visible && !this.visible) {
-          this.show();
-        }
-
-        if (!should_be_visible && this.visible) {
-          this.mesh.material = Landscape.empty_material;
-          this.visible = false;
-        }
+        this.handle_visibility();
       }, interval);
     }, Math.random() * interval);
+  }
+
+  private handle_visibility() {
+    const distance = Landscape.center.position.distanceToSquared(this.mesh.position);
+    const should_be_visible = distance < Math.pow(60, 2);
+
+    if (should_be_visible && !this.visible) {
+      this.show();
+    }
+
+    if (!should_be_visible && this.visible) {
+      this.mesh.material = Landscape.empty_material;
+      this.visible = false;
+    }
   }
 
   on_before_render(
@@ -79,6 +85,23 @@ export class Landscape {
     mat.uniforms.u_data_mode.value = Landscape.data_mode;
   }
 
+  on_before_render(
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>,
+    material: THREE.Material,
+    group: THREE.Group
+  ) {
+    if (material.type !== 'ShaderMaterial') {
+      return;
+    }
+
+    const mat = material as THREE.ShaderMaterial;
+    mat.uniforms.u_data_mode.value = Landscape.data_mode;
+  }
+
+  // Downloads textures and creates material if it doesn't exist yet.
   async show() {
     this.visible = true;
 

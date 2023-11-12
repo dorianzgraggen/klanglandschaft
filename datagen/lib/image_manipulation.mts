@@ -169,20 +169,22 @@ export async function remap_all_geotiffs() {
 
   let i = 0;
   for (const file of files) {
-    let output = file.replace("raw", "png");
+    let output_path = file.replace("raw", "png");
+    output_path = output_path.substring(39, 48) + ".png";
+    output_path = "geotiff/png/" + output_path;
+    console.log({ file, output: output_path });
 
-    // output = output.replace(".tif", ".png");
-    output = output.substring(39, 48) + ".png";
-    output = "geotiff/png/" + output;
-    console.log({ file, output });
-
-    await geotiff_to_png(pathify(file), pathify(output), {
+    await geotiff_to_png(pathify(file), pathify(output_path), {
+      // there's no point in the area with an elevation <400m above sea level,
+      // so we set it as the lower limit
       from: 400,
+      // there's no point in the area with an elevation >3000m above sea level,
+      // so we set it as the upper limit
       to: 3000,
+      // only 63 pixels wide, because we're gonna add a one pixel row on each side later
       width: 63,
       height: 63,
     });
-    // await remap_geotiff(file, output);
 
     i++;
     console.log("remapped", i, files.length);
