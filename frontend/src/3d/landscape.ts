@@ -69,21 +69,6 @@ export class Landscape {
     }
   }
 
-  on_before_render(
-    renderer: THREE.WebGLRenderer,
-    scene: THREE.Scene,
-    camera: THREE.Camera,
-    geometry: THREE.BufferGeometry<THREE.NormalBufferAttributes>,
-    material: THREE.Material,
-    group: THREE.Group
-  ) {
-    if (material.type !== 'ShaderMaterial') {
-      return;
-    }
-
-    const mat = material as THREE.ShaderMaterial;
-    mat.uniforms.u_data_mode.value = Landscape.data_mode;
-  }
 
   on_before_render(
     renderer: THREE.WebGLRenderer,
