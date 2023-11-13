@@ -61,7 +61,7 @@ export function init() {
   user_controls.maxPolarAngle = user_controls.minPolarAngle = Math.PI / 180 * 55;
   user_controls.enableRotate = false;
   user_controls.enableZoom = false;
-  user_controls.panSpeed = 5;
+  user_controls.panSpeed = 1;
   user_controls.target.set(80, 0, -200); // center camera at lucerne train station
 
   user_camera.position.set(180, 100, -100);

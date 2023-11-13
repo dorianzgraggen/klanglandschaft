@@ -154,9 +154,20 @@ vec3 mix3(vec3 color_a, vec3 color_b, vec3 color_c, float t)  {
   return mix(c1, color_c, t2);
 }
 
+// https://gist.github.com/yiwenl/745bfea7f04c456e0101
+vec3 hsv2rgb(vec3 c)
+{
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
 
 void main()
 {
+  vec3 blue = hsv2rgb(vec3(0.6, 0.6, 0.2));
+  vec3 blue_light = hsv2rgb(vec3(0.6, 0.7, 0.1));
+
   vec3 height = texture2D(u_height, v_uv).xyz;
   vec4 noise = texture2D(u_noise, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
@@ -174,7 +185,7 @@ void main()
   float fog_mask = (distance(v_world_pos, cameraPosition) - 30.0) * 0.01;
   fog_mask = clamp(fog_mask, 0.0, 1.0);
 
-  vec3 tinted = desaturate(satellite.rgb, 1.0) * vec3(0.0, 0.1, 0.2) * 1.3;
+  vec3 tinted = desaturate(satellite.rgb, 1.0) * blue * 1.3;
   vec3 color_fog = mix(tinted, fromLinear(vec4(u_background, 1.0)).xyz, fog_mask);
 
   // vec3 noise_levels_colored = mix(vec3(0.8, 0.1, 0.1), vec3(0.8, 0.4, 0.2), (noise.r * 3.0) - 0.2) * noise.a;
@@ -194,7 +205,7 @@ void main()
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
     vec3 col = tinted + noise_levels_colored;
-    col = tonemap_agx(col);
+    // col = tonemap_agx(col);
 
 
     vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
@@ -256,9 +267,44 @@ void main()
 
     bg = vec4(vec3(gradient), 1.0);
 
-    vec3 t = vec3(gradient * base) * vec3(0.0, 0.1, 0.2) * 2.6;
-    t = tonemap_agx(t);
+    vec3 t = vec3(gradient * base) * blue * 2.6;
     bg = vec4(t, 1.0);
+
+
+    float gap = 0.012;
+    float m = 1.0 - gap;
+
+    if (pos.z > m) {
+      gl_FragColor = gl_FragColor + vec4(blue_light, 0.0);
+    }
+
+    if (pos.x > m) {
+      gl_FragColor = gl_FragColor + vec4(blue_light, 0.0);
+    }
+
+    if (pos.z < -m) {
+      gl_FragColor = gl_FragColor + vec4(blue_light, 0.0);
+    }
+
+    if (pos.x < -m) {
+      gl_FragColor = gl_FragColor + vec4(blue_light, 0.0);
+    }
+
+    if (vCoords.x < g + 0.0016) {
+      bg += vec4(blue_light, 0.0);
+    }
+
+    if (vCoords.x > 1.0 - (g + 0.0016)) {
+      bg += vec4(blue_light, 0.0);
+    }
+
+    if (vCoords.x > 0.5 - 0.5 * 0.0016) {
+      if (vCoords.x < 0.5 + 0.5 * 0.0016) {
+        bg += vec4(blue_light, 0.0);
+      }
+    }
+
+
 
     if (pos.z > 1.0) {
       gl_FragColor = bg;
@@ -270,7 +316,13 @@ void main()
     }
 
 
+    gl_FragColor = vec4(tonemap_agx(gl_FragColor.rgb), 1.0);
 
+    // gl_FragColor = vec4(vCoords.xxx, 1.0);
+
+    // if (vCoords.x > 0.5) {
+    //   gl_FragColor = vec4(1.0, 0.0, 0.0 ,1.0);
+    // }
 
 
 
