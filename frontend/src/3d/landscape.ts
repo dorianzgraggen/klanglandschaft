@@ -39,6 +39,7 @@ export class Landscape {
     this.mesh = new THREE.Mesh(Landscape.geometry, Landscape.empty_material);
     this.mesh.position.x = -(Landscape.base_x - x) * 10;
     this.mesh.position.z = (Landscape.base_y - y) * 10;
+    this.mesh.position.y = -10;
     this.mesh.rotateX(-Math.PI / 2);
 
     scene.add(this.mesh);

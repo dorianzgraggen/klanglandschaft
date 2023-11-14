@@ -3,6 +3,8 @@ import type { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { DEBUG_LAYER, DEFAULT_LAYER } from './consts';
+import vertexShader from './box.vert.glsl?raw';
+import fragmentShader from './box.frag.glsl?raw';
 
 /**
  * Center is an object that always moves to the user controls' orbit target,
@@ -19,13 +21,19 @@ export class Center {
     renderer: THREE.WebGLRenderer,
     orbit_controls: OrbitControls
   ) {
-    const geometry = new THREE.BoxGeometry(0.5, 20, 0.5);
-    const material = new THREE.MeshNormalMaterial();
+    const width = 40;
+    const geometry = new THREE.BoxGeometry(width, width, width);
+    const material = new THREE.ShaderMaterial({fragmentShader, vertexShader, transparent: true, side: THREE.DoubleSide, blending: THREE.NormalBlending})
 
     this.root = new THREE.Mesh(geometry, material);
     this.root.layers.enable(DEBUG_LAYER);
-    this.root.layers.disable(DEFAULT_LAYER);
+    // this.root.layers.disable(DEFAULT_LAYER);
     scene.add(this.root);
+
+    // const cmaterial = material.clone();
+    // cmaterial.side = THREE.BackSide;
+    // const clone = new THREE.Mesh(geometry, cmaterial);;
+    // scene.add(clone);
 
     const transform_controls = new TransformControls(camera, renderer.domElement);
     transform_controls.attach(this.root);
