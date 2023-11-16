@@ -291,7 +291,7 @@ async function add_nodes_from_preset(
   await arrange.layout();
 }
 
-let sound_nodes = new Array<Tone.ToneAudioNode>();
+const sound_nodes_per_track = new Array<Array<Tone.ToneAudioNode>>();
 
 const audio_debug = document.createElement('div');
 audio_debug.classList.add('debug');
@@ -337,14 +337,18 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
     players.length = 0;
   }
 
-  output_tracks.forEach((output) => {
+  output_tracks.forEach((output, index) => {
     if (rebuild) {
-      rebuild_audio_nodes(output.effects);
-      connect_audio_nodes();
+      rebuild_audio_nodes(output.effects, index);
+      connect_audio_nodes(index);
       // player.chain
     }
 
-    console.log('sound nodes:', sound_nodes.length, sound_nodes);
+    const sound_nodes = sound_nodes_per_track[index];
+
+    if (typeof sound_nodes === 'undefined') {
+      return; // current sound nodes haven't been created yet
+    }
 
     sound_nodes.forEach((sound_node, i) => {
       const settings = output.effects[i].settings;
@@ -371,9 +375,9 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
 // pannerNode.connect(gainNode);
 // player.connect(pannerNode);
 
-function rebuild_audio_nodes(effects: Array<AudioEffect>) {
+function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) {
   console.log('rebuilding');
-  sound_nodes = effects.map((effect) => {
+  sound_nodes_per_track[output_index] = effects.map((effect) => {
     switch (effect.type) {
       case 'gain':
         return new Tone.Gain();
@@ -399,12 +403,13 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
   // TODO: implement
 }
 
-function connect_audio_nodes() {
+function connect_audio_nodes(output_index: number) {
   // player.connect("", 2, )
 
+  const sound_nodes = sound_nodes_per_track[output_index];
   console.log(sound_nodes);
 
-  // player.connect(sound_nodes[0]);
+  // player.connect(current_nodes[0]);
 
   for (let i = 0; i < sound_nodes.length - 1; i++) {
     const current = sound_nodes[i];
