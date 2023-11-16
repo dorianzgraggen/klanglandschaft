@@ -293,8 +293,40 @@ async function add_nodes_from_preset(
 
 let sound_nodes = new Array<Tone.ToneAudioNode>();
 
+const audio_debug = document.createElement('div');
+audio_debug.classList.add('debug');
+audio_debug.id = 'audio-debug';
+document.body.appendChild(audio_debug);
+
 export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
   console.log('tracks:', output_tracks);
+
+  audio_debug.innerHTML = `
+    Tracks: ${output_tracks.length}
+    <br>
+
+    ${output_tracks
+      .map((track) => {
+        return `
+        Effects: ${track.effects.length}
+        <br>
+        ${track.effects
+          .map((effect) => {
+            return `
+          ${effect.type}:
+          <br>
+          - settings: ${JSON.stringify(effect.settings)}:
+          <br>
+          - meta${JSON.stringify(effect.meta)}:
+            
+          `;
+          })
+          .join('<br>')}
+      `;
+      })
+      .join('<br>')}
+  
+  `;
 
   if (rebuild) {
     // TODO: only remove the players that aren't needed anymore
@@ -311,6 +343,8 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
       connect_audio_nodes();
       // player.chain
     }
+
+    console.log('sound nodes:', sound_nodes.length, sound_nodes);
 
     sound_nodes.forEach((sound_node, i) => {
       const settings = output.effects[i].settings;

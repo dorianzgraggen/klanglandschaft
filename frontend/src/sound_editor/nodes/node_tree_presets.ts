@@ -78,11 +78,11 @@ export const preset_traffic: NodeTreePreset = {
   connections: [
     new ConnectionInfo('chaos', 'sound_out', 'volume1', 'sound_in'),
     new ConnectionInfo('noise_levels', 'value_out', 'volume1', 'value_in'),
-    new ConnectionInfo('volume1', 'sound_out', 'output', 'sound_in')
+    new ConnectionInfo('volume1', 'sound_out', 'output', 'sound_in'),
     //
-    // new ConnectionInfo('ambient', 'sound_out', 'volume2', 'sound_in'),
-    // new ConnectionInfo('elevation', 'value_out', 'volume2', 'value_in'),
-    // new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
+    new ConnectionInfo('ambient', 'sound_out', 'volume2', 'sound_in'),
+    new ConnectionInfo('elevation', 'value_out', 'volume2', 'value_in'),
+    new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
   ]
 };
 

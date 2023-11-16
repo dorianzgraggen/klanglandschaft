@@ -43,20 +43,6 @@ onMounted(async () => {
   z-index: 0;
 }
 
-.debug {
-  font-family: monospace;
-  background-color: #00000060;
-  color: white;
-  padding: 3px;
-  font-size: 11px;
-  margin: 0;
-}
-
-#sound-info {
-  position: absolute;
-  right: 0px;
-  bottom: 40px;
-}
 
 #debug-info {
   position: absolute;
