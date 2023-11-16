@@ -2,7 +2,7 @@ import { ClassicPreset } from 'rete';
 import { SoundSocket } from '../../sockets';
 import { use_default_sound } from '../util';
 
-const sound_urls: { [key: string]: string } = {
+export const sound_urls: { [key: string]: string } = {
   piano: 'https://cdn.freesound.org/previews/629/629170_12574855-lq.mp3',
   percussion: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3',
   ambient: '/120365__stk13__untitled-13.wav',
@@ -35,7 +35,8 @@ export class SoundNode extends ClassicPreset.Node<
     sound.effects.push({
       type: 'source',
       meta: {
-        url: sound_url
+        url: sound_url,
+        sound_id: id
       }
     });
 

@@ -35,10 +35,28 @@ import {
   preset_traffic,
   preset_elevation
 } from './nodes/node_tree_presets';
+import { sound_urls } from './nodes/other/sound';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
 const players = new Array<Tone.Player>();
+
+const players2 = Object.entries(sound_urls).reduce(
+  (previous_value, [key, value]) => {
+    const player = new Tone.Player({
+      url: value,
+      loop: true,
+      autostart: false
+    });
+    return {
+      ...previous_value,
+      [key]: player
+    };
+  },
+  {} as { [key: string]: Tone.Player }
+);
+
+console.log('players2', players2);
 
 export async function init_editor(
   container: HTMLElement,
@@ -335,11 +353,8 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
       case 'source': {
         const url = effect.meta!.url as string;
 
-        const _player = new Tone.Player({
-          url,
-          loop: true
-        });
-        console.log('ulr', url);
+        const _player = players2[effect.meta!.sound_id];
+        console.log('url', url);
         // _player.load(url);
         players.push(_player);
         return _player;
