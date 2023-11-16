@@ -21,6 +21,8 @@ onMounted(() => {
 
   const gain2 = new Tone.Gain();
 
+  const pitchshift = new Tone.PitchShift(22)
+
 
   window.addEventListener('keydown', async (e) => {
     if (e.key == 'q') {
@@ -33,9 +35,11 @@ onMounted(() => {
 
   function play() {
 
-    vibrato1.toDestination();
-    gain1.connect(vibrato1);
-    player1.connect(gain1).start();;
+
+    player1.chain(vibrato1, pitchshift, Tone.getDestination())
+    player1.toDestination() // tested if i can route one player to the destination multiple times. 
+
+    player1.start()
     // const oscillator = new Tone.Oscillator().connect(tremolo).start();
     console.log('play');
 
