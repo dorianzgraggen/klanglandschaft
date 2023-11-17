@@ -61,6 +61,8 @@ const all_players = Object.entries(sound_urls).reduce(
 
 const player_of_current_node_tree = new Array<Tone.Player>();
 
+const end_gains = new Array<Tone.Gain>();
+
 export async function init_editor(
   container: HTMLElement,
   log: (text: string, type: 'info' | 'error') => void
@@ -329,13 +331,21 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
       })
       .join('<br>')}
   
+      <br>
+      Outputs: ${Tone.getDestination().numberOfInputs}
   `;
 
   if (rebuild) {
     // TODO: only remove the players that aren't needed anymore
-    player_of_current_node_tree.forEach((player) => {
-      player.stop();
+    // player_of_current_node_tree.forEach((player) => {
+    //   player.stop();
+    // });
+
+    end_gains.forEach((gain) => {
+      gain.gain.linearRampTo(0, 3);
     });
+
+    end_gains.length = 0;
 
     player_of_current_node_tree.length = 0;
   }
@@ -397,8 +407,6 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) 
       }
     }
   });
-
-  // TODO: implement
 }
 
 function connect_audio_nodes(output_index: number) {
@@ -415,7 +423,12 @@ function connect_audio_nodes(output_index: number) {
     current.connect(next);
   }
 
-  sound_nodes[sound_nodes.length - 1].toDestination();
+  const last_node = sound_nodes[sound_nodes.length - 1];
+  const end_gain = new Tone.Gain(0);
+  last_node.connect(end_gain);
+  end_gain.gain.linearRampTo(1, 3);
+  end_gain.toDestination();
+  end_gains.push(end_gain);
   // player.chain(...sound_nodes, Tone.Destination);
 }
 
