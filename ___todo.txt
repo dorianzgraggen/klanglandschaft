@@ -1,0 +1,19 @@
+[] dropdown für soundauswahl
+[] mehr sounds
+[] input blobs hiden when connected
+[] dritter datensatz
+[] langsameres panning
+[] value-preview
+[] sound-preview
+[] ux test szenario
+
+
+
+UX test
+=======
+1. Bewege dich auf der Karte.
+2. Versuche, zu verstehen, wie sich die Klänge verhalten
+3. Kannst du die Klänge bearbeiten
+4. *macht Node Tree auf*. Was denkst du gerade?
+5. Versuche, den Node Tree zu erklären
+6. Versuche, dass der Wind einen Einfluss auf die Tonhöhe hat

@@ -69,7 +69,6 @@ export class Landscape {
     }
   }
 
-
   on_before_render(
     renderer: THREE.WebGLRenderer,
     scene: THREE.Scene,
@@ -117,6 +116,12 @@ export class Landscape {
       }-strassenlaerm.png`
     );
 
+    const wind_texture = await new THREE.TextureLoader().loadAsync(
+      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/cropped/${this.x}-${
+        this.y
+      }-wind.png`
+    );
+
     const tiff = await new TIFFLoader().loadAsync(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
         this.y
@@ -127,6 +132,7 @@ export class Landscape {
     this.landscape_material.uniforms = {
       u_height: { value: texture },
       u_noise: { value: noise_texture },
+      u_wind: { value: wind_texture },
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },

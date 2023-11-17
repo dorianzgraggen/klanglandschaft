@@ -6,6 +6,7 @@ uniform sampler2D u_height;
 uniform sampler2D u_satellite;
 uniform sampler2D u_nrm;
 uniform sampler2D u_noise;
+uniform sampler2D u_wind;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
@@ -155,6 +156,7 @@ void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
   vec4 noise = texture2D(u_noise, v_uv);
+  vec4 wind = texture2D(u_wind, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
 
   float dist = distance(v_world_pos.xz, u_center.xz);
@@ -177,6 +179,10 @@ void main()
   float noise_mapped = (noise.r - 0.18) * 6.6;
   vec3 noise_levels_colored = mix3(vec3(0.0, 0.0, 0.0), vec3(0.8, 0.1, 0.1), vec3(0.8, 0.6, 0.2) * 7.0, noise_mapped);
 
+  float wind_mapped = pow((wind.r - 0.34) * 1.8, 1.9);
+  vec3 wind_colored = mix3(vec3(0.0, 0.0, 0.0), vec3(0.6, 0.2, 0.8) * 0.5, vec3(0.5, 0.1, 0.9) * 6.0, wind_mapped);
+
+
   gl_FragColor = vec4(v_world_pos, 1.0);
   gl_FragColor = vec4(vec3(mask), 1.0);
   gl_FragColor = vec4(height, 1.0);
@@ -185,11 +191,11 @@ void main()
   gl_FragColor = satellite;
   if (u_data_mode) {
     gl_FragColor = (vec4(height, 0.7));
-    gl_FragColor = vec4(height.x, noise_mapped, 0.0, 1.0);
+    gl_FragColor = vec4(height.x, noise_mapped, wind_mapped, 1.0);
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
-    vec3 col = tinted + noise_levels_colored;
+    vec3 col = tinted + noise_levels_colored + wind_colored;
     col = tonemap_agx(col);
 
 
@@ -206,6 +212,7 @@ void main()
 
 
     gl_FragColor = vec4(col * 1.1, 1.0);
+    // gl_FragColor = vec4(vec3(wind_mapped), 1.0);
 
     // gl_FragColor = vec4(distance(u_center, v_world_pos), 0.0, 0.0, 1.0);
     // gl_FragColor = vec4(pos_a.x, pos_a.z, 0.0, 1.0);
