@@ -5,7 +5,7 @@ import * as Tone from 'tone';
 
 onMounted(() => {
   const player1 = new Tone.Player({
-    url: "/120365__stk13__untitled-13.wav",
+    url: "https://cdn.freesound.org/previews/629/629170_12574855-lq.mp3",
     loop: true,
     autostart: false
   });
@@ -21,7 +21,7 @@ onMounted(() => {
 
   const gain2 = new Tone.Gain();
 
-  const pitchshift = new Tone.PitchShift(22)
+  const pitchshift = new Tone.PitchShift(-15)
 
 
   window.addEventListener('keydown', async (e) => {
@@ -36,15 +36,15 @@ onMounted(() => {
   function play() {
 
 
-    player1.chain(vibrato1, pitchshift, Tone.getDestination())
-    player1.toDestination() // tested if i can route one player to the destination multiple times. 
+    player1.chain(pitchshift, Tone.getDestination())
+    // player1.toDestination() // tested if i can route one player to the destination multiple times. 
 
     player1.start()
     // const oscillator = new Tone.Oscillator().connect(tremolo).start();
     console.log('play');
 
-    gain2.toDestination();
-    player2.connect(gain2).start();;
+    // gain2.toDestination();
+    // player2.connect(gain2).start();;
 
     update(0)
   }

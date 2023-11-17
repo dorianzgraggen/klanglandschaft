@@ -39,9 +39,12 @@ import { sound_urls } from './nodes/other/sound';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
-const players = new Array<Tone.Player>();
-
-const players2 = Object.entries(sound_urls).reduce(
+/**
+ * Each soundtrack has its own Tone.Player and the audio is loaded as soon as the editor is opened.
+ * The player is always the beginning of a connection of nodes (the source, quasi), but a single
+ * player can be the beginning of multiple connection paths.
+ *  */
+const all_players = Object.entries(sound_urls).reduce(
   (previous_value, [key, value]) => {
     const player = new Tone.Player({
       url: value,
@@ -56,7 +59,7 @@ const players2 = Object.entries(sound_urls).reduce(
   {} as { [key: string]: Tone.Player }
 );
 
-console.log('players2', players2);
+const player_of_current_node_tree = new Array<Tone.Player>();
 
 export async function init_editor(
   container: HTMLElement,
@@ -241,7 +244,7 @@ function setup_audio() {
         }
 
         case 'e': {
-          for (const player of players) {
+          for (const player of player_of_current_node_tree) {
             console.log('start');
             await player.context.resume();
             player.start();
@@ -330,11 +333,11 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
 
   if (rebuild) {
     // TODO: only remove the players that aren't needed anymore
-    players.forEach((player) => {
+    player_of_current_node_tree.forEach((player) => {
       player.stop();
     });
 
-    players.length = 0;
+    player_of_current_node_tree.length = 0;
   }
 
   output_tracks.forEach((output, index) => {
@@ -364,16 +367,11 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
   });
 
   if (rebuild) {
-    console.log({ players });
+    console.log({ players: player_of_current_node_tree });
   }
 
   rebuild = false;
 }
-
-// const gainNode = new Tone.Gain(1).toDestination();
-// const pannerNode = new Tone.Panner(-1);
-// pannerNode.connect(gainNode);
-// player.connect(pannerNode);
 
 function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) {
   console.log('rebuilding');
@@ -391,10 +389,10 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) 
       case 'source': {
         const url = effect.meta!.url as string;
 
-        const _player = players2[effect.meta!.sound_id];
+        const _player = all_players[effect.meta!.sound_id];
         console.log('url', url);
         // _player.load(url);
-        players.push(_player);
+        player_of_current_node_tree.push(_player);
         return _player;
       }
     }
