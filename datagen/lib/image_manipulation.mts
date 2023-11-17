@@ -34,6 +34,29 @@ export async function crop_all_noise_levels() {
         to_y: y + 1,
         out_width: 256,
         out_height: 256,
+        from: 0,
+        to: 1,
+      },
+    ),
+  );
+}
+
+export async function crop_all_wind_levels() {
+  for_every_tile((x, y, i) =>
+    crop_geotiff(
+      pathify(
+        "geotiff/windenergie-geschwindigkeit_h150/WINDATLAS_SCHWEIZ_HEIGHT_LEVEL_150_CH_2018.tif",
+      ),
+      pathify(`geotiff/cropped/${x}-${y}-wind.png`),
+      {
+        from_x: x,
+        from_y: y,
+        to_x: x + 1,
+        to_y: y + 1,
+        out_width: 256,
+        out_height: 256,
+        from: 0,
+        to: 9,
       },
     ),
   );
@@ -100,9 +123,18 @@ export async function crop_geotiff(
     from_y: number;
     to_x: number;
     to_y: number;
+    from: number;
+    to: number;
   },
 ): Promise<void> {
-  const command = `gdal_translate -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${options.from_y}000 ${in_path} ${out_path}`;
+  const command = `gdal_translate 
+    -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${options.from_y}000 
+    -scale ${options.from} ${options.to} 0 255
+    ${in_path}
+    ${out_path}
+  `.replaceAll(/\r?\n/gi, "");
+
+  console.log({ command });
 
   return new Promise<void>((resolve, reject) => {
     exec(command, (err, stdout, stderr) => {
