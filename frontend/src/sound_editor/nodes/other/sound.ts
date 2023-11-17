@@ -21,7 +21,10 @@ export class SoundNode extends ClassicPreset.Node<
     super('Sound');
     // this.addInput('volume', new ClassicPreset.Input(new TextSocket(), 'Volume'));
     this.addControl('sound_id', new ClassicPreset.InputControl('text', { initial: track }));
-    this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
+
+    // TODO: allow this node to have multiple output connections, but need to figure out why
+    // fetching parents nodes values doesn't work as expected when allowing it
+    this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound', false));
   }
 
   execute() {}

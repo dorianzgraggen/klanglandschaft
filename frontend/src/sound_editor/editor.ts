@@ -59,6 +59,8 @@ const all_players = Object.entries(sound_urls).reduce(
   {} as { [key: string]: Tone.Player }
 );
 
+const ramp_duration = 0.5;
+
 const player_of_current_node_tree = new Array<Tone.Player>();
 
 const end_gains = new Array<Tone.Gain>();
@@ -342,7 +344,7 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
     // });
 
     end_gains.forEach((gain) => {
-      gain.gain.linearRampTo(0, 3);
+      gain.gain.linearRampTo(0, ramp_duration);
     });
 
     end_gains.length = 0;
@@ -350,9 +352,9 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
     player_of_current_node_tree.length = 0;
   }
 
-  output_tracks.forEach((output, index) => {
+  output_tracks.forEach((current_output_track, index) => {
     if (rebuild) {
-      rebuild_audio_nodes(output.effects, index);
+      rebuild_audio_nodes(current_output_track.effects, index);
       connect_audio_nodes(index);
       // player.chain
     }
@@ -364,8 +366,7 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
     }
 
     sound_nodes.forEach((sound_node, i) => {
-      const settings = output.effects[i].settings;
-
+      const settings = current_output_track.effects[i].settings;
       if (settings) {
         for (const [key, value] of Object.entries(settings)) {
           const nd = (sound_node as any)[key];
@@ -426,7 +427,7 @@ function connect_audio_nodes(output_index: number) {
   const last_node = sound_nodes[sound_nodes.length - 1];
   const end_gain = new Tone.Gain(0);
   last_node.connect(end_gain);
-  end_gain.gain.linearRampTo(1, 3);
+  end_gain.gain.linearRampTo(1, ramp_duration);
   end_gain.toDestination();
   end_gains.push(end_gain);
   // player.chain(...sound_nodes, Tone.Destination);
