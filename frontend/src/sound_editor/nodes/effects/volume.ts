@@ -8,14 +8,15 @@ export class VolumeNode extends ClassicPreset.Node<
   { gain: ClassicPreset.InputControl<'number'> }
 > {
   width = 180;
-  height = 200;
+  height = 165;
 
   constructor(initial = 1) {
     super('Volume');
     this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound'));
-    this.addInput('value_in', new ClassicPreset.Input(new NumberSocket(), 'Volume'));
+    const value_in = new ClassicPreset.Input(new NumberSocket(), 'Volume');
+    this.addInput('value_in', value_in);
     this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
-    this.addControl('gain', new ClassicPreset.InputControl('number', { initial }));
+    value_in.addControl(new ClassicPreset.InputControl('number', { initial }));
   }
 
   execute() {}
@@ -23,7 +24,8 @@ export class VolumeNode extends ClassicPreset.Node<
   data(inputs: any) {
     const sound = use_default_sound_unless(inputs.sound_in[0]);
 
-    let gain = this.controls.gain.value as number;
+    const control = this.inputs.value_in?.control as ClassicPreset.InputControl<'number'>;
+    let gain = control.value as number;
 
     if (typeof inputs.value_in !== 'undefined') {
       gain = inputs.value_in[0];
