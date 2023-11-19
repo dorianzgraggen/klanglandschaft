@@ -63,7 +63,7 @@ onMounted(async () => {
   background-color: rgba(0, 0, 0, 0.484);
   /* height: 20px; */
   flex: 1;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px) saturate(0.6);
 }
 
 .bottom {
