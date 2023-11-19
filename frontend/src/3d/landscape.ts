@@ -47,7 +47,7 @@ export class Landscape {
 
     // Checks every 100ms whether this tile should be enabled. Starts counting
     // after a random offset so not all tiles enable/disable at the same time.
-    const interval = 100;
+    const interval = 50;
     setTimeout(() => {
       setInterval(() => {
         this.handle_visibility();
@@ -57,7 +57,7 @@ export class Landscape {
 
   private handle_visibility() {
     const distance = Landscape.center.position.distanceToSquared(this.mesh.position);
-    const should_be_visible = distance < Math.pow(60, 2);
+    const should_be_visible = distance < Math.pow(80, 2);
 
     if (should_be_visible && !this.visible) {
       this.show();

@@ -58,7 +58,7 @@ export function init() {
   user_controls.dampingFactor = 0.05;
   user_controls.screenSpacePanning = false;
   user_controls.minDistance = 30;
-  user_controls.maxDistance = 100;
+  user_controls.maxDistance = 80;
   user_controls.maxPolarAngle = Math.PI / 4;
   user_controls.enableRotate = true;
   user_controls.enableZoom = true;
