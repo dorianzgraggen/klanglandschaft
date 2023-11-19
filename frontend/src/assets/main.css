@@ -9,8 +9,8 @@ div[title='Action'] {
 }
 
 .node {
-  background-color: rgba(47, 47, 47, 0.9) !important;
-  border: 2px solid black !important;
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  border: 2px solid rgba(255, 255, 255, 0.216) !important;
   /* box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.339); */
 }
 

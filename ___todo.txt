@@ -1,12 +1,15 @@
 [] dropdown für soundauswahl
 [] mehr sounds
 [] input blobs hiden when connected
-[] dritter datensatz
-[] langsameres panning
-[] value-preview
-[] sound-preview
+[x] dritter datensatz
+[x] langsameres panning
+[] value-preview  // macht no kei sinn wenn nöd guet visualisiert
+[] sound-preview  // same
 [] ux test szenario
-
+[] hide debug stuff
+[] only show datasets that are being used
+[] pitch node
+[] reduziere uf e selektion vo nodes
 
 
 UX test
@@ -17,3 +20,7 @@ UX test
 4. *macht Node Tree auf*. Was denkst du gerade?
 5. Versuche, den Node Tree zu erklären
 6. Versuche, dass der Wind einen Einfluss auf die Tonhöhe hat
+
+Testing targets
+chönd user navigier i de 3d view
+verstöhnd user de node editor

@@ -136,13 +136,18 @@ export function init() {
   let previous_time = 0;
 
   function animate(time: number) {
+    requestAnimationFrame(animate);
+
+    if ((window as any).____lol_open === true) {
+      return;
+    }
+
     const delta_ms = time - previous_time;
     const fps = 1000 / delta_ms;
     previous_time = time;
 
     Landscape.data_mode = false;
 
-    requestAnimationFrame(animate);
     debug_controls.update();
     user_controls.update();
     center.update(user_controls, debug_view);

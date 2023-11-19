@@ -5,8 +5,20 @@ const open = ref(false);
 
 const rete = ref();
 
+const settings = {
+  open: open.value
+}
+
+
+function toggleOpen() {
+  (window as any).____lol_open = !open.value // aaaa
+  open.value = !open.value;
+}
+
 onMounted(async () => {
   console.log('soundi');
+  (window as any).____lol_open = open.value;
+
   const { init_editor } = await import('./editor');
   init_editor(rete.value, (text, type) => {
     console.log('[rete]', text, type);
@@ -16,19 +28,19 @@ onMounted(async () => {
 
 <template>
   <div id="sound-editor" v-show="open">
-    <div class="top">
+    <!-- <div class="top">
       Traffic Noise
       <input type="range" id="slider-traffic" />
       Population
       <input type="range" id="slider-population" />
       Elevation
       <input type="range" id="slider-elevation" />
-    </div>
+    </div> -->
 
     <div id="rete" ref="rete"></div>
-    <div class="bottom">ja haha</div>
+    <!-- <div class="bottom">ja haha</div> -->
   </div>
-  <button id="toggle" @click="open = !open">{{ open ? 'Close' : 'Open' }}</button>
+  <button id="toggle" @click="toggleOpen">{{ open ? 'Back to exploring' : 'Edit Soundscape' }}</button>
 </template>
 
 <style scoped>
@@ -51,6 +63,7 @@ onMounted(async () => {
   background-color: rgba(0, 0, 0, 0.484);
   /* height: 20px; */
   flex: 1;
+  backdrop-filter: blur(10px);
 }
 
 .bottom {
@@ -59,8 +72,14 @@ onMounted(async () => {
 
 #toggle {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 12px;
+  right: 12px;
   padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.691);
+  color: white;
+  font-size: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.168);
+  border-radius: 5px;
+  padding: 16px 20px
 }
 </style>

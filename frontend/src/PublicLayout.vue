@@ -16,10 +16,10 @@ onMounted(async () => {
     <span></span> | <span class="r"></span> <span class="g"></span> <span class="b"></span>
     <span class="a"></span>
   </div>
-  <div class="top-bar">
+  <!-- <div class="top-bar">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/edit">Edit</RouterLink>
-  </div>
+  </div> -->
   <RouterView />
 </template>
 

@@ -1,7 +1,6 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>Name vom Ort</h1>
-  <p>hallo lol</p>
-  <RouterLink to="/explore">Explore</RouterLink>
+  <h1>Klanglandschaft</h1>
+  <!-- <RouterLink to="/explore">Explore</RouterLink> -->
 </template>
