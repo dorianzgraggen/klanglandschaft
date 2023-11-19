@@ -16,7 +16,6 @@ onMounted(async () => {
     <span></span> | <span class="r"></span> <span class="g"></span> <span class="b"></span>
     <span class="a"></span>
   </div>
-  <div id="sound-info" class="debug"></div>
   <div class="top-bar">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/edit">Edit</RouterLink>

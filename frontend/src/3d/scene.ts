@@ -8,6 +8,7 @@ import { bridge } from '@/bridge';
 
 export function init() {
   let debug_view = false;
+  let debug_panels = false;
 
   const debug_info = document.querySelector('#debug-info')!;
 
@@ -47,7 +48,7 @@ export function init() {
   const renderer_data = new THREE.WebGLRenderer();
   renderer_data.setSize(100, 100);
   document.body.appendChild(renderer_data.domElement);
-  renderer_data.domElement.classList.add('renderer-data');
+  renderer_data.domElement.classList.add('renderer-data', 'debug');
   // renderer_data.outputColorSpace = THREE.LinearSRGBColorSpace;
 
   const rt = new THREE.WebGLRenderTarget(100, 100);
@@ -100,6 +101,13 @@ export function init() {
         debug_controls.update();
         break;
 
+      case 'D': {
+        const dso = document.getElementById('debug-style-off') as any;
+        debug_panels = !debug_panels;
+        dso.disabled = !dso.disabled;
+        break;
+      }
+
       default:
         break;
     }
@@ -147,9 +155,11 @@ export function init() {
 
     Landscape.data_mode = true;
 
-    // render data view to canvas (for debugging)
-    renderer_data.setRenderTarget(null);
-    renderer_data.render(scene, user_camera);
+    if (debug_panels) {
+      // render data view to canvas (for debugging)
+      renderer_data.setRenderTarget(null);
+      renderer_data.render(scene, user_camera);
+    }
     // render data view to render texture (for reading pixels)
     renderer_data.setRenderTarget(rt);
     renderer_data.render(scene, user_camera);
