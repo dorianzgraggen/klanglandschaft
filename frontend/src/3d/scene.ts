@@ -5,6 +5,7 @@ import { Landscape } from './landscape';
 import { Center } from './center';
 import { BG_COLOR, DEBUG_LAYER } from './consts';
 import { bridge } from '@/bridge';
+let previous_time = 0;
 
 export function init() {
   let debug_view = false;
@@ -67,8 +68,6 @@ export function init() {
   user_controls.panSpeed = 1;
   user_controls.target.set(82, 0, -200); // center camera at lucerne train station
 
-  user_controls.update();
-
   // DEBUG CONTROLS - You can switch to a debug view using Shift + Y and
   // center the camera around the user's target using Shift + X.
   const debug_controls = new MapControls(debug_camera, renderer.domElement);
@@ -81,7 +80,6 @@ export function init() {
   debug_controls.enableRotate = true;
   debug_controls.enableZoom = true;
   debug_controls.panSpeed = 5;
-  debug_controls.update();
 
   const axes = new THREE.AxesHelper(20);
   scene.add(axes);
@@ -125,7 +123,7 @@ export function init() {
 
   for (let x = from_x; x < to_x; x++) {
     for (let y = from_y; y < to_y; y++) {
-      new Landscape(scene, renderer, x, y);
+      new Landscape(scene, renderer, x, y, animate);
     }
   }
 
@@ -133,14 +131,19 @@ export function init() {
 
   // RENDER LOOP
   const pixels = new Uint8Array(100 * 100 * 4);
-  let previous_time = 0;
 
-  function animate(time: number) {
-    requestAnimationFrame(animate);
+  user_controls.addEventListener('change', (ev) => animate());
+  debug_controls.addEventListener('change', (ev) => animate());
 
-    if ((window as any).____lol_open === true) {
-      return;
-    }
+  user_controls.update();
+  debug_controls.update();
+
+  function animate(time = 0) {
+    // requestAnimationFrame(animate);
+
+    // if ((window as any).____lol_open === true) {
+    //   return;
+    // }
 
     const delta_ms = time - previous_time;
     const fps = 1000 / delta_ms;
@@ -148,8 +151,8 @@ export function init() {
 
     Landscape.data_mode = false;
 
-    debug_controls.update();
-    user_controls.update();
+    // debug_controls.update();
+    // user_controls.update();
     center.update(user_controls, debug_view);
 
     if (debug_view) {
@@ -231,6 +234,4 @@ export function init() {
       fps: ${Math.round(fps)}
     `;
   }
-
-  animate(0);
 }

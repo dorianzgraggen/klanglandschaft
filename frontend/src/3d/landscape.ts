@@ -34,7 +34,8 @@ export class Landscape {
     private scene: THREE.Scene,
     renderer: THREE.WebGLRenderer,
     private x = 2665,
-    private y = 1210
+    private y = 1210,
+    private on_change: (time?: number) => void
   ) {
     this.mesh = new THREE.Mesh(Landscape.geometry, Landscape.empty_material);
     this.mesh.position.x = -(Landscape.base_x - x) * 10;
@@ -95,6 +96,7 @@ export class Landscape {
 
     if (this.download_state == 'loaded') {
       this.mesh.material = this.landscape_material;
+      this.on_change();
       return;
     }
 
@@ -141,5 +143,6 @@ export class Landscape {
 
     this.mesh.material = this.landscape_material;
     this.download_state = 'loaded';
+    this.on_change();
   }
 }
