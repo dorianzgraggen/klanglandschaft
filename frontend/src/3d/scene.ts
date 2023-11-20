@@ -10,6 +10,10 @@ export function init() {
   let debug_view = false;
   let debug_panels = false;
 
+  if (new URLSearchParams(window.location.search).get('debug') !== null) {
+    debug_panels = set_debug_panels(true);
+  }
+
   const debug_info = document.querySelector('#debug-info')!;
 
   const root = document.getElementById('canvas-root') as HTMLElement; // iuuu
@@ -102,9 +106,7 @@ export function init() {
         break;
 
       case 'D': {
-        const dso = document.getElementById('debug-style-off') as any;
-        debug_panels = !debug_panels;
-        dso.disabled = !dso.disabled;
+        debug_panels = set_debug_panels(!debug_panels);
         break;
       }
 
@@ -233,4 +235,10 @@ export function init() {
   }
 
   animate(0);
+}
+
+function set_debug_panels(on: boolean) {
+  const dso = document.getElementById('debug-style-off') as any;
+  dso.disabled = on;
+  return on;
 }
