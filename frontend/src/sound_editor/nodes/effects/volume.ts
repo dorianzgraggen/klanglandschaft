@@ -8,7 +8,7 @@ export class VolumeNode extends ClassicPreset.Node<
   { gain: ClassicPreset.InputControl<'number'> }
 > {
   width = 180;
-  height = 165;
+  height = 160;
 
   constructor(initial = 1) {
     super('Volume');

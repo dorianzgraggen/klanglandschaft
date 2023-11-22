@@ -36,6 +36,7 @@ import {
   preset_elevation
 } from './nodes/node_tree_presets';
 import { sound_urls } from './nodes/other/sound';
+import { data_types } from './nodes/other/data';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -47,7 +48,7 @@ type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 const all_players = Object.entries(sound_urls).reduce(
   (previous_value, [key, value]) => {
     const player = new Tone.Player({
-      url: value,
+      url: value.url,
       loop: true,
       autostart: false
     });
@@ -436,16 +437,26 @@ function connect_audio_nodes(output_index: number) {
 function create_context_menu() {
   return new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
-      ['Data Input Node', () => new DataNode()],
-      ['Sound Node', () => new SoundNode()],
-      ['Time Node', () => new TimeNode()],
-      ['Multiply Node', () => new MultiplyNode()],
-      ['Add Node', () => new AddNode()],
-      ['Volume Node', () => new VolumeNode()],
-      ['Tremolo Node', () => new VibratoNode()],
-      ['Panner Node', () => new PanNode()],
-      ['Sine Node', () => new SineNode()],
-      ['Output Node', () => new OutputNode(handle_output)]
+      [
+        'Data',
+        Object.entries(data_types).map(([key, value]) => {
+          return [value, () => new DataNode(key)];
+        })
+      ],
+      [
+        'Effects',
+        [
+          ['Volume Node', () => new VolumeNode()],
+          ['Tremolo Node', () => new VibratoNode()],
+          ['Panner Node', () => new PanNode()]
+        ]
+      ],
+      [
+        'Sounds',
+        Object.entries(sound_urls).map(([key, value]) => {
+          return [value.title, () => new SoundNode(key)];
+        })
+      ]
     ])
   });
 }
