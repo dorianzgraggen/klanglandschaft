@@ -15,6 +15,10 @@ div[title='Action'] {
   /* box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.339); */
 }
 
+.selected {
+  border: 2px solid rgba(255, 255, 255, 0.658) !important;
+}
+
 svg[data-testid='connection'] > path {
   stroke: rgb(255, 255, 255) !important;
 }
