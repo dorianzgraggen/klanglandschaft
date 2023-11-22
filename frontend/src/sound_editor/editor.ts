@@ -236,7 +236,15 @@ export async function init_editor(
   }, 100);
 }
 
-let rebuild = false;
+let rebuild = true;
+
+export async function play() {
+  for (const player of player_of_current_node_tree) {
+    await player.context.resume();
+    player.start();
+    console.log('started');
+  }
+}
 
 function setup_audio() {
   window.addEventListener(
@@ -249,12 +257,7 @@ function setup_audio() {
         }
 
         case 'e': {
-          for (const player of player_of_current_node_tree) {
-            console.log('start');
-            await player.context.resume();
-            player.start();
-            console.log('started');
-          }
+          play();
           break;
         }
 

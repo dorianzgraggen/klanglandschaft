@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
+import { init_editor, play } from "./editor"
+
 const open = ref(false);
+const start_screen = ref(true);
 
 const rete = ref();
 
@@ -15,11 +18,15 @@ function toggleOpen() {
   open.value = !open.value;
 }
 
+function start() {
+  start_screen.value = false;
+  play();
+}
+
 onMounted(async () => {
   console.log('soundi');
   (window as any).____lol_open = open.value;
 
-  const { init_editor } = await import('./editor');
   init_editor(rete.value, (text, type) => {
     console.log('[rete]', text, type);
   });
@@ -41,6 +48,9 @@ onMounted(async () => {
     <!-- <div class="bottom">ja haha</div> -->
   </div>
   <button id="toggle" @click="toggleOpen">{{ open ? 'Back to exploring' : 'Edit Soundscape' }}</button>
+  <div id="start-screen" v-show="start_screen">
+    <button @click="start">Start Experience</button>
+  </div>
 </template>
 
 <style scoped>
@@ -70,16 +80,30 @@ onMounted(async () => {
   background-color: rgb(29, 29, 29);
 }
 
-#toggle {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  padding: 8px 12px;
+button {
   background-color: rgba(0, 0, 0, 0.691);
   color: white;
   font-size: 18px;
   border: 2px solid rgba(255, 255, 255, 0.168);
   border-radius: 5px;
   padding: 16px 20px
+}
+
+#toggle {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+
+#start-screen {
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
