@@ -3,13 +3,8 @@ import { SoundSocket } from '../../sockets';
 import { use_default_sound } from '../util';
 
 export const sound_urls: { [key: string]: { url: string; title: string } } = {
-  piano: { url: 'https://cdn.freesound.org/previews/629/629170_12574855-lq.mp3', title: 'Piano' },
-  percussion: {
-    url: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/858/outfoxing.mp3',
-    title: 'Percussion'
-  },
-  ambient: { url: '/120365__stk13__untitled-13.wav', title: 'Deep Abyss' },
-  chaos: { url: '/398867__gis_sweden__shaped-by-chaos.wav', title: 'Chaos' }
+  ambient: { url: '/120365__stk13__untitled-13.wav', title: 'Sangfroid' },
+  chaos: { url: '/398867__gis_sweden__shaped-by-chaos.wav', title: 'Night Techno' }
 };
 
 export class SoundNode extends ClassicPreset.Node<
@@ -21,7 +16,7 @@ export class SoundNode extends ClassicPreset.Node<
   height = 86;
   sound_id = '';
 
-  constructor(track = 'piano') {
+  constructor(track = 'chaos') {
     super('Sound');
     this.label = sound_urls[track].title + ' 🎵';
     this.sound_id = track;

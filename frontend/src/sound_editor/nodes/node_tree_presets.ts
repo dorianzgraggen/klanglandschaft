@@ -40,7 +40,7 @@ export const test_preset: NodeTreePreset = {
     multiply_time: new MultiplyNode(1),
     pan: new PanNode(),
     vibrato: new VibratoNode(),
-    sound2: new SoundNode('percussion'),
+    sound2: new SoundNode(),
     volume2: new VolumeNode(0.3)
   },
   connections: [
