@@ -49,7 +49,7 @@ onMounted(async () => {
   </div>
   <button id="toggle" @click="toggleOpen">{{ open ? 'Back to exploring' : 'Edit Soundscape' }}</button>
   <div id="start-screen" v-show="start_screen">
-    <button @click="start">Start Experience</button>
+    <button @click="start">Start Exploring</button>
   </div>
 </template>
 

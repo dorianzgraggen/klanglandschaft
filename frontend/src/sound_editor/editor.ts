@@ -37,6 +37,7 @@ import {
 } from './nodes/node_tree_presets';
 import { sound_urls } from './nodes/other/sound';
 import { data_types } from './nodes/other/data';
+import { PitchNode } from './nodes/effects/pitch';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -370,12 +371,22 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
     }
 
     sound_nodes.forEach((sound_node, i) => {
-      const settings = current_output_track.effects[i].settings;
+      const effect = current_output_track.effects[i];
+      if (typeof effect === 'undefined') {
+        return;
+      }
+      const settings = effect.settings;
       if (settings) {
         for (const [key, value] of Object.entries(settings)) {
           const nd = (sound_node as any)[key];
           console.log('setting', nd.value, 'value to', value);
           nd.value = value;
+        }
+      }
+
+      if (effect.meta) {
+        if (effect.meta.pitch) {
+          (sound_node as any).pitch = effect.meta.pitch;
         }
       }
     });
@@ -400,6 +411,12 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) 
 
       case 'vibrato':
         return new Tone.Vibrato();
+
+      case 'pitch': {
+        const pitch = new Tone.PitchShift();
+        pitch.wet.value = 1;
+        return pitch;
+      }
 
       case 'source': {
         const url = effect.meta!.url as string;
@@ -450,7 +467,8 @@ function create_context_menu() {
         'Effects',
         [
           ['Volume Node', () => new VolumeNode()],
-          ['Tremolo Node', () => new VibratoNode()],
+          ['Vibrato Node', () => new VibratoNode()],
+          ['Pitch Node', () => new PitchNode()],
           ['Panner Node', () => new PanNode()]
         ]
       ],
