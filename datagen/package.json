@@ -5,7 +5,7 @@
     "build": "tsc --project tsconfig.json && concurrently \"tsc --project tsconfig.json -w\" \"nodemon dist/app.mjs\"",
     "db": "tsc --project tsconfig.build_database.json && node dist/build_database.mjs",
     "test": "tsc --project tsconfig.testing.json && node dist/testing/index.mjs",
-    "serve": "http-server -o /data --cors",
+    "serve": "http-server --cors",
     "format": "prettier --write ."
   },
   "devDependencies": {
@@ -24,7 +24,6 @@
     "@types/adm-zip": "^0.5.2",
     "adm-zip": "^0.5.10",
     "geotiff": "^2.0.7",
-    "jimp": "^0.22.10",
     "sharp": "^0.32.6"
   }
 }
