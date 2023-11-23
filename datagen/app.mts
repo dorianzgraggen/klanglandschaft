@@ -21,15 +21,15 @@ import { pathify } from "./lib/util.mjs";
 run();
 
 async function run() {
-  // await get_and_prepare_large_geotiffs();
-  // await crop_all_noise_levels();
-  await crop_all_wind_levels();
+  await download_elevation_lake_lucerne();
+  await remap_all_geotiffs();
+  await extend_all();
 
-  // await download_geotiffs();
-  // await remap_all_geotiffs();
-  // await extend_all();
-  // await download_satellite();
-  // await download_elevation_lake_lucerne();
+  await download_satellite();
+
+  await get_and_prepare_large_geotiffs();
+  await crop_all_noise_levels();
+  await crop_all_wind_levels();
 }
 
 async function test() {

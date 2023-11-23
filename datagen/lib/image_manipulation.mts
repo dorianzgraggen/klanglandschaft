@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import fs from "fs";
-import { mk_dir_if_not_exists, pathify } from "./util.mjs";
+import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
 import { exec } from "node:child_process";
 
 const from_x = 2658;
@@ -21,48 +21,58 @@ async function for_every_tile(
 }
 
 export async function crop_all_noise_levels() {
-  for_every_tile((x, y, i) =>
-    crop_geotiff(
-      pathify(
-        "geotiff/strassenlaerm_tag/STRASSENLAERM_Tag/StrassenLaerm_Tag_LV95.tif",
+  chapter_log("cropping noise levels");
+
+  mk_dir_if_not_exists(pathify("geotiff/cropped"));
+
+  await for_every_tile(
+    async (x, y, i) =>
+      await crop_geotiff(
+        pathify(
+          "geotiff/strassenlaerm_tag/STRASSENLAERM_Tag/StrassenLaerm_Tag_LV95.tif",
+        ),
+        pathify(`geotiff/cropped/${x}-${y}-strassenlaerm.png`),
+        {
+          from_x: x,
+          from_y: y,
+          to_x: x + 1,
+          to_y: y + 1,
+          out_width: 256,
+          out_height: 256,
+        },
       ),
-      pathify(`geotiff/cropped/${x}-${y}-strassenlaerm.png`),
-      {
-        from_x: x,
-        from_y: y,
-        to_x: x + 1,
-        to_y: y + 1,
-        out_width: 256,
-        out_height: 256,
-        from: 0,
-        to: 1,
-      },
-    ),
   );
 }
 
 export async function crop_all_wind_levels() {
-  for_every_tile((x, y, i) =>
-    crop_geotiff(
-      pathify(
-        "geotiff/windenergie-geschwindigkeit_h150/WINDATLAS_SCHWEIZ_HEIGHT_LEVEL_150_CH_2018.tif",
+  chapter_log("cropping wind levels");
+
+  mk_dir_if_not_exists(pathify("geotiff/cropped"));
+
+  await for_every_tile(
+    async (x, y, i) =>
+      await crop_geotiff(
+        pathify(
+          "geotiff/windenergie-geschwindigkeit_h150/WINDATLAS_SCHWEIZ_HEIGHT_LEVEL_150_CH_2018.tif",
+        ),
+        pathify(`geotiff/cropped/${x}-${y}-wind.png`),
+        {
+          from_x: x,
+          from_y: y,
+          to_x: x + 1,
+          to_y: y + 1,
+          out_width: 256,
+          out_height: 256,
+          from: 0,
+          to: 9,
+        },
       ),
-      pathify(`geotiff/cropped/${x}-${y}-wind.png`),
-      {
-        from_x: x,
-        from_y: y,
-        to_x: x + 1,
-        to_y: y + 1,
-        out_width: 256,
-        out_height: 256,
-        from: 0,
-        to: 9,
-      },
-    ),
   );
 }
 
 export async function extend_all() {
+  chapter_log("extending elevation geotiffs");
+
   mk_dir_if_not_exists(pathify("geotiff/extended"));
 
   let i = 0;
@@ -123,13 +133,19 @@ export async function crop_geotiff(
     from_y: number;
     to_x: number;
     to_y: number;
-    from: number;
-    to: number;
+    from?: number;
+    to?: number;
   },
 ): Promise<void> {
   const command = `gdal_translate 
-    -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${options.from_y}000 
-    -scale ${options.from} ${options.to} 0 255
+    -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${
+      options.from_y
+    }000 
+    ${
+      typeof options.from !== "undefined" && typeof options.to !== "undefined"
+        ? `-scale ${options.from} ${options.to} 0 255`
+        : ``
+    }
     ${in_path}
     ${out_path}
   `.replaceAll(/\r?\n/gi, "");
@@ -191,10 +207,11 @@ export async function geotiff_to_png(
 }
 
 export async function remap_all_geotiffs() {
+  chapter_log("remapping elevation geotiffs");
+
   const files = fs
     .readdirSync(pathify("geotiff/raw"))
     .map((f) => "geotiff/raw/" + f);
-  console.log(files);
 
   const out_folder = pathify("geotiff/png");
   mk_dir_if_not_exists(out_folder);

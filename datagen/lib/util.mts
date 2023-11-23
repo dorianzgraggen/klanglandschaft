@@ -10,3 +10,7 @@ export function mk_dir_if_not_exists(dir: string) {
     fs.mkdirSync(dir, { recursive: true });
   }
 }
+
+export function chapter_log(...args) {
+  console.log("\n :::::", ...args);
+}

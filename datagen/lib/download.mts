@@ -1,9 +1,10 @@
 import fs from "fs";
 import https from "https";
-import { mk_dir_if_not_exists, pathify } from "./util.mjs";
+import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
 import AdmZip from "adm-zip";
 
 export async function get_and_prepare_large_geotiffs() {
+  chapter_log("getting large geotiffs for datasets");
   const files = [
     {
       id: "strassenlaerm_tag",
@@ -47,6 +48,7 @@ export async function download_geotiffs(): Promise<void> {
 }
 
 export async function download_elevation_lake_lucerne(): Promise<void> {
+  chapter_log("downloading Elevation Geotiffs for lake lucerne area");
   return download_from_csv(
     "tiff-links-lake-lucerne.csv",
     "geotiff/raw",
@@ -55,6 +57,7 @@ export async function download_elevation_lake_lucerne(): Promise<void> {
 }
 
 export async function download_satellite(): Promise<void> {
+  chapter_log("downloading satellite tiles for lake lucerne area");
   return download_from_csv(
     "tiff-links-satellite-lake-lucerne.csv",
     "geotiff/satellite",
