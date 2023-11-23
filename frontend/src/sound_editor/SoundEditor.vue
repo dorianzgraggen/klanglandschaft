@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-import { init_editor, play } from "./editor"
+import { init_editor, play } from './editor';
 
 const open = ref(false);
 const start_screen = ref(true);
@@ -10,11 +10,10 @@ const rete = ref();
 
 const settings = {
   open: open.value
-}
-
+};
 
 function toggleOpen() {
-  (window as any).____lol_open = !open.value // aaaa
+  (window as any).____lol_open = !open.value; // aaaa
   open.value = !open.value;
 }
 
@@ -47,7 +46,9 @@ onMounted(async () => {
     <div id="rete" ref="rete"></div>
     <!-- <div class="bottom">ja haha</div> -->
   </div>
-  <button id="toggle" @click="toggleOpen">{{ open ? 'Back to exploring' : 'Edit Soundscape' }}</button>
+  <button id="toggle" @click="toggleOpen">
+    {{ open ? 'Back to exploring' : 'Edit Soundscape' }}
+  </button>
   <div id="start-screen" v-show="start_screen">
     <button @click="start">Start Exploring</button>
   </div>
@@ -86,7 +87,7 @@ button {
   font-size: 18px;
   border: 2px solid rgba(255, 255, 255, 0.168);
   border-radius: 5px;
-  padding: 16px 20px
+  padding: 16px 20px;
 }
 
 #toggle {

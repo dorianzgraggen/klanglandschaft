@@ -42,7 +42,6 @@ onMounted(async () => {
   z-index: 0;
 }
 
-
 #debug-info {
   position: absolute;
   bottom: 0;

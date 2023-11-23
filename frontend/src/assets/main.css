@@ -24,21 +24,19 @@ svg[data-testid='connection'] > path {
 }
 
 /* SEARCH */
-div[data-testid='context-menu'] > div:first-child  {
+div[data-testid='context-menu'] > div:first-child {
   /* background-color: green !important; */
   display: none;
 }
 
-div[data-testid='context-menu']  div {
+div[data-testid='context-menu'] div {
   border-color: black;
   background-color: rgba(0, 0, 0, 0.9) !important;
-
 }
 
 div[data-testid='context-menu-item'] {
   width: 160px !important;
 }
-
 
 .renderer-data {
   background-color: gray;
