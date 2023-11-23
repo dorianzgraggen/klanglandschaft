@@ -2,7 +2,7 @@ import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
 import { use_default_sound_unless } from '../util';
 
-export class VolumeNode extends ClassicPreset.Node<
+export class PitchNode extends ClassicPreset.Node<
   { value_in: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
   { sound_out: ClassicPreset.Socket }, // output
   { gain: ClassicPreset.InputControl<'number'> }
@@ -11,9 +11,9 @@ export class VolumeNode extends ClassicPreset.Node<
   height = 160;
 
   constructor(initial = 1) {
-    super('Volume');
+    super('Pitch');
     this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound'));
-    const value_in = new ClassicPreset.Input(new NumberSocket(), 'Volume');
+    const value_in = new ClassicPreset.Input(new NumberSocket(), 'Pitch');
     this.addInput('value_in', value_in);
     this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
     value_in.addControl(new ClassicPreset.InputControl('number', { initial }));
@@ -25,18 +25,16 @@ export class VolumeNode extends ClassicPreset.Node<
     const sound = use_default_sound_unless(inputs.sound_in[0]);
 
     const control = this.inputs.value_in?.control as ClassicPreset.InputControl<'number'>;
-    let gain = control.value as number;
+    let pitch = control.value as number;
 
     if (typeof inputs.value_in !== 'undefined') {
-      gain = inputs.value_in[0];
+      pitch = inputs.value_in[0];
     }
 
-    console.log('gain is', gain);
-
     sound.effects.push({
-      type: 'gain',
-      settings: {
-        gain
+      type: 'pitch',
+      meta: {
+        pitch: (pitch - 0.5) * 10 // TODO: stupid
       }
     });
 

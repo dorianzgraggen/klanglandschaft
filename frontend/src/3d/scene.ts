@@ -8,6 +8,11 @@ import { bridge } from '@/bridge';
 
 export function init() {
   let debug_view = false;
+  let debug_panels = false;
+
+  if (new URLSearchParams(window.location.search).get('debug') !== null) {
+    debug_panels = set_debug_panels(true);
+  }
 
   const debug_info = document.querySelector('#debug-info')!;
 
@@ -47,7 +52,7 @@ export function init() {
   const renderer_data = new THREE.WebGLRenderer();
   renderer_data.setSize(100, 100);
   document.body.appendChild(renderer_data.domElement);
-  renderer_data.domElement.classList.add('renderer-data');
+  renderer_data.domElement.classList.add('renderer-data', 'debug');
   // renderer_data.outputColorSpace = THREE.LinearSRGBColorSpace;
 
   const rt = new THREE.WebGLRenderTarget(100, 100);
@@ -58,11 +63,12 @@ export function init() {
   user_controls.dampingFactor = 0.05;
   user_controls.screenSpacePanning = false;
   user_controls.minDistance = 30;
-  user_controls.maxDistance = 100;
+  user_controls.maxDistance = 80;
   user_controls.maxPolarAngle = Math.PI / 4;
   user_controls.enableRotate = true;
   user_controls.enableZoom = true;
-  user_controls.panSpeed = 5;
+  user_controls.zoomSpeed = 0.3;
+  user_controls.panSpeed = 1;
   user_controls.target.set(82, 0, -200); // center camera at lucerne train station
 
   user_controls.update();
@@ -99,6 +105,11 @@ export function init() {
         debug_controls.update();
         break;
 
+      case 'D': {
+        debug_panels = set_debug_panels(!debug_panels);
+        break;
+      }
+
       default:
         break;
     }
@@ -127,13 +138,18 @@ export function init() {
   let previous_time = 0;
 
   function animate(time: number) {
+    requestAnimationFrame(animate);
+
+    if ((window as any).____lol_open === true) {
+      return;
+    }
+
     const delta_ms = time - previous_time;
     const fps = 1000 / delta_ms;
     previous_time = time;
 
     Landscape.data_mode = false;
 
-    requestAnimationFrame(animate);
     debug_controls.update();
     user_controls.update();
     center.update(user_controls, debug_view);
@@ -146,9 +162,11 @@ export function init() {
 
     Landscape.data_mode = true;
 
-    // render data view to canvas (for debugging)
-    renderer_data.setRenderTarget(null);
-    renderer_data.render(scene, user_camera);
+    if (debug_panels) {
+      // render data view to canvas (for debugging)
+      renderer_data.setRenderTarget(null);
+      renderer_data.render(scene, user_camera);
+    }
     // render data view to render texture (for reading pixels)
     renderer_data.setRenderTarget(rt);
     renderer_data.render(scene, user_camera);
@@ -217,4 +235,10 @@ export function init() {
   }
 
   animate(0);
+}
+
+function set_debug_panels(on: boolean) {
+  const dso = document.getElementById('debug-style-off') as any;
+  dso.disabled = on;
+  return on;
 }

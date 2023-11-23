@@ -7,6 +7,7 @@ import {
   extend_all,
   crop_geotiff,
   crop_all_noise_levels,
+  crop_all_wind_levels,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
@@ -21,7 +22,8 @@ run();
 
 async function run() {
   // await get_and_prepare_large_geotiffs();
-  await crop_all_noise_levels();
+  // await crop_all_noise_levels();
+  await crop_all_wind_levels();
 
   // await download_geotiffs();
   // await remap_all_geotiffs();

@@ -28,6 +28,8 @@ export class OutputNode extends BaseNode {
       return value[0];
     });
 
+    console.log('output inputs', inputs);
+
     this.handle_output(results);
 
     // console.log('inputs:', inputs, results);

@@ -47,7 +47,7 @@ export class Landscape {
 
     // Checks every 100ms whether this tile should be enabled. Starts counting
     // after a random offset so not all tiles enable/disable at the same time.
-    const interval = 100;
+    const interval = 50;
     setTimeout(() => {
       setInterval(() => {
         this.handle_visibility();
@@ -57,7 +57,7 @@ export class Landscape {
 
   private handle_visibility() {
     const distance = Landscape.center.position.distanceToSquared(this.mesh.position);
-    const should_be_visible = distance < Math.pow(60, 2);
+    const should_be_visible = distance < Math.pow(80, 2);
 
     if (should_be_visible && !this.visible) {
       this.show();
@@ -68,7 +68,6 @@ export class Landscape {
       this.visible = false;
     }
   }
-
 
   on_before_render(
     renderer: THREE.WebGLRenderer,
@@ -117,6 +116,12 @@ export class Landscape {
       }-strassenlaerm.png`
     );
 
+    const wind_texture = await new THREE.TextureLoader().loadAsync(
+      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/cropped/${this.x}-${
+        this.y
+      }-wind.png`
+    );
+
     const tiff = await new TIFFLoader().loadAsync(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
         this.y
@@ -127,6 +132,7 @@ export class Landscape {
     this.landscape_material.uniforms = {
       u_height: { value: texture },
       u_noise: { value: noise_texture },
+      u_wind: { value: wind_texture },
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },

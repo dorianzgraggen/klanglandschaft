@@ -35,10 +35,37 @@ import {
   preset_traffic,
   preset_elevation
 } from './nodes/node_tree_presets';
+import { sound_urls } from './nodes/other/sound';
+import { data_types } from './nodes/other/data';
+import { PitchNode } from './nodes/effects/pitch';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
-const players = new Array<Tone.Player>();
+/**
+ * Each soundtrack has its own Tone.Player and the audio is loaded as soon as the editor is opened.
+ * The player is always the beginning of a connection of nodes (the source, quasi), but a single
+ * player can be the beginning of multiple connection paths.
+ *  */
+const all_players = Object.entries(sound_urls).reduce(
+  (previous_value, [key, value]) => {
+    const player = new Tone.Player({
+      url: value.url,
+      loop: true,
+      autostart: false
+    });
+    return {
+      ...previous_value,
+      [key]: player
+    };
+  },
+  {} as { [key: string]: Tone.Player }
+);
+
+const ramp_duration = 0.5;
+
+const player_of_current_node_tree = new Array<Tone.Player>();
+
+const end_gains = new Array<Tone.Gain>();
 
 export async function init_editor(
   container: HTMLElement,
@@ -210,7 +237,15 @@ export async function init_editor(
   }, 100);
 }
 
-let rebuild = false;
+let rebuild = true;
+
+export async function play() {
+  for (const player of player_of_current_node_tree) {
+    await player.context.resume();
+    player.start();
+    console.log('started');
+  }
+}
 
 function setup_audio() {
   window.addEventListener(
@@ -223,12 +258,7 @@ function setup_audio() {
         }
 
         case 'e': {
-          for (const player of players) {
-            console.log('start');
-            await player.context.resume();
-            player.start();
-            console.log('started');
-          }
+          play();
           break;
         }
 
@@ -273,30 +303,79 @@ async function add_nodes_from_preset(
   await arrange.layout();
 }
 
-let sound_nodes = new Array<Tone.ToneAudioNode>();
+const sound_nodes_per_track = new Array<Array<Tone.ToneAudioNode>>();
+
+const audio_debug = document.createElement('div');
+audio_debug.classList.add('debug');
+audio_debug.id = 'audio-debug';
+document.body.appendChild(audio_debug);
 
 export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
   console.log('tracks:', output_tracks);
 
+  audio_debug.innerHTML = `
+    Tracks: ${output_tracks.length}
+    <br>
+
+    ${output_tracks
+      .map((track) => {
+        return `
+        Effects: ${track.effects.length}
+        <br>
+        ${track.effects
+          .map((effect) => {
+            return `
+          ${effect.type}:
+          <br>
+          - settings: ${JSON.stringify(effect.settings)}:
+          <br>
+          - meta${JSON.stringify(effect.meta)}:
+            
+          `;
+          })
+          .join('<br>')}
+      `;
+      })
+      .join('<br>')}
+  
+      <br>
+      Outputs: ${Tone.getDestination().numberOfInputs}
+  `;
+
   if (rebuild) {
     // TODO: only remove the players that aren't needed anymore
-    players.forEach((player) => {
-      player.stop();
+    // player_of_current_node_tree.forEach((player) => {
+    //   player.stop();
+    // });
+
+    end_gains.forEach((gain) => {
+      gain.gain.linearRampTo(0, ramp_duration);
     });
 
-    players.length = 0;
+    end_gains.length = 0;
+
+    player_of_current_node_tree.length = 0;
   }
 
-  output_tracks.forEach((output) => {
+  output_tracks.forEach((current_output_track, index) => {
     if (rebuild) {
-      rebuild_audio_nodes(output.effects);
-      connect_audio_nodes();
+      rebuild_audio_nodes(current_output_track.effects, index);
+      connect_audio_nodes(index);
       // player.chain
     }
 
-    sound_nodes.forEach((sound_node, i) => {
-      const settings = output.effects[i].settings;
+    const sound_nodes = sound_nodes_per_track[index];
 
+    if (typeof sound_nodes === 'undefined') {
+      return; // current sound nodes haven't been created yet
+    }
+
+    sound_nodes.forEach((sound_node, i) => {
+      const effect = current_output_track.effects[i];
+      if (typeof effect === 'undefined') {
+        return;
+      }
+      const settings = effect.settings;
       if (settings) {
         for (const [key, value] of Object.entries(settings)) {
           const nd = (sound_node as any)[key];
@@ -304,24 +383,25 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
           nd.value = value;
         }
       }
+
+      if (effect.meta) {
+        if (effect.meta.pitch) {
+          (sound_node as any).pitch = effect.meta.pitch;
+        }
+      }
     });
   });
 
   if (rebuild) {
-    console.log({ players });
+    console.log({ players: player_of_current_node_tree });
   }
 
   rebuild = false;
 }
 
-// const gainNode = new Tone.Gain(1).toDestination();
-// const pannerNode = new Tone.Panner(-1);
-// pannerNode.connect(gainNode);
-// player.connect(pannerNode);
-
-function rebuild_audio_nodes(effects: Array<AudioEffect>) {
+function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) {
   console.log('rebuilding');
-  sound_nodes = effects.map((effect) => {
+  sound_nodes_per_track[output_index] = effects.map((effect) => {
     switch (effect.type) {
       case 'gain':
         return new Tone.Gain();
@@ -332,30 +412,32 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>) {
       case 'vibrato':
         return new Tone.Vibrato();
 
+      case 'pitch': {
+        const pitch = new Tone.PitchShift();
+        pitch.wet.value = 1;
+        return pitch;
+      }
+
       case 'source': {
         const url = effect.meta!.url as string;
 
-        const _player = new Tone.Player({
-          url,
-          loop: true
-        });
-        console.log('ulr', url);
+        const _player = all_players[effect.meta!.sound_id];
+        console.log('url', url);
         // _player.load(url);
-        players.push(_player);
+        player_of_current_node_tree.push(_player);
         return _player;
       }
     }
   });
-
-  // TODO: implement
 }
 
-function connect_audio_nodes() {
+function connect_audio_nodes(output_index: number) {
   // player.connect("", 2, )
 
+  const sound_nodes = sound_nodes_per_track[output_index];
   console.log(sound_nodes);
 
-  // player.connect(sound_nodes[0]);
+  // player.connect(current_nodes[0]);
 
   for (let i = 0; i < sound_nodes.length - 1; i++) {
     const current = sound_nodes[i];
@@ -363,23 +445,39 @@ function connect_audio_nodes() {
     current.connect(next);
   }
 
-  sound_nodes[sound_nodes.length - 1].toDestination();
+  const last_node = sound_nodes[sound_nodes.length - 1];
+  const end_gain = new Tone.Gain(0);
+  last_node.connect(end_gain);
+  end_gain.gain.linearRampTo(1, ramp_duration);
+  end_gain.toDestination();
+  end_gains.push(end_gain);
   // player.chain(...sound_nodes, Tone.Destination);
 }
 
 function create_context_menu() {
   return new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
-      ['Data Input Node', () => new DataNode()],
-      ['Sound Node', () => new SoundNode()],
-      ['Time Node', () => new TimeNode()],
-      ['Multiply Node', () => new MultiplyNode()],
-      ['Add Node', () => new AddNode()],
-      ['Volume Node', () => new VolumeNode()],
-      ['Tremolo Node', () => new VibratoNode()],
-      ['Panner Node', () => new PanNode()],
-      ['Sine Node', () => new SineNode()],
-      ['Output Node', () => new OutputNode(handle_output)]
+      [
+        'Data',
+        Object.entries(data_types).map(([key, value]) => {
+          return [value, () => new DataNode(key)];
+        })
+      ],
+      [
+        'Effects',
+        [
+          ['Volume Node', () => new VolumeNode()],
+          ['Vibrato Node', () => new VibratoNode()],
+          ['Pitch Node', () => new PitchNode()],
+          ['Panner Node', () => new PanNode()]
+        ]
+      ],
+      [
+        'Sounds',
+        Object.entries(sound_urls).map(([key, value]) => {
+          return [value.title, () => new SoundNode(key)];
+        })
+      ]
     ])
   });
 }

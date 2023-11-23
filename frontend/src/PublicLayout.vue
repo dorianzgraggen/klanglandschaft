@@ -16,11 +16,10 @@ onMounted(async () => {
     <span></span> | <span class="r"></span> <span class="g"></span> <span class="b"></span>
     <span class="a"></span>
   </div>
-  <div id="sound-info" class="debug"></div>
-  <div class="top-bar">
+  <!-- <div class="top-bar">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/edit">Edit</RouterLink>
-  </div>
+  </div> -->
   <RouterView />
 </template>
 
@@ -41,21 +40,6 @@ onMounted(async () => {
   left: 0;
   right: 0;
   z-index: 0;
-}
-
-.debug {
-  font-family: monospace;
-  background-color: #00000060;
-  color: white;
-  padding: 3px;
-  font-size: 11px;
-  margin: 0;
-}
-
-#sound-info {
-  position: absolute;
-  right: 0px;
-  bottom: 40px;
 }
 
 #debug-info {

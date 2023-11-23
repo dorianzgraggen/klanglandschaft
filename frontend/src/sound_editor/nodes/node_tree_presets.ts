@@ -40,7 +40,7 @@ export const test_preset: NodeTreePreset = {
     multiply_time: new MultiplyNode(1),
     pan: new PanNode(),
     vibrato: new VibratoNode(),
-    sound2: new SoundNode('percussion'),
+    sound2: new SoundNode(),
     volume2: new VolumeNode(0.3)
   },
   connections: [
@@ -78,11 +78,11 @@ export const preset_traffic: NodeTreePreset = {
   connections: [
     new ConnectionInfo('chaos', 'sound_out', 'volume1', 'sound_in'),
     new ConnectionInfo('noise_levels', 'value_out', 'volume1', 'value_in'),
-    new ConnectionInfo('volume1', 'sound_out', 'output', 'sound_in')
+    new ConnectionInfo('volume1', 'sound_out', 'output', 'sound_in'),
     //
-    // new ConnectionInfo('ambient', 'sound_out', 'volume2', 'sound_in'),
-    // new ConnectionInfo('elevation', 'value_out', 'volume2', 'value_in'),
-    // new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
+    new ConnectionInfo('ambient', 'sound_out', 'volume2', 'sound_in'),
+    new ConnectionInfo('elevation', 'value_out', 'volume2', 'value_in'),
+    new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
   ]
 };
 
