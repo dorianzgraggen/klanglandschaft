@@ -3,9 +3,7 @@ import { onMounted, ref } from 'vue';
 
 import { init_editor, play } from './editor';
 
-
 const rete = ref();
-
 
 onMounted(async () => {
   init_editor(rete.value, (text, type) => {

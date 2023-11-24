@@ -93,7 +93,6 @@ onMounted(async () => {
   color: #aaaaaa;
 }
 
-
 #sound-editor {
   position: absolute;
   top: 0;
