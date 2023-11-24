@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
-import NodesView from '@/views/NodesView.vue';
-import ExploreView from '@/views/ExploreView.vue';
-import SoundView from '@/views/debug/SoundView.vue';
+import SoundTestPlaygroundViewVue from '@/views/debug/SoundTestPlaygroundView.vue';
 import BlankLayout from '@/BlankLayout.vue';
 import PublicLayout from '@/PublicLayout.vue';
 
@@ -16,21 +14,8 @@ const router = createRouter({
       meta: { layout: PublicLayout }
     },
     {
-      path: '/edit',
-      name: 'Edit',
-      // component: () => import('../views/AboutView.vue')
-      component: NodesView,
-      meta: { layout: PublicLayout }
-    },
-    {
-      path: '/explore',
-      name: 'Explore',
-      component: ExploreView,
-      meta: { layout: PublicLayout }
-    },
-    {
       path: '/debug/sound',
-      component: SoundView,
+      component: SoundTestPlaygroundViewVue,
       meta: { layout: BlankLayout }
     }
   ]

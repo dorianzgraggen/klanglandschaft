@@ -311,7 +311,7 @@ audio_debug.id = 'audio-debug';
 document.body.appendChild(audio_debug);
 
 export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect> }>): void {
-  console.log('tracks:', output_tracks);
+  // console.log('tracks:', output_tracks);
 
   audio_debug.innerHTML = `
     Tracks: ${output_tracks.length}
@@ -379,7 +379,7 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
       if (settings) {
         for (const [key, value] of Object.entries(settings)) {
           const nd = (sound_node as any)[key];
-          console.log('setting', nd.value, 'value to', value);
+          // console.('setting', nd.value, 'value to', value);
           nd.value = value;
         }
       }

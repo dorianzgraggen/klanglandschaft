@@ -31,8 +31,6 @@ export class VolumeNode extends ClassicPreset.Node<
       gain = inputs.value_in[0];
     }
 
-    console.log('gain is', gain);
-
     sound.effects.push({
       type: 'gain',
       settings: {
