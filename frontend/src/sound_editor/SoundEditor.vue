@@ -3,29 +3,11 @@ import { onMounted, ref } from 'vue';
 
 import { init_editor, play } from './editor';
 
-const open = ref(false);
-const start_screen = ref(true);
 
 const rete = ref();
 
-const settings = {
-  open: open.value
-};
-
-function toggleOpen() {
-  (window as any).____lol_open = !open.value; // aaaa
-  open.value = !open.value;
-}
-
-function start() {
-  start_screen.value = false;
-  play();
-}
 
 onMounted(async () => {
-  console.log('soundi');
-  (window as any).____lol_open = open.value;
-
   init_editor(rete.value, (text, type) => {
     console.log('[rete]', text, type);
   });
@@ -33,24 +15,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="sound-editor" v-show="open">
-    <!-- <div class="top">
-      Traffic Noise
-      <input type="range" id="slider-traffic" />
-      Population
-      <input type="range" id="slider-population" />
-      Elevation
-      <input type="range" id="slider-elevation" />
-    </div> -->
-
-    <div id="rete" ref="rete"></div>
-    <!-- <div class="bottom">ja haha</div> -->
-  </div>
-  <button id="toggle" @click="toggleOpen">
-    {{ open ? 'Back to exploring' : 'Edit Soundscape' }}
-  </button>
-  <div id="start-screen" v-show="start_screen">
-    <button @click="start">Start Exploring</button>
+  <div id="sound-editor">
+    <div id="rete" ref="rete">
+      <!-- rete.js nodes will be appended into this element -->
+    </div>
   </div>
 </template>
 
