@@ -205,7 +205,7 @@ export function init() {
     g = g / (100 * 100) / 255;
     b = b / (100 * 100) / 255;
     a = a / (100 * 100) / 255;
-    console.log(`r:${r} g:${g} b:${b} a:${a}`);
+    // console.log(`r:${r} g:${g} b:${b} a:${a}`);
 
     bridge.elevation = r;
     bridge.traffic_noise = g;
