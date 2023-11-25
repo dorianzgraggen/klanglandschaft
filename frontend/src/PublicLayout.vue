@@ -5,12 +5,14 @@ import { onMounted, ref } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
 import { init_editor, play } from './sound_editor/editor';
 
-const show_sound_editor = ref(false);
 const show_start_screen = ref(true);
 
+const settings = ref({
+  editor_open: false
+})
+
 function toggleOpen() {
-  (window as any).____lol_open = !show_sound_editor.value; // TODO: aaaa
-  show_sound_editor.value = !show_sound_editor.value;
+  settings.value.editor_open = !settings.value.editor_open
 }
 
 function start() {
@@ -19,17 +21,16 @@ function start() {
 }
 
 onMounted(async () => {
-  (window as any).____lol_open = show_sound_editor.value; // TODO: aaaa
-  init_3d_scene();
+  init_3d_scene(settings);
 });
 </script>
 
 <template>
-  <SoundEditor v-show="show_sound_editor"></SoundEditor>
+  <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- Button for toggling sound editor visibility -->
   <button id="toggle" @click="toggleOpen">
-    {{ show_sound_editor ? 'Back to exploring' : 'Edit Soundscape' }}
+    {{ settings.editor_open ? 'Back to exploring' : 'Edit Soundscape' }}
   </button>
 
   <!-- Three.js scene will be rendered here -->

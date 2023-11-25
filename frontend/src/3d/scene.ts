@@ -5,8 +5,9 @@ import { Landscape } from './landscape';
 import { Center } from './center';
 import { BG_COLOR, DEBUG_LAYER } from './consts';
 import { bridge } from '@/bridge';
+import type { Ref } from 'vue';
 
-export function init() {
+export function init(settings: Ref<{ editor_open: boolean }>) {
   let debug_view = false;
   let debug_panels = false;
 
@@ -140,7 +141,7 @@ export function init() {
   function animate(time: number) {
     requestAnimationFrame(animate);
 
-    if ((window as any).____lol_open === true) {
+    if (settings.value.editor_open) {
       return;
     }
 
