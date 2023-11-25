@@ -122,6 +122,12 @@ export class Landscape {
       }-wind.png`
     );
 
+    const railway_texture = await new THREE.TextureLoader().loadAsync(
+      `http://${window.location.host.split(':')[0]}:8080/data/gpkg/raw/${this.x}-${
+        this.y
+      }-railway.png`
+    );
+
     const tiff = await new TIFFLoader().loadAsync(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
         this.y
@@ -133,6 +139,7 @@ export class Landscape {
       u_height: { value: texture },
       u_noise: { value: noise_texture },
       u_wind: { value: wind_texture },
+      u_railway: { value: railway_texture },
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },

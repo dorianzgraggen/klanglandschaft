@@ -2,6 +2,8 @@ import fs from "fs";
 import https from "https";
 import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
 import AdmZip from "adm-zip";
+import { exec } from "node:child_process";
+import StreamZip from "node-stream-zip";
 
 export async function get_and_prepare_large_geotiffs() {
   chapter_log("getting large geotiffs for datasets");
@@ -28,6 +30,57 @@ export async function get_and_prepare_large_geotiffs() {
     console.log("unzipped", file.id);
   }
 }
+
+/**
+ * Downloads and unzips the SwissTLM3D landscape model. (9.2GB unzipped)
+ * (https://www.swisstopo.admin.ch/de/geodata/landscape/tlm3d.html)
+ * This is used as the basis for various tiles such as public transport,
+ * water, buildings and more.
+ */
+export async function get_swisstlm3d_gpkg(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg"));
+
+  const zip_path = "gpkg/swisstlm3d_2023-03_2056_5728.gpkg.zip";
+  await download_if_missing(
+    zip_path,
+    "https://data.geo.admin.ch/ch.swisstopo.swisstlm3d/swisstlm3d_2023-03/swisstlm3d_2023-03_2056_5728.gpkg.zip",
+  );
+
+  console.log("downloaded");
+
+  const zip = new StreamZip.async({ file: pathify(zip_path) });
+  await zip.extract(
+    "SWISSTLM3D_2023_LV95_LN02.gpkg",
+    pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg"),
+  );
+  await zip.close();
+  console.log("unzipped");
+}
+
+export async function manipulate_swisstlm3d_layers(): Promise<void> {
+  const out_path = pathify("gpkg/tlm_oev_eisenbahn.gpkg");
+  const in_path = pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg");
+  const command = `ogr2ogr -dialect SQLite -sql "SELECT ST_Buffer(geom, 1.6) FROM tlm_oev_eisenbahn" ${out_path} ${in_path}`;
+
+  return new Promise<void>((resolve, reject) => {
+    exec(command, (err, stdout, stderr) => {
+      if (err) {
+        // node couldn't execute the command
+        reject(err);
+      }
+
+      // the *entire* stdout and stderr (buffered)
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+
+      resolve();
+    });
+  });
+}
+
+// ogr2ogr -dialect SQLite -sql "SELECT ST_Buffer(geom, 1.6) FROM tlm_oev_eisenbahn" buffer_lines.gpkg SWISSTLM3D_2023_LV95_LN02.gpkg
+// gdal_rasterize -burn 255 -ts 1000 1000 -te 2666000 1210000 2667000 1211000 buffer_lines.gpkg buffer.tif
+// gdal_translate -of PNG -ot Byte buffer.tif buffer-2.png
 
 export async function download_geotiffs(): Promise<void> {
   mk_dir_if_not_exists(pathify("geotiff/raw"));

@@ -7,6 +7,7 @@ uniform sampler2D u_satellite;
 uniform sampler2D u_nrm;
 uniform sampler2D u_noise;
 uniform sampler2D u_wind;
+uniform sampler2D u_railway;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
@@ -157,6 +158,7 @@ void main()
   vec3 height = texture2D(u_height, v_uv).xyz;
   vec4 noise = texture2D(u_noise, v_uv);
   vec4 wind = texture2D(u_wind, v_uv);
+  vec4 railway = texture2D(u_railway, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
 
   float dist = distance(v_world_pos.xz, u_center.xz);
@@ -195,7 +197,7 @@ void main()
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
-    vec3 col = tinted + noise_levels_colored + wind_colored;
+    vec3 col = tinted + noise_levels_colored + wind_colored + (2.0 * railway.rgb);
     col = tonemap_agx(col);
 
 

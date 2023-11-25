@@ -8,6 +8,7 @@ import {
   crop_geotiff,
   crop_all_noise_levels,
   crop_all_wind_levels,
+  generate_all_railway_tiles,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
@@ -15,21 +16,32 @@ import {
   download_geotiffs,
   download_satellite,
   get_and_prepare_large_geotiffs,
+  get_swisstlm3d_gpkg,
+  manipulate_swisstlm3d_layers,
 } from "./lib/download.mjs";
 import { pathify } from "./lib/util.mjs";
 
 run();
 
+/**
+ * How to use:
+ * (un)comment whatever function you want to run at the moment.
+ * Some of these download pretty large files (up to 4.5GB), so they might take quite some time!
+ */
 async function run() {
-  await download_elevation_lake_lucerne();
-  await remap_all_geotiffs();
-  await extend_all();
+  // await download_elevation_lake_lucerne();
+  // await remap_all_geotiffs();
+  // await extend_all();
 
-  await download_satellite();
+  // await download_satellite();
 
-  await get_and_prepare_large_geotiffs();
-  await crop_all_noise_levels();
-  await crop_all_wind_levels();
+  // await get_and_prepare_large_geotiffs();
+  // await crop_all_noise_levels();
+  // await crop_all_wind_levels();
+
+  // await get_swisstlm3d_gpkg();
+  // await manipulate_swisstlm3d_layers();
+  await generate_all_railway_tiles();
 }
 
 async function test() {

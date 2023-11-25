@@ -24,6 +24,7 @@
     "@types/adm-zip": "^0.5.2",
     "adm-zip": "^0.5.10",
     "geotiff": "^2.0.7",
+    "node-stream-zip": "^1.15.0",
     "sharp": "^0.32.6"
   }
 }

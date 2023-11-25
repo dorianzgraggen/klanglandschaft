@@ -12,9 +12,11 @@ async function for_every_tile(
   callback: (x: number, y: number, i: number) => Promise<void>,
 ) {
   let i = 0;
+  const total = (to_x - from_x - 1) * (to_y - from_y - 1);
   for (let x = from_x; x < to_x - 1; x++) {
     for (let y = from_y; y < to_y - 1; y++) {
       i++;
+      console.log(`processing ${i}/${total}`);
       await callback(x, y, i);
     }
   }
@@ -68,6 +70,46 @@ export async function crop_all_wind_levels() {
         },
       ),
   );
+}
+
+export async function generate_all_railway_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+  const gpkg = pathify("gpkg/tlm_oev_eisenbahn.gpkg");
+
+  // pathify("SWISSTLM3D_2023_LV95_LN02.gpkg")
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-railway.tif`);
+    const png = pathify(`gpkg/raw/${x}-${y}-railway.png`);
+
+    const rasterize_command = `gdal_rasterize -burn 255 -ts 1000 1000 -te ${x}000 ${y}000 ${
+      x + 1
+    }000 ${y + 1}000 ${gpkg} ${tif}`;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    // await run_command(rasterize_command);
+    await run_command(translate_command);
+  });
+}
+
+function run_command(command: string): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    exec(command.replaceAll(/\r?\n/gi, ""), (err, stdout, stderr) => {
+      if (err) {
+        // node couldn't execute the command
+        reject(err);
+      }
+
+      // the *entire* stdout and stderr (buffered)
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+
+      resolve();
+    });
+  });
 }
 
 export async function extend_all() {
