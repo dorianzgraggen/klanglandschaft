@@ -9,6 +9,8 @@ import {
   crop_all_noise_levels,
   crop_all_wind_levels,
   generate_all_railway_tiles,
+  manipulate_swisstlm3d_layers,
+  generate_all_building_tiles,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
@@ -17,7 +19,6 @@ import {
   download_satellite,
   get_and_prepare_large_geotiffs,
   get_swisstlm3d_gpkg,
-  manipulate_swisstlm3d_layers,
 } from "./lib/download.mjs";
 import { pathify } from "./lib/util.mjs";
 
@@ -41,7 +42,8 @@ async function run() {
 
   // await get_swisstlm3d_gpkg();
   // await manipulate_swisstlm3d_layers();
-  await generate_all_railway_tiles();
+  // await generate_all_railway_tiles();
+  await generate_all_building_tiles();
 }
 
 async function test() {

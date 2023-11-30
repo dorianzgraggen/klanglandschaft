@@ -2,6 +2,7 @@ import sharp from "sharp";
 import fs from "fs";
 import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
 import { exec } from "node:child_process";
+import { PromisePool } from "@supercharge/promise-pool";
 
 const from_x = 2658;
 const to_x = 2695;
@@ -10,16 +11,27 @@ const to_y = 1218;
 
 async function for_every_tile(
   callback: (x: number, y: number, i: number) => Promise<void>,
+  concurrent_tasks = 1,
 ) {
   let i = 0;
   const total = (to_x - from_x - 1) * (to_y - from_y - 1);
+
+  const tasks = new Array<() => Promise<void>>();
   for (let x = from_x; x < to_x - 1; x++) {
     for (let y = from_y; y < to_y - 1; y++) {
       i++;
-      console.log(`processing ${i}/${total}`);
-      await callback(x, y, i);
+      tasks.push(async () => {
+        await callback(x, y, i);
+      });
     }
   }
+
+  await PromisePool.withConcurrency(concurrent_tasks)
+    .for(tasks)
+    .process(async (task, index, pool) => {
+      console.log(`processing ${index + 1}/${total}`);
+      await task();
+    });
 }
 
 export async function crop_all_noise_levels() {
@@ -72,6 +84,38 @@ export async function crop_all_wind_levels() {
   );
 }
 
+const files = {
+  in_path: pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg"),
+  eisenbahn_path: pathify("gpkg/tlm_oev_eisenbahn.gpkg"),
+  buildings_path: pathify("gpkg/tlm_buildings.gpkg"),
+};
+
+/**
+ * C
+ * @returns
+ */
+export async function manipulate_swisstlm3d_layers(): Promise<void[]> {
+  const railway_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT ST_Buffer(geom, 1.6) FROM tlm_oev_eisenbahn"
+    ${files.eisenbahn_path}
+    ${files.in_path}
+  `;
+
+  const buildings_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT * from tlm_bauten_gebaeude_footprint"
+    -nln tlm_bauten_gebaeude_footprint
+    ${files.buildings_path}
+    ${files.in_path} 
+  `;
+
+  return Promise.all([
+    run_command(railway_command),
+    run_command(buildings_command),
+  ]);
+}
+
 export async function generate_all_railway_tiles(): Promise<void> {
   mk_dir_if_not_exists(pathify("gpkg/raw"));
   const gpkg = pathify("gpkg/tlm_oev_eisenbahn.gpkg");
@@ -95,9 +139,37 @@ export async function generate_all_railway_tiles(): Promise<void> {
   });
 }
 
+export async function generate_all_building_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-buildings.tif`);
+    const png = pathify(`gpkg/raw/${x}-${y}-buildings.png`);
+
+    const rasterize_command = `gdal_rasterize
+      -burn 255
+      -ts 1024 1024
+      -l tlm_bauten_gebaeude_footprint
+      -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
+      ${files.buildings_path}
+      ${tif}
+    `;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    await run_command(rasterize_command);
+    await run_command(translate_command);
+  }, 4);
+}
+
 function run_command(command: string): Promise<void> {
+  const command_clean = command.replaceAll(/\r?\n/gi, "");
+  console.log(`running command "${command_clean}"`);
+
   return new Promise<void>((resolve, reject) => {
-    exec(command.replaceAll(/\r?\n/gi, ""), (err, stdout, stderr) => {
+    exec(command_clean, (err, stdout, stderr) => {
       if (err) {
         // node couldn't execute the command
         reject(err);
@@ -106,7 +178,6 @@ function run_command(command: string): Promise<void> {
       // the *entire* stdout and stderr (buffered)
       console.log(`stdout: ${stdout}`);
       console.log(`stderr: ${stderr}`);
-
       resolve();
     });
   });

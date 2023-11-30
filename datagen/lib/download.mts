@@ -57,31 +57,6 @@ export async function get_swisstlm3d_gpkg(): Promise<void> {
   console.log("unzipped");
 }
 
-export async function manipulate_swisstlm3d_layers(): Promise<void> {
-  const out_path = pathify("gpkg/tlm_oev_eisenbahn.gpkg");
-  const in_path = pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg");
-  const command = `ogr2ogr -dialect SQLite -sql "SELECT ST_Buffer(geom, 1.6) FROM tlm_oev_eisenbahn" ${out_path} ${in_path}`;
-
-  return new Promise<void>((resolve, reject) => {
-    exec(command, (err, stdout, stderr) => {
-      if (err) {
-        // node couldn't execute the command
-        reject(err);
-      }
-
-      // the *entire* stdout and stderr (buffered)
-      console.log(`stdout: ${stdout}`);
-      console.log(`stderr: ${stderr}`);
-
-      resolve();
-    });
-  });
-}
-
-// ogr2ogr -dialect SQLite -sql "SELECT ST_Buffer(geom, 1.6) FROM tlm_oev_eisenbahn" buffer_lines.gpkg SWISSTLM3D_2023_LV95_LN02.gpkg
-// gdal_rasterize -burn 255 -ts 1000 1000 -te 2666000 1210000 2667000 1211000 buffer_lines.gpkg buffer.tif
-// gdal_translate -of PNG -ot Byte buffer.tif buffer-2.png
-
 export async function download_geotiffs(): Promise<void> {
   mk_dir_if_not_exists(pathify("geotiff/raw"));
 
