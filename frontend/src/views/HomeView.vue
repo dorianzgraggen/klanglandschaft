@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import StatisticsComp from '@/components/StatisticsComp.vue'
+</script>
 <template>
-  <h1>Klanglandschaft</h1>
+    <div>
+        <StatisticsComp id="stats-component" />
+    </div>
 </template>
+
+<style scoped>
+#stats-component {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+</style>
