@@ -11,6 +11,7 @@ import {
   generate_all_railway_tiles,
   manipulate_swisstlm3d_layers,
   generate_all_building_tiles,
+  generate_all_lake_tiles,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
@@ -43,7 +44,8 @@ async function run() {
   // await get_swisstlm3d_gpkg();
   // await manipulate_swisstlm3d_layers();
   // await generate_all_railway_tiles();
-  await generate_all_building_tiles();
+  // await generate_all_building_tiles();
+  await generate_all_lake_tiles();
 }
 
 async function test() {

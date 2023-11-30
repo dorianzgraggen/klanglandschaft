@@ -88,6 +88,7 @@ const files = {
   in_path: pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg"),
   eisenbahn_path: pathify("gpkg/tlm_oev_eisenbahn.gpkg"),
   buildings_path: pathify("gpkg/tlm_buildings.gpkg"),
+  lakes_path: pathify("gpkg/tlm_lakes.gpkg"),
 };
 
 /**
@@ -110,9 +111,18 @@ export async function manipulate_swisstlm3d_layers(): Promise<void[]> {
     ${files.in_path} 
   `;
 
+  const lakes_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT ST_Polygonize(geom) FROM tlm_gewaesser_stehendes_gewaesser"
+    -nln tlm_gewaesser_stehendes_gewaesser
+    ${files.lakes_path}
+    ${files.in_path} 
+  `;
+
   return Promise.all([
-    run_command(railway_command),
-    run_command(buildings_command),
+    // run_command(railway_command),
+    // run_command(buildings_command),
+    run_command(lakes_command),
   ]);
 }
 
@@ -152,6 +162,31 @@ export async function generate_all_building_tiles(): Promise<void> {
       -l tlm_bauten_gebaeude_footprint
       -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
       ${files.buildings_path}
+      ${tif}
+    `;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    await run_command(rasterize_command);
+    await run_command(translate_command);
+  }, 4);
+}
+
+export async function generate_all_lake_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-lakes.tif`);
+    const png = pathify(`gpkg/raw/${x}-${y}-lakes.png`);
+
+    const rasterize_command = `gdal_rasterize
+      -burn 255
+      -ts 1024 1024
+      -l tlm_gewaesser_stehendes_gewaesser
+      -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
+      ${files.lakes_path}
       ${tif}
     `;
 
