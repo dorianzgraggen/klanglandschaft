@@ -140,6 +140,12 @@ export class Landscape {
       }-forest.png`
     );
 
+    const buildings_texture = await new THREE.TextureLoader().loadAsync(
+      `http://${window.location.host.split(':')[0]}:8080/data/gpkg/raw/${this.x}-${
+        this.y
+      }-buildings.png`
+    );
+
     const tiff = await new THREE.TextureLoader().loadAsync(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
         this.y
@@ -154,6 +160,7 @@ export class Landscape {
       u_railway: { value: railway_texture },
       u_water: { value: water_texture },
       u_forest: { value: forest_texture },
+      u_buildings: { value: buildings_texture },
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },

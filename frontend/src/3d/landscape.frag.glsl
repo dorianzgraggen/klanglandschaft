@@ -10,6 +10,7 @@ uniform sampler2D u_wind;
 uniform sampler2D u_railway;
 uniform sampler2D u_forest;
 uniform sampler2D u_water;
+uniform sampler2D u_buildings;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
@@ -164,6 +165,8 @@ void main()
   vec4 water = texture2D(u_water, v_uv);
   vec4 forest = texture2D(u_forest, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
+  vec4 buildings = texture2D(u_buildings, v_uv);
+
 
   float dist = distance(v_world_pos.xz, u_center.xz);
 
@@ -190,6 +193,7 @@ void main()
 
   vec3 forest_colored = vec3(0.2, 0.9, 0.1) * forest.r * 0.3;
   vec3 water_colored = vec3(0.2, 0.3, 0.9) * water.r *0.3;
+  vec3 buildings_colored = vec3(0.7, 0.9, 0.2) * buildings.r * 0.3;
 
 
   gl_FragColor = vec4(v_world_pos, 1.0);
@@ -204,9 +208,8 @@ void main()
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
-    vec3 col = tinted + noise_levels_colored + wind_colored + (2.0 * railway.rgb) + forest_colored + water_colored;
+    vec3 col = tinted + noise_levels_colored + wind_colored + (2.0 * railway.rgb) + forest_colored + water_colored + buildings_colored; 
     col = tonemap_agx(col);
-
 
     vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
 
