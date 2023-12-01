@@ -16,7 +16,7 @@ function updateTrafficPercentage() {
 </script>
 
 <template>
-    <div id="title">stats</div>
+    <div class="component-title">stats</div>
     <div class="stats-container border-corners">
         <div class="stat-item" v-for="stat in stats" :key="stat.id">
             <span>{{ stat.description }}</span>
@@ -31,17 +31,13 @@ function updateTrafficPercentage() {
 </template>
 
 <style scoped>
-#title {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
 .stats-container {
-    height: 250px;
-    width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 10px;
+    height: 250px;
+    width: 250px;
 }
 
 .stat-item {

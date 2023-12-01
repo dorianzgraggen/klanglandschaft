@@ -70,11 +70,16 @@ button {
   padding: 16px 20px;
 }
 
+.component-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
 /* https://css-tip.com/corner-only-border-image/ */
 .border-corners {
   --s: 15px; /* the size on the corner */
   --t: 2px;  /* the thickness of the border */
-  --g: 20px; /* the gap between the border and image */
+  --g: 4px; /* the gap between the border and image */
   
   padding: calc(var(--g) + var(--t));
   outline: var(--t) solid whitesmoke; /* the color here */
