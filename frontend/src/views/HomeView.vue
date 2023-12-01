@@ -2,8 +2,8 @@
 import StatisticsComp from '@/components/StatisticsComp.vue'
 </script>
 <template>
-    <div>
-        <StatisticsComp id="stats-component" />
+    <div id="stats-component">
+        <StatisticsComp />
     </div>
 </template>
 
