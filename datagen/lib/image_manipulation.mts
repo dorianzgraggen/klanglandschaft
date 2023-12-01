@@ -89,6 +89,8 @@ const files = {
   eisenbahn_path: pathify("gpkg/tlm_oev_eisenbahn.gpkg"),
   buildings_path: pathify("gpkg/tlm_buildings.gpkg"),
   lakes_path: pathify("gpkg/tlm_lakes.gpkg"),
+  forest_path: pathify("gpkg/tlm_forest.gpkg"),
+  water_path: pathify("gpkg/tlm_water.gpkg"),
 };
 
 /**
@@ -119,10 +121,28 @@ export async function manipulate_swisstlm3d_layers(): Promise<void[]> {
     ${files.in_path} 
   `;
 
+  const forest_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT * FROM tlm_bb_bodenbedeckung WHERE objektart = 'Wald'"
+    -nln forest
+    ${files.forest_path}
+    ${files.in_path} 
+  `;
+
+  const water_command = `ogr2ogr
+  -dialect SQLite
+  -sql "SELECT * FROM tlm_bb_bodenbedeckung WHERE objektart = 'Fliessgewaesser' OR objektart = 'Stehende Gewaesser'"
+  -nln water
+  ${files.water_path}
+  ${files.in_path} 
+`;
+
   return Promise.all([
     // run_command(railway_command),
     // run_command(buildings_command),
-    run_command(lakes_command),
+    // run_command(lakes_command),
+    run_command(forest_command),
+    run_command(water_command),
   ]);
 }
 
@@ -174,19 +194,44 @@ export async function generate_all_building_tiles(): Promise<void> {
   }, 4);
 }
 
-export async function generate_all_lake_tiles(): Promise<void> {
+export async function generate_all_water_tiles(): Promise<void> {
   mk_dir_if_not_exists(pathify("gpkg/raw"));
 
   await for_every_tile(async (x, y, i) => {
-    const tif = pathify(`gpkg/raw/${x}-${y}-lakes.tif`);
-    const png = pathify(`gpkg/raw/${x}-${y}-lakes.png`);
+    const tif = pathify(`gpkg/raw/${x}-${y}-water.tif`);
+    const png = pathify(`gpkg/raw/${x}-${y}-water.png`);
 
     const rasterize_command = `gdal_rasterize
       -burn 255
       -ts 1024 1024
-      -l tlm_gewaesser_stehendes_gewaesser
+      -l water
       -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
-      ${files.lakes_path}
+      ${files.water_path}
+      ${tif}
+    `;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    await run_command(rasterize_command);
+    await run_command(translate_command);
+  }, 4);
+}
+
+export async function generate_all_forest_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-forest.tif`);
+    const png = pathify(`gpkg/raw/${x}-${y}-forest.png`);
+
+    const rasterize_command = `gdal_rasterize
+      -burn 255
+      -ts 1024 1024
+      -l forest
+      -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
+      ${files.forest_path}
       ${tif}
     `;
 
