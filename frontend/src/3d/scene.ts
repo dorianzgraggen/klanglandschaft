@@ -126,9 +126,11 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
   const center = new Center(scene, debug_camera, renderer, user_controls);
   Landscape.center = center.root;
 
+  const landscapes = new Array<Landscape>();
+
   for (let x = from_x; x < to_x; x++) {
     for (let y = from_y; y < to_y; y++) {
-      new Landscape(scene, renderer, x, y);
+      landscapes.push(new Landscape(scene, renderer, x, y));
     }
   }
 
@@ -144,6 +146,8 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     if (settings.value.editor_open) {
       return;
     }
+
+    landscapes.forEach((l) => l.update(time));
 
     const delta_ms = time - previous_time;
     const fps = 1000 / delta_ms;

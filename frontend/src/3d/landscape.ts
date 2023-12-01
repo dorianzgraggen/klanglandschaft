@@ -23,6 +23,8 @@ export class Landscape {
 
   private static segments = 6;
 
+  public static time = 0;
+
   private static geometry = new THREE.PlaneGeometry(10, 10, Landscape.segments, Landscape.segments);
 
   static set_base_coords(x: number, y: number) {
@@ -66,6 +68,12 @@ export class Landscape {
     if (!should_be_visible && this.visible) {
       this.mesh.material = Landscape.empty_material;
       this.visible = false;
+    }
+  }
+
+  update(time: number) {
+    if (this.download_state === 'loaded') {
+      this.landscape_material.uniforms.u_time.value = time / 1000;
     }
   }
 
@@ -164,7 +172,8 @@ export class Landscape {
       u_satellite: { value: tiff },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },
-      u_data_mode: { value: Landscape.data_mode }
+      u_data_mode: { value: Landscape.data_mode },
+      u_time: { value: 0 }
     };
 
     this.mesh.material = this.landscape_material;
