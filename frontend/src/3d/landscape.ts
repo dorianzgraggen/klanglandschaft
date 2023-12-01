@@ -140,10 +140,10 @@ export class Landscape {
       }-forest.png`
     );
 
-    const tiff = await new TIFFLoader().loadAsync(
+    const tiff = await new THREE.TextureLoader().loadAsync(
       `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
         this.y
-      }.tif`
+      }.jpg`
     );
     tiff.colorSpace = THREE.LinearSRGBColorSpace;
 

@@ -13,6 +13,7 @@ import {
   generate_all_building_tiles,
   generate_all_water_tiles,
   generate_all_forest_tiles,
+  resize_satellites,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
@@ -42,13 +43,15 @@ async function run() {
   // await crop_all_noise_levels();
   // await crop_all_wind_levels();
 
+  await resize_satellites();
+
   // await get_swisstlm3d_gpkg();
   // await manipulate_swisstlm3d_layers();
   // await generate_all_railway_tiles();
   // await generate_all_building_tiles();
   // await generate_all_lake_tiles();
   // await generate_all_water_tiles();
-  await generate_all_forest_tiles();
+  // await generate_all_forest_tiles();
 }
 
 async function test() {

@@ -455,9 +455,22 @@ export async function resize_all() {
   }
 }
 
-export async function resize(input: string, output: string): Promise<any> {
+export async function resize_satellites() {
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`geotiff/satellite/${x}-${y}.tif`);
+    const jpg = pathify(`geotiff/satellite/${x}-${y}.jpg`);
+    await resize(tif, jpg, 256, 256);
+  }, 4);
+}
+
+export async function resize(
+  input: string,
+  output: string,
+  width = 510,
+  height = 510,
+): Promise<any> {
   return sharp(input)
-    .resize(510, 510, {
+    .resize(width, height, {
       kernel: sharp.kernel.nearest,
       fit: "contain",
     })
