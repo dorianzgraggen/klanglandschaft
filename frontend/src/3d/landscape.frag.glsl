@@ -18,6 +18,7 @@ uniform float u_time;
 
 varying vec2 v_uv;
 varying vec3 v_world_pos;
+varying vec4 v_vert_pos;
 
 // https://gamedev.stackexchange.com/a/148088
 vec4 fromLinear(vec4 linearRGB)
@@ -205,8 +206,9 @@ void main()
   vec4 water = texture2D(u_water, v_uv, 3.0);
   vec4 forest = texture2D(u_forest, v_uv, 3.0);
   vec4 satellite = texture2D(u_satellite, v_uv);
-  vec4 buildings = texture2D(u_buildings, v_uv, 2.0);
+  vec4 buildings = texture2D(u_buildings, v_uv, 1.0);
 
+  vec2 screen_coords = v_vert_pos.xy / v_vert_pos.w * 0.5 + 0.5;
 
   float dist = distance(v_world_pos.xz, u_center.xz);
 
@@ -270,6 +272,11 @@ void main()
       + water_colored
       + buildings_colored;
 
+
+    float vignette = 1.3 - distance(vec2(0.5), screen_coords) * 2.0;
+    col = col * mix(0.1, 1.0, clamp(vignette, 0.0, 1.0));
+
+
     col = tonemap_agx(col);
 
     vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
@@ -284,8 +291,9 @@ void main()
     // }
 
 
+
     gl_FragColor = vec4(col * 1.1, 1.0);
-    // gl_FragColor = vec4();
+    // gl_FragColor = vec4(vec3(vignette), 1.0);
 
 // gl_FragColor = forest;
 
