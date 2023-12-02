@@ -197,6 +197,24 @@ vec3 mix3(vec3 color_a, vec3 color_b, vec3 color_c, float t)  {
   return mix(c1, color_c, t2);
 }
 
+
+// https://www.shadertoy.com/view/MlXGRf
+float s_curve(float value, float amount, float correction) {
+
+	float curve = 1.0; 
+
+  if (value < 0.5)
+  {
+    curve = pow(value, amount) * pow(2.0, amount) * 0.5; 
+  }
+  else
+  { 	
+    curve = 1.0 - pow(1.0 - value, amount) * pow(2.0, amount) * 0.5; 
+  }
+
+  return pow(curve, correction);
+}
+
 void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
@@ -273,8 +291,8 @@ void main()
       + buildings_colored;
 
 
-    float vignette = 1.3 - distance(vec2(0.5), screen_coords) * 2.0;
-    col = col * mix(0.1, 1.0, clamp(vignette, 0.0, 1.0));
+    float vignette = 1.0 - distance(vec2(0.5), screen_coords) * 1.34;
+    col = col * mix(0.02, 1.0, clamp(s_curve(vignette, 3.2, 1.0), 0.0, 1.0));
 
 
     col = tonemap_agx(col);
