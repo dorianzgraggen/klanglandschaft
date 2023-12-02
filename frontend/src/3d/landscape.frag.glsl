@@ -291,8 +291,8 @@ void main()
       + buildings_colored;
 
 
-    float vignette = 1.0 - distance(vec2(0.5), screen_coords) * 1.34;
-    col = col * mix(0.02, 1.0, clamp(s_curve(vignette, 3.2, 1.0), 0.0, 1.0));
+    float vignette = 1.0 - distance(vec2(0.5), screen_coords) * 1.2;
+    col = col * mix(0.04, 1.0, clamp(s_curve(vignette, 2.2, 1.0), 0.0, 1.0));
 
 
     col = tonemap_agx(col);
