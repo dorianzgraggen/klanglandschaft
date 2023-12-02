@@ -285,7 +285,7 @@ void main()
     vec3 col = tinted
       + noise_levels_colored
       + wind_colored
-      + (2.0 * railway.rgb)
+      + vec3(0.7 * min(railway.r, 1.0 - buildings.r)) * vec3(0.5, 0.5, 0.8)
       + forest_colored
       + water_colored
       + buildings_colored;
