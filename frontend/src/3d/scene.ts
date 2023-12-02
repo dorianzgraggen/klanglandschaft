@@ -123,6 +123,7 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
   const to_y = 1217;
 
   Landscape.set_base_coords(from_x, from_y);
+  Landscape.init_empty_texture();
   const center = new Center(scene, debug_camera, renderer, user_controls);
   Landscape.center = center.root;
 
