@@ -473,6 +473,14 @@ export async function resize_satellites() {
   }, 4);
 }
 
+export function remove_xml_files() {
+  const files = fs.readdirSync(pathify("channels")).filter(f => f.includes(".xml"))
+
+  files.forEach(f => {
+    fs.unlinkSync(pathify(`channels/${f}`))
+  })
+}
+
 export async function resize(
   input: string,
   output: string,

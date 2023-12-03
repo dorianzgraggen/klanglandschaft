@@ -14,6 +14,7 @@ import {
   generate_all_water_tiles,
   generate_all_forest_tiles,
   resize_satellites,
+  remove_xml_files,
 } from "./lib/image_manipulation.mjs";
 import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
 import {
@@ -51,6 +52,8 @@ async function run() {
   // await generate_all_building_tiles();
   // await generate_all_water_tiles();
   // await generate_all_forest_tiles();
+
+  remove_xml_files();
 }
 
 async function test() {
