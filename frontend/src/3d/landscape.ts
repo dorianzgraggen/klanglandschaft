@@ -23,11 +23,36 @@ export class Landscape {
 
   private static segments = 6;
 
+  public static time = 0;
+
   private static geometry = new THREE.PlaneGeometry(10, 10, Landscape.segments, Landscape.segments);
+
+  private static empty_texture: THREE.DataTexture | null;
 
   static set_base_coords(x: number, y: number) {
     this.base_x = x;
     this.base_y = y;
+  }
+
+  static init_empty_texture() {
+    const width = 32;
+    const height = 32;
+
+    const size = width * height;
+    const data = new Uint8Array(4 * size);
+    const brightness = 90;
+
+    for (let i = 0; i < size; i++) {
+      const stride = i * 4;
+      data[stride] = brightness;
+      data[stride + 1] = brightness;
+      data[stride + 2] = brightness;
+      data[stride + 3] = 255;
+    }
+
+    // used the buffer to create a DataTexture
+    Landscape.empty_texture = new THREE.DataTexture(data, width, height);
+    Landscape.empty_texture.needsUpdate = true;
   }
 
   constructor(
@@ -69,6 +94,12 @@ export class Landscape {
     }
   }
 
+  update(time: number) {
+    if (this.download_state === 'loaded') {
+      this.landscape_material.uniforms.u_time.value = time / 1000;
+    }
+  }
+
   on_before_render(
     renderer: THREE.WebGLRenderer,
     scene: THREE.Scene,
@@ -100,67 +131,52 @@ export class Landscape {
 
     this.download_state = 'loading';
 
-    const texture = await new THREE.TextureLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/extended/${this.x}-${
-        this.y
-      }.png`
-    );
-
-    texture.generateMipmaps = false;
-    texture.minFilter = THREE.NearestFilter;
-    texture.magFilter = THREE.NearestFilter;
-
-    const noise_texture = await new THREE.TextureLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/cropped/${this.x}-${
-        this.y
-      }-strassenlaerm.png`
-    );
-
-    const wind_texture = await new THREE.TextureLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/cropped/${this.x}-${
-        this.y
-      }-wind.png`
-    );
-
-    const railway_texture = await new THREE.TextureLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/gpkg/raw/${this.x}-${
-        this.y
-      }-railway.png`
-    );
-
-    const water_texture = await new THREE.TextureLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/gpkg/raw/${this.x}-${
-        this.y
-      }-water.png`
-    );
-
-    const forest_texture = await new THREE.TextureLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/gpkg/raw/${this.x}-${
-        this.y
-      }-forest.png`
-    );
-
-    const tiff = await new TIFFLoader().loadAsync(
-      `http://${window.location.host.split(':')[0]}:8080/data/geotiff/satellite/${this.x}-${
-        this.y
-      }.tif`
-    );
-    tiff.colorSpace = THREE.LinearSRGBColorSpace;
-
     this.landscape_material.uniforms = {
-      u_height: { value: texture },
-      u_noise: { value: noise_texture },
-      u_wind: { value: wind_texture },
-      u_railway: { value: railway_texture },
-      u_water: { value: water_texture },
-      u_forest: { value: forest_texture },
-      u_satellite: { value: tiff },
+      u_height: { value: null },
+      u_noise: { value: null },
+      u_wind: { value: null },
+      u_railway: { value: null },
+      u_water: { value: null },
+      u_forest: { value: null },
+      u_buildings: { value: null },
       u_center: { value: Landscape.center.position },
       u_background: { value: this.scene.background },
-      u_data_mode: { value: Landscape.data_mode }
+      u_satellite: { value: Landscape.empty_texture },
+      u_data_mode: { value: Landscape.data_mode },
+      u_time: { value: 0 }
     };
 
+    this.fetch_texture(`geotiff/extended/${this.x}-${this.y}.png`, 'u_height', (texture) => {
+      texture.generateMipmaps = false;
+      texture.minFilter = THREE.NearestFilter;
+      texture.magFilter = THREE.NearestFilter;
+    });
+
     this.mesh.material = this.landscape_material;
+
+    this.fetch_texture(`geotiff/satellite/${this.x}-${this.y}.jpg`, 'u_satellite');
+    this.fetch_texture(`geotiff/cropped/${this.x}-${this.y}-strassenlaerm.png`, 'u_noise');
+    this.fetch_texture(`geotiff/cropped/${this.x}-${this.y}-wind.png`, 'u_wind');
+    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-railway.png`, 'u_railway');
+    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-water.png`, 'u_water');
+    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-forest.png`, 'u_forest');
+    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-buildings.png`, 'u_buildings');
+
     this.download_state = 'loaded';
+  }
+
+  private loader = new THREE.TextureLoader();
+
+  private async fetch_texture(
+    file_path: string,
+    uniform: string,
+    on_loaded?: (texture: THREE.Texture) => void
+  ) {
+    return this.loader
+      .loadAsync(`http://${window.location.host.split(':')[0]}:8080/data/${file_path}`)
+      .then((t) => {
+        this.landscape_material.uniforms[uniform].value = t;
+        on_loaded?.(t);
+      });
   }
 }
