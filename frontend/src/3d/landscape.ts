@@ -146,7 +146,7 @@ export class Landscape {
       u_time: { value: 0 }
     };
 
-    this.fetch_texture(`geotiff/extended/${this.x}-${this.y}.png`, 'u_height', (texture) => {
+    this.fetch_texture(`${this.x}-${this.y}-height.png`, 'u_height', (texture) => {
       texture.generateMipmaps = false;
       texture.minFilter = THREE.NearestFilter;
       texture.magFilter = THREE.NearestFilter;
@@ -154,13 +154,13 @@ export class Landscape {
 
     this.mesh.material = this.landscape_material;
 
-    this.fetch_texture(`geotiff/satellite/${this.x}-${this.y}.jpg`, 'u_satellite');
-    this.fetch_texture(`geotiff/cropped/${this.x}-${this.y}-strassenlaerm.png`, 'u_noise');
-    this.fetch_texture(`geotiff/cropped/${this.x}-${this.y}-wind.png`, 'u_wind');
-    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-railway.png`, 'u_railway');
-    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-water.png`, 'u_water');
-    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-forest.png`, 'u_forest');
-    this.fetch_texture(`gpkg/raw/${this.x}-${this.y}-buildings.png`, 'u_buildings');
+    this.fetch_texture(`${this.x}-${this.y}-satellite.jpg`, 'u_satellite');
+    this.fetch_texture(`${this.x}-${this.y}-strassenlaerm.png`, 'u_noise');
+    this.fetch_texture(`${this.x}-${this.y}-wind.png`, 'u_wind');
+    this.fetch_texture(`${this.x}-${this.y}-railway.png`, 'u_railway');
+    this.fetch_texture(`${this.x}-${this.y}-water.png`, 'u_water');
+    this.fetch_texture(`${this.x}-${this.y}-forest.png`, 'u_forest');
+    this.fetch_texture(`${this.x}-${this.y}-buildings.png`, 'u_buildings');
 
     this.download_state = 'loaded';
   }
@@ -172,11 +172,16 @@ export class Landscape {
     uniform: string,
     on_loaded?: (texture: THREE.Texture) => void
   ) {
-    return this.loader
-      .loadAsync(`http://${window.location.host.split(':')[0]}:8080/data/${file_path}`)
-      .then((t) => {
-        this.landscape_material.uniforms[uniform].value = t;
-        on_loaded?.(t);
-      });
+    const host =
+      import.meta.env.MODE == 'online'
+        ? 'https://klanglandschaft.b-cdn.net/v01'
+        : `http://${window.location.host.split(':')[0]}:8080/data/channels`;
+
+    return this.loader.loadAsync(`${host}/${file_path}`).then((t) => {
+      this.landscape_material.uniforms[uniform].value = t;
+      on_loaded?.(t);
+    }).catch(e => {
+      console.log(e);
+    });
   }
 }
