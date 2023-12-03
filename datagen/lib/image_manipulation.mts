@@ -38,6 +38,7 @@ export async function crop_all_noise_levels() {
   chapter_log("cropping noise levels");
 
   mk_dir_if_not_exists(pathify("geotiff/cropped"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(
     async (x, y, i) =>
@@ -45,7 +46,7 @@ export async function crop_all_noise_levels() {
         pathify(
           "geotiff/strassenlaerm_tag/STRASSENLAERM_Tag/StrassenLaerm_Tag_LV95.tif",
         ),
-        pathify(`geotiff/cropped/${x}-${y}-strassenlaerm.png`),
+        pathify(`channels/${x}-${y}-strassenlaerm.png`),
         {
           from_x: x,
           from_y: y,
@@ -62,6 +63,7 @@ export async function crop_all_wind_levels() {
   chapter_log("cropping wind levels");
 
   mk_dir_if_not_exists(pathify("geotiff/cropped"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(
     async (x, y, i) =>
@@ -69,7 +71,7 @@ export async function crop_all_wind_levels() {
         pathify(
           "geotiff/windenergie-geschwindigkeit_h150/WINDATLAS_SCHWEIZ_HEIGHT_LEVEL_150_CH_2018.tif",
         ),
-        pathify(`geotiff/cropped/${x}-${y}-wind.png`),
+        pathify(`channels/${x}-${y}-wind.png`),
         {
           from_x: x,
           from_y: y,
@@ -148,13 +150,15 @@ export async function manipulate_swisstlm3d_layers(): Promise<void[]> {
 
 export async function generate_all_railway_tiles(): Promise<void> {
   mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
+
   const gpkg = pathify("gpkg/tlm_oev_eisenbahn.gpkg");
 
   // pathify("SWISSTLM3D_2023_LV95_LN02.gpkg")
 
   await for_every_tile(async (x, y, i) => {
     const tif = pathify(`gpkg/raw/${x}-${y}-railway.tif`);
-    const png = pathify(`gpkg/raw/${x}-${y}-railway.png`);
+    const png = pathify(`channels/${x}-${y}-railway.png`);
 
     const rasterize_command = `gdal_rasterize -burn 255 -ts 1000 1000 -te ${x}000 ${y}000 ${
       x + 1
@@ -171,10 +175,11 @@ export async function generate_all_railway_tiles(): Promise<void> {
 
 export async function generate_all_building_tiles(): Promise<void> {
   mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(async (x, y, i) => {
     const tif = pathify(`gpkg/raw/${x}-${y}-buildings.tif`);
-    const png = pathify(`gpkg/raw/${x}-${y}-buildings.png`);
+    const png = pathify(`channels/${x}-${y}-buildings.png`);
 
     const rasterize_command = `gdal_rasterize
       -burn 255
@@ -196,10 +201,11 @@ export async function generate_all_building_tiles(): Promise<void> {
 
 export async function generate_all_water_tiles(): Promise<void> {
   mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(async (x, y, i) => {
     const tif = pathify(`gpkg/raw/${x}-${y}-water.tif`);
-    const png = pathify(`gpkg/raw/${x}-${y}-water.png`);
+    const png = pathify(`channels/${x}-${y}-water.png`);
 
     const rasterize_command = `gdal_rasterize
       -burn 255
@@ -216,15 +222,16 @@ export async function generate_all_water_tiles(): Promise<void> {
 
     await run_command(rasterize_command);
     await run_command(translate_command);
-  }, 4);
+  }, 32);
 }
 
 export async function generate_all_forest_tiles(): Promise<void> {
   mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(async (x, y, i) => {
     const tif = pathify(`gpkg/raw/${x}-${y}-forest.tif`);
-    const png = pathify(`gpkg/raw/${x}-${y}-forest.png`);
+    const png = pathify(`channels/${x}-${y}-forest.png`);
 
     const rasterize_command = `gdal_rasterize
       -burn 255
@@ -267,6 +274,7 @@ export async function extend_all() {
   chapter_log("extending elevation geotiffs");
 
   mk_dir_if_not_exists(pathify("geotiff/extended"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   let i = 0;
   for (let x = from_x; x < to_x - 1; x++) {
@@ -278,7 +286,7 @@ export async function extend_all() {
         top: pathify(`geotiff/png/${x}-${y + 1}.png`),
         right: pathify(`geotiff/png/${x + 1}-${y}.png`),
         top_right: pathify(`geotiff/png/${x + 1}-${y + 1}.png`),
-        out: pathify(`geotiff/extended/${x}-${y}.png`),
+        out: pathify(`channels/${x}-${y}-height.png`),
       });
       i++;
       console.log("extended", i, ":", x, y);
@@ -456,9 +464,11 @@ export async function resize_all() {
 }
 
 export async function resize_satellites() {
+  mk_dir_if_not_exists(pathify("channels"));
+
   await for_every_tile(async (x, y, i) => {
     const tif = pathify(`geotiff/satellite/${x}-${y}.tif`);
-    const jpg = pathify(`geotiff/satellite/${x}-${y}.jpg`);
+    const jpg = pathify(`channels/${x}-${y}-satellite.jpg`);
     await resize(tif, jpg, 256, 256);
   }, 4);
 }
