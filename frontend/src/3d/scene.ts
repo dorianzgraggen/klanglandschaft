@@ -116,6 +116,19 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     }
   });
 
+  // WINDOW RESIZING
+  window.addEventListener('resize', (event) => {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth * window.devicePixelRatio;
+    const height = canvas.clientHeight * window.devicePixelRatio;
+
+    renderer.setSize(width, height, false);
+    user_camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    user_camera.updateProjectionMatrix();
+    debug_camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    debug_camera.updateProjectionMatrix();
+  });
+
   // LANDSCAPE TILES SETUP
   const from_x = 2658;
   const to_x = 2694;
