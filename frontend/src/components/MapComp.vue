@@ -4,7 +4,8 @@ import { reactive, ref, watch } from 'vue';
 const locationBlob = reactive({
     size: 20,
     top: 55,
-    left: 15
+    left: 15,
+    gap: 6
 });
 
 const mouseHold = ref(false);
@@ -16,6 +17,9 @@ function updateBlobLocation(event: MouseEvent) {
         const rect = mapContainer.getBoundingClientRect();
         const x = event.clientX - rect.left - locationBlob.size / 2;
         const y = event.clientY - rect.top + locationBlob.size;
+        if (x < 8 || x > rect.width - locationBlob.size - locationBlob.gap || y < 40 || y > 183) {
+            return;
+        }
         locationBlob.top = y;
         locationBlob.left = x;
     }
