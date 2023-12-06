@@ -231,11 +231,11 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     // console.log(`r:${r} g:${g} b:${b} a:${a}`);
 
     if (frame % 2 !== 0) {
-      bridge.elevation = r;
-      bridge.traffic_noise = g;
-      bridge.wind = b;
+      bridge.elevation = r * 1.3;
+      bridge.traffic_noise = g * 5;
+      bridge.wind = b * 4;
     } else {
-      bridge.buildings = r;
+      bridge.buildings = r * 4;
       bridge.forest = g;
       bridge.water = b;
     }
