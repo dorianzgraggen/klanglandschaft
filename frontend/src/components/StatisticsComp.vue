@@ -1,24 +1,60 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { bridge } from '@/bridge';
-import { watch } from 'vue';
+import { computed } from 'vue';
 
+let statMultiplier = 100;
 
 const stats = reactive({
-    traffic: { id: 1, name: "stats-traffic", description: "day traffic noise", percentageValue: -1, topColor: "#ff7b23", bottomColor: "#FF0000" },
-    elevation: { id: 2, name: "stats-elevation", description: "elevation", percentageValue: -1, topColor: "#0BE72E", bottomColor: "#13C2A3" },
-    wind: { id: 3, name: "stats-wind", description: "wind speed", percentageValue: 50, topColor: "#5915E9", bottomColor: "#BB0BE7" },
-    data: { id: 4, name: "stats-data", description: "data", percentageValue: 70, topColor: "#1E45CD", bottomColor: "#5534D8" }
+    elevation: computed(() => ({
+        id: 1,
+        name: "stats-elevation",
+        description: "elevation",
+        percentageValue: bridge.elevation * statMultiplier,
+        topColor: "#0BE72E",
+        bottomColor: "#13C2A3"
+    })),
+    traffic_noise: computed(() => ({
+        id: 2,
+        name: "stats-traffic",
+        description: "traffic noise",
+        percentageValue: bridge.traffic_noise * statMultiplier,
+        topColor: "#ff7b23",
+        bottomColor: "#FF0000"
+    })),
+    buildings: computed(() => ({
+        id: 3,
+        name: "stats-buildings",
+        description: "buildings",
+        percentageValue: bridge.buildings * statMultiplier,
+        topColor: "#1E45CD",
+        bottomColor: "#5534D8"
+    })),
+    water: computed(() => ({
+        id: 4,
+        name: "stats-water",
+        description: "water",
+        percentageValue: bridge.water * statMultiplier,
+        topColor: "#1E45CD",
+        bottomColor: "#5534D8"
+    })),
+    forest: computed(() => ({
+        id: 5,
+        name: "stats-forest",
+        description: "forest",
+        percentageValue: bridge.forest * statMultiplier,
+        topColor: "#1E45CD",
+        bottomColor: "#5534D8"
+    })),
+    wind: computed(() => ({
+        id: 6,
+        name: "stats-wind",
+        description: "wind",
+        percentageValue: bridge.wind * statMultiplier,
+        topColor: "#5915E9",
+        bottomColor: "#BB0BE7"
+    }))
 });
-
-// TODO: automate percentage updates when all data sets are available
-function updateStatPercentages() {
-    stats.traffic.percentageValue = (bridge.traffic_noise * 500); // temporary mapping values until bridge values are properly mapped
-    stats.elevation.percentageValue = (bridge.elevation * 200);
-}
-
-watch(bridge, updateStatPercentages);
-
 </script>
 
 <template>
