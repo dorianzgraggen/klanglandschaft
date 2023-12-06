@@ -25,6 +25,7 @@ export class OutputNode extends BaseNode {
     // }
 
     const results = Object.entries(inputs).map(([key, value]) => {
+      // @ts-ignore
       return value[0];
     });
 
