@@ -255,12 +255,12 @@ void main()
   vec3 forest_colored = vec3(0.2, 0.6, 0.2) * forest.r * 0.16 * (1.0 - v.r);
 
   vec4 voronoi_water = voronoi(v_world_pos.xz * vec2(1.0), 1.0, 0.8);
-  float voronoi_water_lines = pow(voronoi_water.r - 0.1, 1.5) * 0.2;
-  voronoi_water_lines = max(0.0, voronoi_water_lines);
+  float voronoi_water_lines = pow(max(0.0, voronoi_water.r - 0.1), 1.5) * 0.2;
+  voronoi_water_lines = max(voronoi_water_lines, 0.0);
 
   vec4 voronoi_water2 = voronoi(v_world_pos.xz * vec2(2.5), 1.0, 0.8);
-  float voronoi_water_lines2 = pow(voronoi_water2.r - 0.5, 2.2) * 0.8;
-  voronoi_water_lines2 = max(0.0, voronoi_water_lines2);
+  float voronoi_water_lines2 = pow(max(0.0, voronoi_water2.r - 0.5), 2.2) * 0.8;
+  voronoi_water_lines2 = max(voronoi_water_lines2, 0.0);
 
 
   vec3 water_colored = vec3(0.2, 0.3, 0.9) * water.r * 0.2 * voronoi_water_lines;
