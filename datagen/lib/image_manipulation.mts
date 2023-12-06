@@ -2,6 +2,7 @@ import sharp from "sharp";
 import fs from "fs";
 import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
 import { exec } from "node:child_process";
+import { PromisePool } from "@supercharge/promise-pool";
 
 const from_x = 2658;
 const to_x = 2695;
@@ -10,20 +11,34 @@ const to_y = 1218;
 
 async function for_every_tile(
   callback: (x: number, y: number, i: number) => Promise<void>,
+  concurrent_tasks = 1,
 ) {
   let i = 0;
+  const total = (to_x - from_x - 1) * (to_y - from_y - 1);
+
+  const tasks = new Array<() => Promise<void>>();
   for (let x = from_x; x < to_x - 1; x++) {
     for (let y = from_y; y < to_y - 1; y++) {
       i++;
-      await callback(x, y, i);
+      tasks.push(async () => {
+        await callback(x, y, i);
+      });
     }
   }
+
+  await PromisePool.withConcurrency(concurrent_tasks)
+    .for(tasks)
+    .process(async (task, index, pool) => {
+      console.log(`processing ${index + 1}/${total}`);
+      await task();
+    });
 }
 
 export async function crop_all_noise_levels() {
   chapter_log("cropping noise levels");
 
   mk_dir_if_not_exists(pathify("geotiff/cropped"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(
     async (x, y, i) =>
@@ -31,7 +46,7 @@ export async function crop_all_noise_levels() {
         pathify(
           "geotiff/strassenlaerm_tag/STRASSENLAERM_Tag/StrassenLaerm_Tag_LV95.tif",
         ),
-        pathify(`geotiff/cropped/${x}-${y}-strassenlaerm.png`),
+        pathify(`channels/${x}-${y}-strassenlaerm.png`),
         {
           from_x: x,
           from_y: y,
@@ -48,6 +63,7 @@ export async function crop_all_wind_levels() {
   chapter_log("cropping wind levels");
 
   mk_dir_if_not_exists(pathify("geotiff/cropped"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   await for_every_tile(
     async (x, y, i) =>
@@ -55,7 +71,7 @@ export async function crop_all_wind_levels() {
         pathify(
           "geotiff/windenergie-geschwindigkeit_h150/WINDATLAS_SCHWEIZ_HEIGHT_LEVEL_150_CH_2018.tif",
         ),
-        pathify(`geotiff/cropped/${x}-${y}-wind.png`),
+        pathify(`channels/${x}-${y}-wind.png`),
         {
           from_x: x,
           from_y: y,
@@ -70,10 +86,195 @@ export async function crop_all_wind_levels() {
   );
 }
 
+const files = {
+  in_path: pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg"),
+  eisenbahn_path: pathify("gpkg/tlm_oev_eisenbahn.gpkg"),
+  buildings_path: pathify("gpkg/tlm_buildings.gpkg"),
+  lakes_path: pathify("gpkg/tlm_lakes.gpkg"),
+  forest_path: pathify("gpkg/tlm_forest.gpkg"),
+  water_path: pathify("gpkg/tlm_water.gpkg"),
+};
+
+/**
+ * C
+ * @returns
+ */
+export async function manipulate_swisstlm3d_layers(): Promise<void[]> {
+  const railway_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT ST_Buffer(geom, 1.6) FROM tlm_oev_eisenbahn"
+    ${files.eisenbahn_path}
+    ${files.in_path}
+  `;
+
+  const buildings_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT * from tlm_bauten_gebaeude_footprint"
+    -nln tlm_bauten_gebaeude_footprint
+    ${files.buildings_path}
+    ${files.in_path} 
+  `;
+
+  const lakes_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT ST_Polygonize(geom) FROM tlm_gewaesser_stehendes_gewaesser"
+    -nln tlm_gewaesser_stehendes_gewaesser
+    ${files.lakes_path}
+    ${files.in_path} 
+  `;
+
+  const forest_command = `ogr2ogr
+    -dialect SQLite
+    -sql "SELECT * FROM tlm_bb_bodenbedeckung WHERE objektart = 'Wald'"
+    -nln forest
+    ${files.forest_path}
+    ${files.in_path} 
+  `;
+
+  const water_command = `ogr2ogr
+  -dialect SQLite
+  -sql "SELECT * FROM tlm_bb_bodenbedeckung WHERE objektart = 'Fliessgewaesser' OR objektart = 'Stehende Gewaesser'"
+  -nln water
+  ${files.water_path}
+  ${files.in_path} 
+`;
+
+  return Promise.all([
+    // run_command(railway_command),
+    // run_command(buildings_command),
+    // run_command(lakes_command),
+    run_command(forest_command),
+    run_command(water_command),
+  ]);
+}
+
+export async function generate_all_railway_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
+
+  const gpkg = pathify("gpkg/tlm_oev_eisenbahn.gpkg");
+
+  // pathify("SWISSTLM3D_2023_LV95_LN02.gpkg")
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-railway.tif`);
+    const png = pathify(`channels/${x}-${y}-railway.png`);
+
+    const rasterize_command = `gdal_rasterize -burn 255 -ts 1000 1000 -te ${x}000 ${y}000 ${
+      x + 1
+    }000 ${y + 1}000 ${gpkg} ${tif}`;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    // await run_command(rasterize_command);
+    await run_command(translate_command);
+  });
+}
+
+export async function generate_all_building_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-buildings.tif`);
+    const png = pathify(`channels/${x}-${y}-buildings.png`);
+
+    const rasterize_command = `gdal_rasterize
+      -burn 255
+      -ts 1024 1024
+      -l tlm_bauten_gebaeude_footprint
+      -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
+      ${files.buildings_path}
+      ${tif}
+    `;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    await run_command(rasterize_command);
+    await run_command(translate_command);
+  }, 4);
+}
+
+export async function generate_all_water_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-water.tif`);
+    const png = pathify(`channels/${x}-${y}-water.png`);
+
+    const rasterize_command = `gdal_rasterize
+      -burn 255
+      -ts 1024 1024
+      -l water
+      -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
+      ${files.water_path}
+      ${tif}
+    `;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    await run_command(rasterize_command);
+    await run_command(translate_command);
+  }, 32);
+}
+
+export async function generate_all_forest_tiles(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg/raw"));
+  mk_dir_if_not_exists(pathify("channels"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`gpkg/raw/${x}-${y}-forest.tif`);
+    const png = pathify(`channels/${x}-${y}-forest.png`);
+
+    const rasterize_command = `gdal_rasterize
+      -burn 255
+      -ts 1024 1024
+      -l forest
+      -te ${x}000 ${y}000 ${x + 1}000 ${y + 1}000
+      ${files.forest_path}
+      ${tif}
+    `;
+
+    const width = 256;
+    const height = 256;
+    const translate_command = `gdal_translate -of PNG -ot Byte -outsize ${width} ${height} ${tif} ${png}`;
+
+    await run_command(rasterize_command);
+    await run_command(translate_command);
+  }, 4);
+}
+
+function run_command(command: string): Promise<void> {
+  const command_clean = command.replaceAll(/\r?\n/gi, "");
+  console.log(`running command "${command_clean}"`);
+
+  return new Promise<void>((resolve, reject) => {
+    exec(command_clean, (err, stdout, stderr) => {
+      if (err) {
+        // node couldn't execute the command
+        reject(err);
+      }
+
+      // the *entire* stdout and stderr (buffered)
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+      resolve();
+    });
+  });
+}
+
 export async function extend_all() {
   chapter_log("extending elevation geotiffs");
 
   mk_dir_if_not_exists(pathify("geotiff/extended"));
+  mk_dir_if_not_exists(pathify("channels"));
 
   let i = 0;
   for (let x = from_x; x < to_x - 1; x++) {
@@ -85,7 +286,7 @@ export async function extend_all() {
         top: pathify(`geotiff/png/${x}-${y + 1}.png`),
         right: pathify(`geotiff/png/${x + 1}-${y}.png`),
         top_right: pathify(`geotiff/png/${x + 1}-${y + 1}.png`),
-        out: pathify(`geotiff/extended/${x}-${y}.png`),
+        out: pathify(`channels/${x}-${y}-height.png`),
       });
       i++;
       console.log("extended", i, ":", x, y);
@@ -262,9 +463,34 @@ export async function resize_all() {
   }
 }
 
-export async function resize(input: string, output: string): Promise<any> {
+export async function resize_satellites() {
+  mk_dir_if_not_exists(pathify("channels"));
+
+  await for_every_tile(async (x, y, i) => {
+    const tif = pathify(`geotiff/satellite/${x}-${y}.tif`);
+    const jpg = pathify(`channels/${x}-${y}-satellite.jpg`);
+    await resize(tif, jpg, 256, 256);
+  }, 4);
+}
+
+export function remove_xml_files() {
+  const files = fs
+    .readdirSync(pathify("channels"))
+    .filter((f) => f.includes(".xml"));
+
+  files.forEach((f) => {
+    fs.unlinkSync(pathify(`channels/${f}`));
+  });
+}
+
+export async function resize(
+  input: string,
+  output: string,
+  width = 510,
+  height = 510,
+): Promise<any> {
   return sharp(input)
-    .resize(510, 510, {
+    .resize(width, height, {
       kernel: sharp.kernel.nearest,
       fit: "contain",
     })
