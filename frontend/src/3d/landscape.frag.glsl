@@ -295,7 +295,7 @@ void main()
     col = col * mix(0.04, 1.0, clamp(s_curve(vignette, 2.2, 1.0), 0.0, 1.0));
 
 
-    col = tonemap_agx(col);
+    col = mix(tanh(col), tonemap_agx(col), 0.82);
 
     vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
 
