@@ -29,7 +29,7 @@ onMounted(async () => {
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- Button for toggling sound editor visibility -->
-  <button id="editor-button" @click="toggleOpenEditor">
+  <button id="editor-button" @click="toggleOpen">
     {{ settings.editor_open ? 'Back to exploring' : 'Edit Soundscape' }}
   </button>
 
