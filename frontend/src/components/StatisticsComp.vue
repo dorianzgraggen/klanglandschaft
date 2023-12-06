@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { bridge } from '@/bridge';
+
 
 const stats = reactive({
     traffic: { id: 1, name: "stats-traffic", description: "day traffic noise", percentageValue: 20, topColor: "#ff7b23", bottomColor: "#FF0000" },
@@ -8,9 +10,12 @@ const stats = reactive({
     data: { id: 4, name: "stats-data", description: "data", percentageValue: 70, topColor: "#1E45CD", bottomColor: "#5534D8" }
 });
 
+let temporaryMappingValue = 500;
+
 
 function updateTrafficPercentage() {
-    stats.traffic.percentageValue += 10;
+    console.log(bridge.traffic_noise * temporaryMappingValue);
+    stats.traffic.percentageValue = (bridge.traffic_noise * temporaryMappingValue);
 }
 
 </script>
