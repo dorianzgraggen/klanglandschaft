@@ -474,11 +474,13 @@ export async function resize_satellites() {
 }
 
 export function remove_xml_files() {
-  const files = fs.readdirSync(pathify("channels")).filter(f => f.includes(".xml"))
+  const files = fs
+    .readdirSync(pathify("channels"))
+    .filter((f) => f.includes(".xml"));
 
-  files.forEach(f => {
-    fs.unlinkSync(pathify(`channels/${f}`))
-  })
+  files.forEach((f) => {
+    fs.unlinkSync(pathify(`channels/${f}`));
+  });
 }
 
 export async function resize(
