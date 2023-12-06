@@ -160,6 +160,7 @@ vec2  hash2( vec2  p ) { p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,18
 // https://www.shadertoy.com/view/ldB3zc
 vec4 voronoi( in vec2 x, float smoothness, float speed )
 {
+  return vec4(1.0); 
     vec2 n = floor( x );
     vec2 f = fract( x );
 
@@ -253,7 +254,7 @@ void main()
   vec3 wind_colored = mix3(vec3(0.0, 0.0, 0.0), vec3(0.6, 0.2, 0.8) * 0.5, vec3(0.5, 0.1, 0.9) * 6.0, wind_mapped);
 
   vec4 v = voronoi(v_world_pos.xz * vec2(4.5), 0.5, 0.5);
-  vec3 forest_colored = vec3(0.2, 0.6, 0.2) * forest.r * 0.16 * (1.0 - v.r);
+  vec3 forest_colored = vec3(0.2, 0.6, 0.2) * forest.r * 0.16;
 
   vec4 voronoi_water = voronoi(v_world_pos.xz * vec2(1.0), 1.0, 0.8);
   float voronoi_water_lines = pow(max(0.0, voronoi_water.r - 0.1), 1.5) * 0.2;
