@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { bridge } from '@/bridge';
+import { watch } from 'vue';
 
 
 const stats = reactive({
-    traffic: { id: 1, name: "stats-traffic", description: "day traffic noise", percentageValue: 20, topColor: "#ff7b23", bottomColor: "#FF0000" },
-    elevation: { id: 2, name: "stats-elevation", description: "elevation", percentageValue: 30, topColor: "#0BE72E", bottomColor: "#13C2A3" },
+    traffic: { id: 1, name: "stats-traffic", description: "day traffic noise", percentageValue: -1, topColor: "#ff7b23", bottomColor: "#FF0000" },
+    elevation: { id: 2, name: "stats-elevation", description: "elevation", percentageValue: -1, topColor: "#0BE72E", bottomColor: "#13C2A3" },
     wind: { id: 3, name: "stats-wind", description: "wind speed", percentageValue: 50, topColor: "#5915E9", bottomColor: "#BB0BE7" },
     data: { id: 4, name: "stats-data", description: "data", percentageValue: 70, topColor: "#1E45CD", bottomColor: "#5534D8" }
 });
 
-let temporaryMappingValue = 500;
-
-
-function updateTrafficPercentage() {
-    console.log(bridge.traffic_noise * temporaryMappingValue);
-    stats.traffic.percentageValue = (bridge.traffic_noise * temporaryMappingValue);
+// TODO: automate percentage updates when all data sets are available
+function updateStatPercentages() {
+    stats.traffic.percentageValue = (bridge.traffic_noise * 500); // temporary mapping values until bridge values are properly mapped
+    stats.elevation.percentageValue = (bridge.elevation * 200);
 }
+
+watch(bridge, updateStatPercentages);
 
 </script>
 
@@ -31,7 +32,6 @@ function updateTrafficPercentage() {
                 </div>
             </div>
         </div>
-        <button id="button-traffic-update" @click="updateTrafficPercentage">update traffic stat</button>
     </div>
 </template>
 
@@ -64,12 +64,5 @@ function updateTrafficPercentage() {
     height: 10px;
     width: 20px;
     border-radius: 9px;
-}
-
-#button-traffic-update {
-    font-size: 10px;
-    padding: 0;
-    width: 100px;
-    height: 40px;
 }
 </style>
