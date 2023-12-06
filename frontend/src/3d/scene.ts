@@ -116,6 +116,19 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     }
   });
 
+  // WINDOW RESIZING
+  window.addEventListener('resize', (event) => {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth * window.devicePixelRatio;
+    const height = canvas.clientHeight * window.devicePixelRatio;
+
+    renderer.setSize(width, height, false);
+    user_camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    user_camera.updateProjectionMatrix();
+    debug_camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    debug_camera.updateProjectionMatrix();
+  });
+
   // LANDSCAPE TILES SETUP
   const from_x = 2658;
   const to_x = 2694;
@@ -123,12 +136,15 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
   const to_y = 1217;
 
   Landscape.set_base_coords(from_x, from_y);
+  Landscape.init_empty_texture();
   const center = new Center(scene, debug_camera, renderer, user_controls);
   Landscape.center = center.root;
 
+  const landscapes = new Array<Landscape>();
+
   for (let x = from_x; x < to_x; x++) {
     for (let y = from_y; y < to_y; y++) {
-      new Landscape(scene, renderer, x, y);
+      landscapes.push(new Landscape(scene, renderer, x, y));
     }
   }
 
@@ -144,6 +160,8 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     if (settings.value.editor_open) {
       return;
     }
+
+    landscapes.forEach((l) => l.update(time));
 
     const delta_ms = time - previous_time;
     const fps = 1000 / delta_ms;

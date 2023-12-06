@@ -3,6 +3,7 @@ uniform sampler2D u_height;
 
 varying vec2 v_uv;
 varying vec3 v_world_pos;
+varying vec4 v_vert_pos;
 
 void main()
 {
@@ -15,7 +16,7 @@ void main()
     new_pos.z = height * (3000.0 - 400.0) * 0.01;
 
 
-    vec4 vert_pos = projectionMatrix * viewMatrix * modelMatrix * vec4(new_pos, 1.0);
+    v_vert_pos = projectionMatrix * viewMatrix * modelMatrix * vec4(new_pos, 1.0);
     v_world_pos = (modelMatrix * vec4(new_pos, 1.0)).xyz;
-    gl_Position = vert_pos;
+    gl_Position = v_vert_pos;
 }

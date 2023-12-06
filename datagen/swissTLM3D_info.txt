@@ -1,0 +1,2312 @@
+data about the swissTLM3D gpgk file created using ogrinfo useful for finding layers info
+(command: ogrinfo -al -so data/gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg > swissTLM3D_info.txt)
+
+==============================
+
+INFO: Open of `SWISSTLM3D_2023_LV95_LN02.gpkg'
+      using driver `GPKG' successful.
+
+Layer name: tlm_strassen_aus_einfahrt
+Geometry: 3D Point
+Feature Count: 1881
+Extent: (2495116.823000, 1077607.894014) - (2767018.392000, 1294245.838992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_strassen_name_uuid: String (38.0)
+name: String (254.0)
+nummer: String (100.0)
+
+Layer name: tlm_bb_bodenbedeckung
+Geometry: 3D Polygon
+Feature Count: 823517
+Extent: (2485369.176000, 1064010.913015) - (2833866.631000, 1297553.927992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+
+Layer name: tlm_bb_einzelbaum_gebuesch
+Geometry: 3D Point
+Feature Count: 10389931
+Extent: (2485687.820000, 1075451.686014) - (2833095.790000, 1295379.879992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+
+Layer name: tlm_eo_einzelobjekt
+Geometry: 3D Point
+Feature Count: 23178
+Extent: (2485436.345000, 1075268.233014) - (2833838.945000, 1295933.697992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+name: String (100.0)
+tlm_eo_name_uuid: String (100.0)
+
+Layer name: tlm_oev_eisenbahn
+Geometry: 3D Line String
+Feature Count: 54805
+Extent: (2488167.691000, 1076649.574014) - (2817638.259981, 1289181.486993)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+kunstbaute: String (30.0)
+anschlussgleis: String (10.0)
+achse_dkm: String (10.0)
+museumsbahn: String (10.0)
+auf_strasse: String (10.0)
+eroeffnungsdatum: Date (0.0)
+stufe: String (5.0)
+ausser_betrieb: String (10.0)
+zahnradbahn: String (10.0)
+standseilbahn: String (10.0)
+betriebsbahn: String (10.0)
+tlm_oev_name_uuid: String (38.0)
+name: String (254.0)
+anzahl_spuren: String (10.0)
+verkehrsmittel: String (50.0)
+
+Layer name: tlm_gewaesser_fliessgewaesser
+Geometry: 3D Line String
+Feature Count: 654435
+Extent: (2485394.285000, 1064131.754015) - (2833363.685000, 1295152.462992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_gewaesser_name_uuid: String (38.0)
+name: String (254.0)
+kantgewnr: String (30.0)
+verlauf: String (30.0)
+tlm_gewaesser_lauf_uuid: String (38.0)
+gewiss_nr: Integer (0.0)
+lauf_nr: Integer (0.0)
+linst: String (5.0)
+gwl_nr: String (50.0)
+stufe: String (5.0)
+
+Layer name: tlm_namen_flurname
+Geometry: 3D Point
+Feature Count: 273366
+Extent: (2485719.011000, 1075422.382014) - (2833048.609000, 1295676.217992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_namen_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_areale_freizeitareal
+Geometry: 3D Polygon
+Feature Count: 3330
+Extent: (2488503.094000, 1076457.432014) - (2830651.001000, 1292779.052992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+name: String (254.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_areale_name_uuid: String (38.0)
+
+Layer name: tlm_bauten_gebaeude_footprint
+Geometry: 3D Polygon
+Feature Count: 3937553
+Extent: (2485682.135000, 1075235.538014) - (2833854.219000, 1295319.094992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+name: String (254.0)
+tlm_bauten_name_uuid: String (38.0)
+nutzung: String (254.0)
+
+Layer name: tlm_namen_gebietsname
+Geometry: 3D Polygon
+Feature Count: 3791
+Extent: (2485410.221000, 1075268.136014) - (2833857.724000, 1295933.697992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_namen_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_name_gelaendename
+Geometry: 3D Polygon
+Feature Count: 15600
+Extent: (2487641.843000, 1076497.040014) - (2833857.724000, 1295933.697992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_namen_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_oev_haltestelle
+Geometry: 3D Point
+Feature Count: 27408
+Extent: (2486194.675000, 1075529.564014) - (2831991.988997, 1294160.387992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_oev_name_uuid: String (38.0)
+name: String (254.0)
+dienststellen_nummer: Integer (0.0)
+
+Layer name: tlm_bauten_leitung
+Geometry: 3D Line String
+Feature Count: 2146
+Extent: (2488240.626000, 1078275.842014) - (2831196.428989, 1291036.614992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+stufe: String (50.0)
+netzebene: String (50.0)
+name: String (50.0)
+tlm_bauten_name_uuid: String (50.0)
+
+Layer name: tlm_bauten_mauer
+Geometry: 3D Line String
+Feature Count: 16494
+Extent: (2487305.679000, 1076431.281014) - (2832514.031000, 1289574.849992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+
+Layer name: tlm_namen_name_pkt
+Geometry: 3D Point
+Feature Count: 12413
+Extent: (2487875.049000, 1075773.973014) - (2833838.384000, 1295180.233992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+hoehe: Integer (0.0)
+tlm_namen_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_areale_nutzungsareal
+Geometry: 3D Polygon
+Feature Count: 35173
+Extent: (2486204.977000, 1075321.865014) - (2832051.199996, 1294305.562992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+name: String (254.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_areale_name_uuid: String (38.0)
+
+Layer name: tlm_oev_schifffahrt
+Geometry: 3D Line String
+Feature Count: 27
+Extent: (2577435.012000, 1177414.136702) - (2753697.156000, 1282490.572993)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_oev_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_areale_schutzgebiet
+Geometry: 3D Polygon
+Feature Count: 2
+Extent: (2799055.738000, 1161609.531004) - (2819991.685000, 1183814.425624)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+name: String (254.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_grenzen_name_uuid: String (38.0)
+
+Layer name: tlm_namen_siedlungsname
+Geometry: 3D Polygon
+Feature Count: 54787
+Extent: (2486166.358000, 1075737.546014) - (2832055.343997, 1294888.626992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_namen_name_uuid: String (38.0)
+name: String (254.0)
+einwohnerkategorie: String (50.0)
+
+Layer name: tlm_bauten_sportbaute_lin
+Geometry: 3D Line String
+Feature Count: 3120
+Extent: (2491880.696000, 1076983.520014) - (2830258.532000, 1294708.509992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_bauten_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_bauten_sportbaute_ply
+Geometry: 3D Polygon
+Feature Count: 16476
+Extent: (2486514.488000, 1076010.584014) - (2830701.653000, 1292795.188992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_bauten_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_bauten_staubaute
+Geometry: 3D Polygon
+Feature Count: 62717
+Extent: (2486189.084000, 1076046.090014) - (2831252.050000, 1294287.076992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_bauten_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_gewaesser_stehendes_gewaesser
+Geometry: 3D Line String
+Feature Count: 42080
+Extent: (2487392.696000, 1064010.913015) - (2832933.324000, 1297553.927992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_gewaesser_name_uuid: String (38.0)
+name: String (254.0)
+kantgewnr: String (30.0)
+tlm_gewaesser_lauf_uuid: String (38.0)
+gewiss_nr: Integer (0.0)
+lauf_nr: Integer (0.0)
+linst: String (5.0)
+gwl_nr: String (50.0)
+wasserstand_wechselnd: String (50.0)
+
+Layer name: tlm_strassen_strasse
+Geometry: 3D Line String
+Feature Count: 2038749
+Extent: (2485437.026000, 1075243.624014) - (2837852.953963, 1296226.313992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+kunstbaute: String (30.0)
+wanderwege: String (50.0)
+befahrbarkeit: String (10.0)
+eroeffnungsdatum: Date (0.0)
+stufe: String (5.0)
+richtungsgetrennt: String (10.0)
+tlm_strassen_name_uuid: String (38.0)
+name: String (254.0)
+belagsart: String (10.0)
+kreisel: String (10.0)
+verkehrsbeschraenkung: String (50.0)
+eigentuemer: String (50.0)
+verkehrsbedeutung: String (50.0)
+strassenname: String (254.0)
+
+Layer name: tlm_strassen_strasseninfo
+Geometry: 3D Point
+Feature Count: 1605300
+Extent: (2485450.048000, 1075243.624014) - (2837852.953963, 1296226.313992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tankstelle: String (10.0)
+restaurant: String (10.0)
+shop: String (10.0)
+toiletten: String (10.0)
+tlm_strassen_name_uuid: String (38.0)
+name: String (254.0)
+
+Layer name: tlm_oev_uebrige_bahn
+Geometry: 3D Line String
+Feature Count: 2654
+Extent: (2495200.356000, 1081000.264013) - (2824307.839004, 1281663.150993)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_oev_name_uuid: String (38.0)
+name: String (254.0)
+ausser_betrieb: String (10.0)
+stufe: String (5.0)
+betriebsbahn: String (10.0)
+eroeffnungsdatum: Date (0.0)
+
+Layer name: tlm_bauten_verbauung
+Geometry: 3D Line String
+Feature Count: 68383
+Extent: (2492487.891000, 1076682.386014) - (2832761.563000, 1291506.060992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+
+Layer name: tlm_areale_verkehrsareal
+Geometry: 3D Polygon
+Feature Count: 13842
+Extent: (2488375.365000, 1076592.435014) - (2830663.208000, 1289262.526993)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+name: String (254.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_areale_name_uuid: String (38.0)
+
+Layer name: tlm_bauten_verkehrsbaute_lin
+Geometry: 3D Line String
+Feature Count: 1876
+Extent: (2490763.080000, 1084750.678013) - (2780885.418000, 1283344.947993)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+stufe: Integer (0.0)
+
+Layer name: tlm_bauten_verkehrsbaute_ply
+Geometry: 3D Polygon
+Feature Count: 2955
+Extent: (2488836.519000, 1076692.091014) - (2817497.874980, 1289102.553993)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+
+Layer name: tlm_bauten_versorgungsbaute_pkt
+Geometry: 3D Point
+Feature Count: 6311
+Extent: (2487567.891000, 1076468.497014) - (2831840.856998, 1295151.928992)
+Layer SRS WKT:
+PROJCRS["CH1903+ / LV95",
+    BASEGEOGCRS["CH1903+",
+        DATUM["CH1903+",
+            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
+                LENGTHUNIT["metre",1]]],
+        PRIMEM["Greenwich",0,
+            ANGLEUNIT["degree",0.0174532925199433]],
+        ID["EPSG",4150]],
+    CONVERSION["Swiss Oblique Mercator 1995",
+        METHOD["Hotine Oblique Mercator (variant B)",
+            ID["EPSG",9815]],
+        PARAMETER["Latitude of projection centre",46.9524055555556,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8811]],
+        PARAMETER["Longitude of projection centre",7.43958333333333,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8812]],
+        PARAMETER["Azimuth of initial line",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8813]],
+        PARAMETER["Angle from Rectified to Skew Grid",90,
+            ANGLEUNIT["degree",0.0174532925199433],
+            ID["EPSG",8814]],
+        PARAMETER["Scale factor on initial line",1,
+            SCALEUNIT["unity",1],
+            ID["EPSG",8815]],
+        PARAMETER["Easting at projection centre",2600000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8816]],
+        PARAMETER["Northing at projection centre",1200000,
+            LENGTHUNIT["metre",1],
+            ID["EPSG",8817]]],
+    CS[Cartesian,2],
+        AXIS["(E)",east,
+            ORDER[1],
+            LENGTHUNIT["metre",1]],
+        AXIS["(N)",north,
+            ORDER[2],
+            LENGTHUNIT["metre",1]],
+    USAGE[
+        SCOPE["Cadastre, engineering survey, topographic mapping (large and medium scale)."],
+        AREA["Liechtenstein; Switzerland."],
+        BBOX[45.82,5.96,47.81,10.49]],
+    ID["EPSG",2056]]
+Data axis to CRS axis mapping: 1,2
+FID Column = id
+Geometry Column = geom
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+
+Layer name: tlm_bb_glamos
+Geometry: None
+Feature Count: 1849
+Layer SRS WKT:
+(unknown)
+FID Column = id
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+tlm_bodenbedeckung_uuid: String (38.0)
+sgi: String (100.0)
+riverlevel0: String (5.0)
+riverlevel1: Integer (0.0)
+riverlevel2: Integer (0.0)
+riverlevel3: String (5.0)
+inventorycode: Integer (0.0)
+
+Layer name: tlm_bauten_leitung_stromtrasse
+Geometry: None
+Feature Count: 2198
+Layer SRS WKT:
+(unknown)
+FID Column = id
+tlm_stromtrasse_uuid: String (38.0)
+tlm_leitung_uuid: String (38.0)
+
+Layer name: tlm_areale_nutzungsareal_schule
+Geometry: None
+Feature Count: 7855
+Layer SRS WKT:
+(unknown)
+FID Column = id
+tlm_schule_uuid: String (38.0)
+tlm_nutzungsareal_uuid: String (38.0)
+
+Layer name: tlm_areale_schule
+Geometry: None
+Feature Count: 6148
+Layer SRS WKT:
+(unknown)
+FID Column = id
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+name: String (254.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+name_schule: String (254.0)
+isced_stufe: String (50.0)
+objectid: String (10.0)
+
+Layer name: tlm_strassen_strassenname
+Geometry: None
+Feature Count: 168091
+Layer SRS WKT:
+(unknown)
+FID Column = id
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+name: String (254.0)
+esid: Integer (0.0)
+kanton: String (2.0)
+gdename: String (40.0)
+gdenr: Integer(Int16) (0.0)
+sprachcode: String (3.0)
+
+Layer name: tlm_strassen_strassenname_strasse
+Geometry: None
+Feature Count: 906974
+Layer SRS WKT:
+(unknown)
+FID Column = id
+tlm_strasse_uuid: String (38.0)
+tlm_strassenname_uuid: String (38.0)
+
+Layer name: tlm_strassen_strassenroute
+Geometry: None
+Feature Count: 524
+Layer SRS WKT:
+(unknown)
+FID Column = id
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+objektart: String (50.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+name: String (254.0)
+routennummer: String (10.0)
+
+Layer name: tlm_strassen_strassenroute_strasse
+Geometry: None
+Feature Count: 155954
+Layer SRS WKT:
+(unknown)
+FID Column = id
+tlm_strasse_uuid: String (38.0)
+tlm_strassenroute_uuid: String (38.0)
+
+Layer name: tlm_bauten_stromtrasse
+Geometry: None
+Feature Count: 3
+Layer SRS WKT:
+(unknown)
+FID Column = id
+uuid: String (38.0)
+datum_aenderung: Date (0.0)
+datum_erstellung: Date (0.0)
+erstellung_jahr: Integer (0.0)
+erstellung_monat: Integer (0.0)
+grund_aenderung: String (50.0)
+herkunft: String (50.0)
+herkunft_jahr: Integer (0.0)
+herkunft_monat: Integer (0.0)
+name: String (254.0)
+revision_jahr: Integer (0.0)
+revision_monat: Integer (0.0)
+revision_qualitaet: String (50.0)
+netzebene: String (50.0)

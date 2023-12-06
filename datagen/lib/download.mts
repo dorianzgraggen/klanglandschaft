@@ -2,6 +2,8 @@ import fs from "fs";
 import https from "https";
 import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
 import AdmZip from "adm-zip";
+import { exec } from "node:child_process";
+import StreamZip from "node-stream-zip";
 
 export async function get_and_prepare_large_geotiffs() {
   chapter_log("getting large geotiffs for datasets");
@@ -27,6 +29,32 @@ export async function get_and_prepare_large_geotiffs() {
     zip.extractAllTo(folder);
     console.log("unzipped", file.id);
   }
+}
+
+/**
+ * Downloads and unzips the SwissTLM3D landscape model. (9.2GB unzipped)
+ * (https://www.swisstopo.admin.ch/de/geodata/landscape/tlm3d.html)
+ * This is used as the basis for various tiles such as public transport,
+ * water, buildings and more.
+ */
+export async function get_swisstlm3d_gpkg(): Promise<void> {
+  mk_dir_if_not_exists(pathify("gpkg"));
+
+  const zip_path = "gpkg/swisstlm3d_2023-03_2056_5728.gpkg.zip";
+  await download_if_missing(
+    zip_path,
+    "https://data.geo.admin.ch/ch.swisstopo.swisstlm3d/swisstlm3d_2023-03/swisstlm3d_2023-03_2056_5728.gpkg.zip",
+  );
+
+  console.log("downloaded");
+
+  const zip = new StreamZip.async({ file: pathify(zip_path) });
+  await zip.extract(
+    "SWISSTLM3D_2023_LV95_LN02.gpkg",
+    pathify("gpkg/SWISSTLM3D_2023_LV95_LN02.gpkg"),
+  );
+  await zip.close();
+  console.log("unzipped");
 }
 
 export async function download_geotiffs(): Promise<void> {

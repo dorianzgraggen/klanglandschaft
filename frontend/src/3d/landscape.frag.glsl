@@ -7,12 +7,18 @@ uniform sampler2D u_satellite;
 uniform sampler2D u_nrm;
 uniform sampler2D u_noise;
 uniform sampler2D u_wind;
+uniform sampler2D u_railway;
+uniform sampler2D u_forest;
+uniform sampler2D u_water;
+uniform sampler2D u_buildings;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
+uniform float u_time;
 
 varying vec2 v_uv;
 varying vec3 v_world_pos;
+varying vec4 v_vert_pos;
 
 // https://gamedev.stackexchange.com/a/148088
 vec4 fromLinear(vec4 linearRGB)
@@ -144,6 +150,45 @@ vec3 desaturate(vec3 color, float factor)
 	return mix(color, gray, factor);
 }
 
+
+// https://www.shadertoy.com/view/ldB3zc
+float hash1( float n ) { return fract(sin(n)*43758.5453); }
+// https://www.shadertoy.com/view/ldB3zc
+vec2  hash2( vec2  p ) { p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)) ); return fract(sin(p)*43758.5453); }
+
+// https://www.shadertoy.com/view/ldB3zc
+vec4 voronoi( in vec2 x, float smoothness, float speed )
+{
+    vec2 n = floor( x );
+    vec2 f = fract( x );
+
+	vec4 m = vec4( 8.0, 0.0, 0.0, 0.0 );
+    for( int j=-2; j<=2; j++ )
+    for( int i=-2; i<=2; i++ )
+    {
+        vec2 g = vec2( float(i),float(j) );
+        vec2 o = hash2( n + g );
+		
+		// animate
+        o = 0.5 + 0.5*sin( u_time * speed + 6.2831*o );
+
+        // distance to cell		
+		float d = length(g - f + o);
+		
+        // cell color
+		vec3 col = 0.5 + 0.5*sin( hash1(dot(n+g,vec2(7.0,113.0)))*2.5 + 3.5 + vec3(2.0,3.0,0.0));
+        // in linear space
+        col = col*col;
+        
+        // do the smooth min for colors and distances		
+		float h = smoothstep( -1.0, 1.0, (m.x-d)/smoothness );
+	    m.x   = mix( m.x,     d, h ) - h*(1.0-h)*smoothness/(1.0+3.0*smoothness); // distance
+		m.yzw = mix( m.yzw, col, h ) - h*(1.0-h)*smoothness/(1.0+3.0*smoothness); // color
+    }
+	
+	return m;
+}
+
 vec3 mix3(vec3 color_a, vec3 color_b, vec3 color_c, float t)  {
   float t1 = clamp(t * 2.0, 0.0, 1.0);
   float t2 = clamp(t * 2.0 - 1.0, 0.0, 1.0);
@@ -152,12 +197,36 @@ vec3 mix3(vec3 color_a, vec3 color_b, vec3 color_c, float t)  {
   return mix(c1, color_c, t2);
 }
 
+
+// https://www.shadertoy.com/view/MlXGRf
+float s_curve(float value, float amount, float correction) {
+
+	float curve = 1.0; 
+
+  if (value < 0.5)
+  {
+    curve = pow(value, amount) * pow(2.0, amount) * 0.5; 
+  }
+  else
+  { 	
+    curve = 1.0 - pow(1.0 - value, amount) * pow(2.0, amount) * 0.5; 
+  }
+
+  return pow(curve, correction);
+}
+
 void main()
 {
   vec3 height = texture2D(u_height, v_uv).xyz;
   vec4 noise = texture2D(u_noise, v_uv);
   vec4 wind = texture2D(u_wind, v_uv);
+  vec4 railway = texture2D(u_railway, v_uv);
+  vec4 water = texture2D(u_water, v_uv, 3.0);
+  vec4 forest = texture2D(u_forest, v_uv, 3.0);
   vec4 satellite = texture2D(u_satellite, v_uv);
+  vec4 buildings = texture2D(u_buildings, v_uv, 1.0);
+
+  vec2 screen_coords = v_vert_pos.xy / v_vert_pos.w * 0.5 + 0.5;
 
   float dist = distance(v_world_pos.xz, u_center.xz);
 
@@ -182,6 +251,24 @@ void main()
   float wind_mapped = pow((wind.r - 0.34) * 1.8, 1.9);
   vec3 wind_colored = mix3(vec3(0.0, 0.0, 0.0), vec3(0.6, 0.2, 0.8) * 0.5, vec3(0.5, 0.1, 0.9) * 6.0, wind_mapped);
 
+  vec4 v = voronoi(v_world_pos.xz * vec2(4.5), 0.5, 0.5);
+  vec3 forest_colored = vec3(0.2, 0.6, 0.2) * forest.r * 0.16 * (1.0 - v.r);
+
+  vec4 voronoi_water = voronoi(v_world_pos.xz * vec2(1.0), 1.0, 0.8);
+  float voronoi_water_lines = pow(voronoi_water.r - 0.1, 1.5) * 0.2;
+  voronoi_water_lines = max(0.0, voronoi_water_lines);
+
+  vec4 voronoi_water2 = voronoi(v_world_pos.xz * vec2(2.5), 1.0, 0.8);
+  float voronoi_water_lines2 = pow(voronoi_water2.r - 0.5, 2.2) * 0.8;
+  voronoi_water_lines2 = max(0.0, voronoi_water_lines2);
+
+
+  vec3 water_colored = vec3(0.2, 0.3, 0.9) * water.r * 0.2 * voronoi_water_lines;
+  water_colored = water_colored + vec3(0.2, 0.3, 0.9) * water.r * 0.13 * voronoi_water_lines2;
+
+  vec3 buildings_colored = vec3(0.7, 0.9, 0.2) * buildings.r * 0.3;
+  // vec3 buildings_colored = vec3(0.45, 0.65, 0.9) * buildings.r * 0.3;
+
 
   gl_FragColor = vec4(v_world_pos, 1.0);
   gl_FragColor = vec4(vec3(mask), 1.0);
@@ -195,9 +282,20 @@ void main()
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
-    vec3 col = tinted + noise_levels_colored + wind_colored;
-    col = tonemap_agx(col);
+    vec3 col = tinted
+      + noise_levels_colored
+      + wind_colored
+      + vec3(0.7 * min(railway.r, 1.0 - buildings.r)) * vec3(0.5, 0.5, 0.8)
+      + forest_colored
+      + water_colored
+      + buildings_colored;
 
+
+    float vignette = 1.0 - distance(vec2(0.5), screen_coords) * 1.2;
+    col = col * mix(0.04, 1.0, clamp(s_curve(vignette, 2.2, 1.0), 0.0, 1.0));
+
+
+    col = mix(tanh(col), tonemap_agx(col), 0.82);
 
     vec3 pos_a = abs((v_world_pos-u_center) * 0.05);
 
@@ -211,7 +309,19 @@ void main()
     // }
 
 
+
     gl_FragColor = vec4(col * 1.1, 1.0);
+    // gl_FragColor = vec4(vec3(vignette), 1.0);
+
+// gl_FragColor = forest;
+
+    // gl_FragColor = vec4(v_world_pos.xz * vec2(0.1), 0.0, 1.0);
+
+    // gl_FragColor = v;
+    // gl_FragColor = vec4(v.r);
+
+    // gl_FragColor = vec4(mod(u_time, 1.0), 0.0, 0.0, 1.0);
+
     // gl_FragColor = vec4(vec3(wind_mapped), 1.0);
 
     // gl_FragColor = vec4(distance(u_center, v_world_pos), 0.0, 0.0, 1.0);
