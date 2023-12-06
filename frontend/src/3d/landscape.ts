@@ -177,11 +177,14 @@ export class Landscape {
         ? 'https://klanglandschaft.b-cdn.net/v01'
         : `http://${window.location.host.split(':')[0]}:8080/data/channels`;
 
-    return this.loader.loadAsync(`${host}/${file_path}`).then((t) => {
-      this.landscape_material.uniforms[uniform].value = t;
-      on_loaded?.(t);
-    }).catch(e => {
-      console.log(e);
-    });
+    return this.loader
+      .loadAsync(`${host}/${file_path}`)
+      .then((t) => {
+        this.landscape_material.uniforms[uniform].value = t;
+        on_loaded?.(t);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 }

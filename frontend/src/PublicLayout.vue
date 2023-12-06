@@ -9,10 +9,10 @@ const show_start_screen = ref(new URLSearchParams(window.location.search).get('n
 
 const settings = ref({
   editor_open: false
-})
+});
 
 function toggleOpen() {
-  settings.value.editor_open = !settings.value.editor_open
+  settings.value.editor_open = !settings.value.editor_open;
 }
 
 function start() {
