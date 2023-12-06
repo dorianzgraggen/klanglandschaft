@@ -14,6 +14,7 @@ uniform sampler2D u_buildings;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
+uniform int u_data_layer;
 uniform float u_time;
 
 varying vec2 v_uv;
@@ -221,10 +222,10 @@ void main()
   vec4 noise = texture2D(u_noise, v_uv);
   vec4 wind = texture2D(u_wind, v_uv);
   vec4 railway = texture2D(u_railway, v_uv);
-  vec4 water = texture2D(u_water, v_uv, 3.0);
-  vec4 forest = texture2D(u_forest, v_uv, 3.0);
+  vec4 water = texture2D(u_water, v_uv);
+  vec4 forest = texture2D(u_forest, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
-  vec4 buildings = texture2D(u_buildings, v_uv, 1.0);
+  vec4 buildings = texture2D(u_buildings, v_uv);
 
   vec2 screen_coords = v_vert_pos.xy / v_vert_pos.w * 0.5 + 0.5;
 
@@ -278,7 +279,11 @@ void main()
   gl_FragColor = satellite;
   if (u_data_mode) {
     gl_FragColor = (vec4(height, 0.7));
-    gl_FragColor = vec4(height.x, noise_mapped, wind_mapped, 1.0);
+    if(u_data_layer == 1) {
+      gl_FragColor = vec4(height.x, noise_mapped, wind_mapped, 1.0);
+    } else {
+      gl_FragColor = vec4(buildings.x, forest.x, water.x, 1.0);
+    }
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
