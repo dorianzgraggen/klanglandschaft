@@ -153,6 +153,7 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
   // RENDER LOOP
   const pixels = new Uint8Array(100 * 100 * 4);
   let previous_time = 0;
+  let frame = 0;
 
   function animate(time: number) {
     requestAnimationFrame(animate);
@@ -160,6 +161,9 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     if (settings.value.editor_open) {
       return;
     }
+
+    frame++;
+    Landscape.data_layer = frame % 2;
 
     landscapes.forEach((l) => l.update(time));
 
@@ -226,13 +230,20 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     a = a / (100 * 100) / 255;
     // console.log(`r:${r} g:${g} b:${b} a:${a}`);
 
-    bridge.elevation = r;
-    bridge.traffic_noise = g;
+    if (frame % 2 !== 0) {
+      bridge.elevation = r;
+      bridge.traffic_noise = g;
+      bridge.wind = b;
+    } else {
+      bridge.buildings = r;
+      bridge.forest = g;
+      bridge.water = b;
+    }
 
-    debug_info.children[1].innerHTML = (Math.round(r * 1000) / 1000).toString();
-    debug_info.children[2].innerHTML = (Math.round(g * 1000) / 1000).toString();
-    debug_info.children[3].innerHTML = (Math.round(b * 1000) / 1000).toString();
-    debug_info.children[4].innerHTML = (Math.round(a * 1000) / 1000).toString();
+    debug_info.children[1 + (frame % 2) * 4].innerHTML = (Math.round(r * 1000) / 1000).toString();
+    debug_info.children[2 + (frame % 2) * 4].innerHTML = (Math.round(g * 1000) / 1000).toString();
+    debug_info.children[3 + (frame % 2) * 4].innerHTML = (Math.round(b * 1000) / 1000).toString();
+    debug_info.children[4 + (frame % 2) * 4].innerHTML = (Math.round(a * 1000) / 1000).toString();
     let heap = 0;
 
     // @ts-ignore
