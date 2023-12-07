@@ -191,6 +191,8 @@ export async function init_editor(
       }
 
       rebuild = true;
+
+      set_input_step_sizes(container);
     }
     return context;
   });
@@ -209,6 +211,15 @@ export async function init_editor(
       }
 
       rebuild = true;
+
+      set_input_step_sizes(container);
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'nodecreated') {
+      set_input_step_sizes(container);
     }
     return context;
   });
@@ -222,6 +233,8 @@ export async function init_editor(
   await add_nodes_from_preset(editor, arrange, preset);
 
   AreaExtensions.zoomAt(area, editor.getNodes());
+
+  set_input_step_sizes(container);
 
   // Processing
   function process() {
@@ -484,4 +497,13 @@ function create_context_menu() {
       ]
     ])
   });
+}
+
+function set_input_step_sizes(parent: HTMLElement) {
+  setTimeout(() => {
+    const inputs = parent.querySelectorAll('input[type="number"]') as NodeListOf<HTMLInputElement>;
+    inputs.forEach((input) => {
+      input.step = '0.1';
+    });
+  }, 200);
 }
