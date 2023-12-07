@@ -103,7 +103,7 @@ button {
   /* the size on the corner */
   --t: 2px;
   /* the thickness of the border */
-  --g: 4px;
+  --g: 0px;
   /* the gap between the border and image */
 
   padding: calc(var(--g) + var(--t));
