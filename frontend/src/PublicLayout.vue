@@ -4,12 +4,9 @@ import SoundEditor from './sound_editor/SoundEditor.vue';
 import { onMounted, ref } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
 import { init_editor, play } from './sound_editor/editor';
+import { settings } from './global';
 
 const show_start_screen = ref(new URLSearchParams(window.location.search).get('nointro') === null);
-
-const settings = ref({
-  editor_open: false
-});
 
 function toggleOpen() {
   settings.value.editor_open = !settings.value.editor_open;
@@ -21,7 +18,7 @@ function start() {
 }
 
 onMounted(async () => {
-  init_3d_scene(settings);
+  init_3d_scene();
 });
 </script>
 

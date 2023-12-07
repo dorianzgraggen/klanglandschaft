@@ -3,7 +3,7 @@ import vertexShader from './landscape.vert.glsl?raw';
 import fragmentShader from './landscape.frag.glsl?raw';
 import { TIFFLoader } from 'three/examples/jsm/loaders/TIFFLoader.js';
 import { BG_COLOR } from './consts';
-import { bridge, layers } from '@/bridge';
+import { bridge, layers } from '@/global';
 
 export class Landscape {
   mesh: THREE.Mesh;

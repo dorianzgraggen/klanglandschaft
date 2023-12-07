@@ -38,7 +38,7 @@ import {
 import { sound_urls } from './nodes/other/sound';
 import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
-import { layers } from '@/bridge';
+import { layers, settings } from '@/global';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -525,4 +525,6 @@ function check_data_nodes(editor: NodeEditor<Schemes>) {
 
     (layers as { [key: string]: number })[key] = node ? 1 : 0;
   });
+
+  settings.value.rerender = true;
 }

@@ -1,3 +1,5 @@
+import { ref } from 'vue';
+
 export const bridge = {
   elevation: -1,
   traffic_noise: -1,
@@ -17,3 +19,8 @@ export const layers = {
   wind: 0,
   railway: 0
 };
+
+export const settings = ref({
+  editor_open: false,
+  rerender: false
+});
