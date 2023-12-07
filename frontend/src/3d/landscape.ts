@@ -3,6 +3,7 @@ import vertexShader from './landscape.vert.glsl?raw';
 import fragmentShader from './landscape.frag.glsl?raw';
 import { TIFFLoader } from 'three/examples/jsm/loaders/TIFFLoader.js';
 import { BG_COLOR } from './consts';
+import { bridge, layers } from '@/bridge';
 
 export class Landscape {
   mesh: THREE.Mesh;
@@ -116,6 +117,13 @@ export class Landscape {
     const mat = material as THREE.ShaderMaterial;
     mat.uniforms.u_data_mode.value = Landscape.data_mode;
     mat.uniforms.u_data_layer.value = Landscape.data_layer;
+    mat.uniforms.u_m_elevation.value = layers.elevation;
+    mat.uniforms.u_m_traffic_noise.value = layers.traffic_noise;
+    mat.uniforms.u_m_buildings.value = layers.buildings;
+    mat.uniforms.u_m_water.value = layers.water;
+    mat.uniforms.u_m_forest.value = layers.forest;
+    mat.uniforms.u_m_wind.value = layers.wind;
+    mat.uniforms.u_m_railway.value = layers.railway;
   }
 
   // Downloads textures and creates material if it doesn't exist yet.
@@ -146,7 +154,14 @@ export class Landscape {
       u_satellite: { value: Landscape.empty_texture },
       u_data_mode: { value: Landscape.data_mode },
       u_data_layer: { value: Landscape.data_layer },
-      u_time: { value: 0 }
+      u_time: { value: 0 },
+      u_m_elevation: { value: layers.elevation },
+      u_m_traffic_noise: { value: layers.traffic_noise },
+      u_m_buildings: { value: layers.buildings },
+      u_m_water: { value: layers.water },
+      u_m_forest: { value: layers.forest },
+      u_m_wind: { value: layers.wind },
+      u_m_railway: { value: layers.railway }
     };
 
     this.fetch_texture(`${this.x}-${this.y}-height.png`, 'u_height', (texture) => {

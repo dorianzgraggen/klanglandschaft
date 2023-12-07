@@ -38,6 +38,7 @@ import {
 import { sound_urls } from './nodes/other/sound';
 import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
+import { layers } from '@/bridge';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -220,6 +221,14 @@ export async function init_editor(
   editor.addPipe((context) => {
     if (context.type === 'nodecreated') {
       set_input_step_sizes(container);
+      check_data_nodes(editor);
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'noderemoved') {
+      check_data_nodes(editor);
     }
     return context;
   });
@@ -506,4 +515,14 @@ function set_input_step_sizes(parent: HTMLElement) {
       input.step = '0.1';
     });
   }, 200);
+}
+
+function check_data_nodes(editor: NodeEditor<Schemes>) {
+  const nodes = editor.getNodes().filter((n) => n instanceof DataNode) as Array<DataNode>;
+
+  Object.keys(layers).forEach((key) => {
+    const node = nodes.find((n) => n.type === key);
+
+    (layers as { [key: string]: number })[key] = node ? 1 : 0;
+  });
 }

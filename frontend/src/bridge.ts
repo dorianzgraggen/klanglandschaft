@@ -4,5 +4,16 @@ export const bridge = {
   buildings: -1,
   water: -1,
   forest: -1,
-  wind: -1
+  wind: -1,
+  railway: -1
+};
+
+export const layers = {
+  elevation: 0,
+  traffic_noise: 0,
+  buildings: 0,
+  water: 0,
+  forest: 0,
+  wind: 0,
+  railway: 0
 };
