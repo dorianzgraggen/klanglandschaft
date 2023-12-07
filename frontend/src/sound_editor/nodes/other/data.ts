@@ -5,7 +5,11 @@ import { bridge } from '@/bridge';
 export const data_types: { [key: string]: string } = {
   elevation: 'Elevation ⛰️',
   traffic_noise: 'Traffic Noise 🚘',
-  wind: 'Wind Strength 🌬️'
+  wind: 'Wind Strength 🌬️',
+  buildings: 'Buildings 🏠',
+  water: 'Bodies of Water 🌊',
+  forest: 'Forests 🌲',
+  railway: 'Railway Tracks 🛤️'
 };
 
 export class DataNode extends ClassicPreset.Node<
