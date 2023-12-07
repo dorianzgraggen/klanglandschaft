@@ -189,6 +189,8 @@ export async function init_editor(
           area.update('node', context.data.target);
         }
       }
+
+      rebuild = true;
     }
     return context;
   });
@@ -205,6 +207,8 @@ export async function init_editor(
           area.update('node', context.data.target);
         }
       }
+
+      rebuild = true;
     }
     return context;
   });
