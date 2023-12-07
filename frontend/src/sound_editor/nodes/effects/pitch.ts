@@ -22,7 +22,7 @@ export class PitchNode extends ClassicPreset.Node<
   execute() {}
 
   data(inputs: any) {
-    const sound = use_default_sound_unless(inputs.sound_in[0]);
+    const sound = use_default_sound_unless(inputs.sound_in);
 
     const control = this.inputs.value_in?.control as ClassicPreset.InputControl<'number'>;
     let pitch = control.value as number;

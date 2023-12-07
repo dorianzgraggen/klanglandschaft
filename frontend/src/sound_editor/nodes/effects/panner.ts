@@ -20,7 +20,7 @@ export class PanNode extends ClassicPreset.Node<
   execute() {}
 
   data(inputs: any) {
-    const sound = use_default_sound_unless(inputs.sound_in[0]);
+    const sound = use_default_sound_unless(inputs.sound_in);
 
     if (inputs.value_in) {
       sound.effects.push({

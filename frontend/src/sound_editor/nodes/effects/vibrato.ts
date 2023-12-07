@@ -21,7 +21,7 @@ export class VibratoNode extends ClassicPreset.Node<
   }
 
   data(inputs: any) {
-    const sound = use_default_sound_unless(inputs.sound_in[0]);
+    const sound = use_default_sound_unless(inputs.sound_in);
 
     let frequency = this.controls.frequency.value as number;
 
