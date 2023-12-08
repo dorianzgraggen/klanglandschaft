@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, reactive, watch, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
+import { bridge } from '@/bridge';
 
 const locationBlobElement = ref<HTMLElement | null>(null);
 const interactiveMapElement = ref<HTMLElement | null>(null);
@@ -14,12 +15,25 @@ onMounted(() => {
     interactiveMapElement.value = document.getElementById('map-container');
 });
 
-// `style` will be a helper computed for `left: ?px; top: ?px;`
-const { x, y, style } = useDraggable(locationBlobElement, {
+const draggableElement = useDraggable(locationBlobElement, {
     containerElement: interactiveMapElement,
-})
+    onEnd: (position, event) => {
+        // TODO: send out location blob's position to bridge
+        console.log("Position:", position);
+    },
+});
 
-//TODO: send out location blob's position to backend
+// `style` will be a helper computed for `left: ?px; top: ?px;`
+const { x, y, style } = draggableElement;
+
+// TODO: update draggable element's position when user position changes
+watch(bridge, (newVal) => {
+    // manually set the position of the draggable element:
+    //draggableElement.position.value = { x: 20, y: 20 };
+
+    //console.log(draggableElement.position.value);
+    //console.log(newVal.user_position);
+});
 
 </script>
 

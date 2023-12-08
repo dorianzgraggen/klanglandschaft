@@ -6,5 +6,6 @@ export const bridge = reactive({
   buildings: -1,
   water: -1,
   forest: -1,
-  wind: -1
+  wind: -1,
+  user_position: {},
 });
