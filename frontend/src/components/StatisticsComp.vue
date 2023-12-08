@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { bridge } from '@/bridge';
+import { bridge } from '@/global';
 import { computed } from 'vue';
 
 let statMultiplier = 100;

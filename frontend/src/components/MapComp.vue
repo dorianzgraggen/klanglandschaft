@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch, computed } from 'vue';
 import { useDraggable } from '@vueuse/core';
-import { bridge } from '@/bridge';
+import { user_controls_target } from '@/global';
 
 const locationBlobElement = ref<HTMLElement | null>(null);
 const interactiveMapElement = ref<HTMLElement | null>(null);
@@ -18,18 +18,23 @@ onMounted(() => {
 const draggableElement = useDraggable(locationBlobElement, {
     containerElement: interactiveMapElement,
     onEnd: (position, event) => {
-        // TODO: send out location blob's position to bridge
-        console.log("Position:", position);
+        const x = position.x / 176 * 340;
+        const z = (1.0 - position.y / 146) * -240
+        user_controls_target.set(x, 0, z);
+        console.log(user_controls_target, x, z)
     },
 });
 
 // `style` will be a helper computed for `left: ?px; top: ?px;`
 const { x, y, style } = draggableElement;
 
-// TODO: update draggable element's position when user position changes
-watch(bridge, (newVal) => {
+// TODO: change graphic to match cutout or add offset
+watch(user_controls_target, (newVal) => {
     // manually set the position of the draggable element:
-    //draggableElement.position.value = { x: 20, y: 20 };
+    draggableElement.position.value = {
+        x: newVal.x / 340 * 176,// TODO: read values from width/height
+        y: (1.0 - (newVal.z / -240)) * 146
+    };
 
     //console.log(draggableElement.position.value);
     //console.log(newVal.user_position);

@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { NumberSocket } from '../../sockets';
-import { bridge } from '@/bridge';
+import { bridge } from '@/global';
 
 export const data_types: { [key: string]: string } = {
   elevation: 'Elevation ⛰️',

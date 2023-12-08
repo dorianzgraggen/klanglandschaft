@@ -4,7 +4,7 @@ import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 import { Landscape } from './landscape';
 import { Center } from './center';
 import { BG_COLOR, DEBUG_LAYER } from './consts';
-import { bridge } from '@/bridge';
+import { bridge, user_controls_target } from '@/global';
 import type { Ref } from 'vue';
 
 export function init(settings: Ref<{ editor_open: boolean }>) {
@@ -70,6 +70,8 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
   user_controls.enableZoom = true;
   user_controls.zoomSpeed = 0.3;
   user_controls.panSpeed = 1;
+  user_controls.target = user_controls_target;
+
   user_controls.target.set(82, 0, -200); // center camera at lucerne train station
 
   user_controls.update();
@@ -176,7 +178,7 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
     debug_controls.update();
     user_controls.update();
     // TODO: make user_controls.target reactive to prevent update with every frame
-    bridge.user_position = user_controls.target.toArray();
+    // bridge.user_position = user_controls.target.toArray();
     center.update(user_controls, debug_view);
 
     if (debug_view) {
