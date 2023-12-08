@@ -26,6 +26,9 @@ const showGuide = ref(false);
 
 <style scoped>
 #guide-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
@@ -43,11 +46,13 @@ button {
     height: 30px;
     border: none;
     border-radius: 50%;
+    pointer-events: all;
 }
 
 #close-button {
     font-size: 20px;
     padding-right: 8px;
+    pointer-events: all;
 }
 
 #close-button:hover {
@@ -62,8 +67,6 @@ img {
 
 #guide-content {
     position: relative;
-    width: 200px;
-    height: 550px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
