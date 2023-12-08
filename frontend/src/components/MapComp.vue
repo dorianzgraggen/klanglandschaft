@@ -10,18 +10,29 @@ const locationBlob = {
     size: 20,
 };
 
-onMounted(() => {
-    locationBlobElement.value = document.getElementById('location-blob');
-    interactiveMapElement.value = document.getElementById('map-container');
-});
+const usable_map_width = computed(() => {
+    if (interactiveMapElement.value == null || locationBlobElement.value == null) {
+        return {
+            x: 0, y: 0,
+        }
+    }
+
+    return {
+        x: interactiveMapElement.value.offsetWidth - locationBlobElement.value.offsetWidth,
+        y: interactiveMapElement.value.offsetHeight - locationBlobElement.value.offsetHeight,
+    }
+})
+
+watch(usable_map_width, (newv) => {
+    console.log("new", newv)
+})
 
 const draggableElement = useDraggable(locationBlobElement, {
     containerElement: interactiveMapElement,
     onEnd: (position, event) => {
-        const x = position.x / 176 * 340;
-        const z = (1.0 - position.y / 146) * -240
+        const x = position.x / usable_map_width.value.x * 340;
+        const z = (1.0 - position.y / usable_map_width.value.y) * -240
         user_controls_target.set(x, 0, z);
-        console.log(user_controls_target, x, z)
     },
 });
 
@@ -32,8 +43,8 @@ const { x, y, style } = draggableElement;
 watch(user_controls_target, (newVal) => {
     // manually set the position of the draggable element:
     draggableElement.position.value = {
-        x: newVal.x / 340 * 176,// TODO: read values from width/height
-        y: (1.0 - (newVal.z / -240)) * 146
+        x: newVal.x / 340 * usable_map_width.value.x,// TODO: read values from width/height
+        y: (1.0 - (newVal.z / -240)) * usable_map_width.value.y
     };
 
     //console.log(draggableElement.position.value);
@@ -44,7 +55,7 @@ watch(user_controls_target, (newVal) => {
 
 <template>
     <div class="component-title">map</div>
-    <div id="map-container" class="border-corners">
+    <div id="map-container" class="border-corners" ref="interactiveBlobElement">
         <div id="interactive-area" ref="interactiveMapElement">
             <img draggable=false src="../assets/outline_vierwaldstaettersee.png" alt="map" />
             <button id="location-blob" ref="locationBlobElement" :style="style"></button>

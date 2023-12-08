@@ -177,8 +177,6 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
 
     debug_controls.update();
     user_controls.update();
-    // TODO: make user_controls.target reactive to prevent update with every frame
-    // bridge.user_position = user_controls.target.toArray();
     center.update(user_controls, debug_view);
 
     if (debug_view) {
