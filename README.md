@@ -1,4 +1,6 @@
-_Klanglandschaft_ is an interactive web application that explores the connection between sound and cartography and invites users to express their individual perception of the Central Swiss landscape through sound. 
+# Klanglandschaft
+
+An interactive web application that explores the connection between sound and cartography. 
 
 ![image](https://github.com/dorianzgraggen/hslu-stuw1/assets/39463388/87babeb2-24ea-4052-ade0-99c418a8c608)
 
