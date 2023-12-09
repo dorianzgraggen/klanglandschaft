@@ -27,10 +27,12 @@ watch(usable_map_width, (newv) => {
     console.log("new", newv)
 })
 
+const offset_x = 60;
+
 const draggableElement = useDraggable(locationBlobElement, {
     containerElement: interactiveMapElement,
     onEnd: (position, event) => {
-        const x = position.x / usable_map_width.value.x * 340;
+        const x = position.x / usable_map_width.value.x * (340 - offset_x) + offset_x;
         const z = (1.0 - position.y / usable_map_width.value.y) * -240
         user_controls_target.set(x, 0, z);
     },
@@ -42,8 +44,9 @@ const { x, y, style } = draggableElement;
 // TODO: change graphic to match cutout or add offset
 watch(user_controls_target, (newVal) => {
     // manually set the position of the draggable element:
+
     draggableElement.position.value = {
-        x: newVal.x / 340 * usable_map_width.value.x,// TODO: read values from width/height
+        x: (newVal.x - offset_x) / (340 - offset_x) * usable_map_width.value.x,// TODO: read values from width/height
         y: (1.0 - (newVal.z / -240)) * usable_map_width.value.y
     };
 
@@ -83,6 +86,8 @@ watch(user_controls_target, (newVal) => {
 
 img {
     width: 100%;
+    /* height: 100%; */
+    /* float: right; */
 }
 
 #location-blob {
