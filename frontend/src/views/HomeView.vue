@@ -4,27 +4,31 @@ import MapComp from '@/components/MapComp.vue'
 import GuideComp from '@/components/GuideComp.vue'
 </script>
 <template>
-    <div id="guide-component">
-        <GuideComp title="3D-view">
-            <p class="border-corners-small" style="margin-bottom: 20px;">what you hear depends on the data that is currently
-                visible in the view. have fun exploring lake
-                lucerne!</p>
-            <div id="guide-controls">
-                <div id="control-item">
-                    <div class="control-text">left click to move</div>
-                    <img class="mouse-icon" src="../assets/left-click.png" alt="mouse left click" />
-                </div>
-                <div id="control-item">
-                    <div class="control-text">right click to rotate</div>
-                    <img class="mouse-icon" src="../assets/right-click.png" alt="mouse right click" />
-                </div>
-                <div id="control-item">
-                    <div class="control-text">scroll to zoom</div>
-                    <img class="mouse-icon" src="../assets/scroll.png" alt="mouse scroll" />
-                </div>
+    <GuideComp id="guide-component" title="dashboard" :icon-size="24">
+        <div id="guide-description" class="border-corners-small">
+            <p>what you hear depends on the data that is currently
+                visible in the view </p>
+            <p>
+                you can explore lake lucerne by either moving around in the 3D view or by moving your location <button
+                    id="location-blob-icon"></button> in the
+                minimap down below
+            </p>
+        </div>
+        <div id="guide-controls">
+            <div id="control-item">
+                <div class="control-text">left click & drag <br /> 3D view or your minimap location</div>
+                <img class="mouse-icon" src="../assets/left-click.png" alt="mouse left click" />
             </div>
-        </GuideComp>
-    </div>
+            <div id="control-item">
+                <div class="control-text">right click to rotate</div>
+                <img class="mouse-icon" src="../assets/right-click.png" alt="mouse right click" />
+            </div>
+            <div id="control-item">
+                <div class="control-text">scroll to zoom</div>
+                <img class="mouse-icon" src="../assets/scroll.png" alt="mouse scroll" />
+            </div>
+        </div>
+    </GuideComp>
     <div id="stats-component">
         <StatisticsComp />
     </div>
@@ -35,12 +39,9 @@ import GuideComp from '@/components/GuideComp.vue'
 
 <style scoped>
 #guide-component {
-    position: absolute;
-    height: 70%;
-    width: 300px;
-    top: 0;
-    right: 0;
     pointer-events: none;
+    overflow: hidden;
+
 }
 
 #stats-component {
@@ -56,9 +57,20 @@ import GuideComp from '@/components/GuideComp.vue'
     right: 15px;
 }
 
-p {
+#guide-description {
     font-size: 12px;
     padding: 15px;
+    margin: 15px 0 15px 0;
+}
+
+#location-blob-icon {
+    position: relative;
+    width: 13px;
+    height: 13px;
+    background-color: rgba(78, 78, 78, 0.8);
+    border-radius: 3px;
+    padding: 0;
+    margin: 3px;
 }
 
 
@@ -82,6 +94,8 @@ p {
 
 .control-text {
     font-size: 11px;
+    text-align: center;
+    margin-bottom: 7px;
 }
 
 .mouse-icon {

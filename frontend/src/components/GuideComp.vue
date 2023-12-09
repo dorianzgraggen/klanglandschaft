@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-defineProps({
+const settings = defineProps({
     title: String,
+    iconSize: {
+        type: Number,
+        default: 30
+    },
+    margin: {
+        type: Number,
+        default: 20
+    },
 });
+
 const showGuide = ref(false);
 
 </script>
@@ -25,34 +34,36 @@ const showGuide = ref(false);
 </template>
 
 <style scoped>
-#guide-container {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-}
-
 button {
-    position: absolute;
     background-color: transparent;
     border: none;
-    top: 20px;
-    right: 20px;
     padding: 0;
+    pointer-events: all;
 }
 
 #guide-button {
-    width: 30px;
-    height: 30px;
+    position: absolute;
+    width: v-bind('settings.iconSize + "px"');
+    height: v-bind('settings.iconSize + "px"');
+    top: 0;
+    right: 0;
     border: none;
     border-radius: 50%;
     pointer-events: all;
+    margin: v-bind('settings.margin + "px"');
+}
+
+#guide-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #close-button {
+    position: fixed;
     font-size: 20px;
     padding-right: 8px;
     pointer-events: all;
+    top: 18px;
+    right: 18px;
 }
 
 #close-button:hover {
@@ -66,7 +77,7 @@ img {
 }
 
 #guide-content {
-    position: relative;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -74,6 +85,12 @@ img {
     padding-top: 60px;
     background-color: rgba(0, 0, 0, 0.691);
     border-radius: 20px;
+    height: 620px;
+    width: 350px;
+    overflow: hidden;
+    pointer-events: none;
+    top: 0;
+    right: 0;
 }
 
 p {
