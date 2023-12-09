@@ -80,7 +80,7 @@ button {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.691);
   color: white;
-  font-size: 18px;
+  font-size: 1rem;
   border: 2px solid rgba(255, 255, 255, 0.168);
   border-radius: 5px;
   padding: 16px 20px;
@@ -97,7 +97,7 @@ button:hover {
 }
 
 .component-title {
-  font-size: 18px;
+  font-size: 1rem;
   margin-bottom: 10px;
 }
 

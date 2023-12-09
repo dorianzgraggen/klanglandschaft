@@ -4,7 +4,7 @@ import MapComp from '@/components/MapComp.vue'
 import GuideComp from '@/components/GuideComp.vue'
 </script>
 <template>
-    <GuideComp id="guide-component" title="dashboard" :icon-size="24">
+    <GuideComp id="guide-component" title="dashboard" :icon-size="24" style="z-index: -1;">
         <div id="guide-description" class="border-corners-small">
             <p>what you hear depends on the data that is currently
                 visible in the view </p>
@@ -41,7 +41,6 @@ import GuideComp from '@/components/GuideComp.vue'
 #guide-component {
     pointer-events: none;
     overflow: hidden;
-
 }
 
 #stats-component {
@@ -55,6 +54,7 @@ import GuideComp from '@/components/GuideComp.vue'
     position: absolute;
     bottom: 15px;
     right: 15px;
+    z-index: -1;
 }
 
 #guide-description {

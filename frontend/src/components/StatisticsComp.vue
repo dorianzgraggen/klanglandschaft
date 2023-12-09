@@ -75,10 +75,10 @@ const stats = reactive({
 .stats-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 10px;
-    height: 250px;
-    width: 250px;
+    justify-content: space-around;
+    padding: 15px;
+    height: 11rem;
+    width: 15rem;
 }
 
 .stat-item {
@@ -87,6 +87,7 @@ const stats = reactive({
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    font-size: 0.8rem;
 }
 
 .bar {
