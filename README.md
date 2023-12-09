@@ -5,7 +5,8 @@ An interactive web application that explores the connection between sound and ca
 ![image](https://github.com/dorianzgraggen/hslu-stuw1/assets/39463388/87babeb2-24ea-4052-ade0-99c418a8c608)
 
 
-:warning: _Klanglandschaft still is a prototype or a proof of concept. You will experience bugs._
+:warning: _Klanglandschaft is a prototype or a proof of concept created during a course at the [Digital Ideation programme](https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/) at Lucerne University of Applied Sciences. You will experience bugs._
+
 
 ## Contributing
 
