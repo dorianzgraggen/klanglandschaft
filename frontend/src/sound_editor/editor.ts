@@ -41,6 +41,7 @@ import { PitchNode } from './nodes/effects/pitch';
 import { layers, settings } from '@/global';
 import { watch } from 'vue';
 import { DistortionNode } from './nodes/effects/distortion';
+import { ReverbNode } from './nodes/effects/reverb';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -461,6 +462,9 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) 
       case 'distortion':
         return new Tone.Distortion();
 
+      case 'reverb':
+        return new Tone.Reverb();
+
       case 'source': {
         const url = effect.meta!.url as string;
 
@@ -497,6 +501,9 @@ function connect_audio_nodes(output_index: number) {
   // player.chain(...sound_nodes, Tone.Destination);
 }
 
+const r = new Tone.Reverb();
+r.wet;
+
 function create_context_menu() {
   return new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
@@ -513,6 +520,7 @@ function create_context_menu() {
           ['Vibrato Node', () => new VibratoNode()],
           ['Pitch Node', () => new PitchNode()],
           ['Panner Node', () => new PanNode()],
+          ['Reverb Node', () => new ReverbNode()],
           ['Distortion Node', () => new DistortionNode()]
         ]
       ],

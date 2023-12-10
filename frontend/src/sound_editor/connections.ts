@@ -12,8 +12,10 @@ import {
   SineNode,
   VibratoNode
 } from './nodes';
+import type { DistortionNode } from './nodes/effects/distortion';
+import type { ReverbNode } from './nodes/effects/reverb';
 
-export type EffectNode = VolumeNode | PanNode;
+export type EffectNode = VolumeNode | PanNode | DistortionNode | ReverbNode;
 export type ValueChangeNode = AddNode | MultiplyNode | SineNode;
 
 export type EffectNodeTwoInputs = VibratoNode;
