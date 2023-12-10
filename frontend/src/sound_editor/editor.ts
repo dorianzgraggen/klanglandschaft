@@ -19,7 +19,6 @@ import {
   PanNode,
   TimeNode,
   VolumeNode,
-  MultiplyNode,
   AddNode,
   SineNode,
   VibratoNode
@@ -42,6 +41,11 @@ import { layers, settings } from '@/global';
 import { watch } from 'vue';
 import { DistortionNode } from './nodes/effects/distortion';
 import { ReverbNode } from './nodes/effects/reverb';
+import { SubtractNode } from './nodes/math/subtract';
+import { MultiplyNode } from './nodes/math/multiply';
+import { DivideNode } from './nodes/math/divide';
+import { MaxNode } from './nodes/math/max';
+import { MinNode } from './nodes/math/min';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -530,7 +534,19 @@ function create_context_menu() {
           return [value.title, () => new SoundNode(key)];
         })
       ],
-      ['Math', [['Add', () => new AddNode()]]]
+      [
+        'Math',
+        [
+          ['Add', () => new AddNode()],
+          ['Subtract', () => new SubtractNode()],
+          ['Multiply', () => new MultiplyNode()],
+          ['Divide', () => new DivideNode()],
+          ['Max', () => new MaxNode()],
+          ['Min', () => new MinNode()],
+          ['Sine', () => new SineNode()],
+          ['Time', () => new TimeNode()]
+        ]
+      ]
     ])
   });
 }

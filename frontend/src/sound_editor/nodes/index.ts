@@ -4,7 +4,6 @@ export { OutputNode } from './other/output';
 export { PanNode } from './effects/panner';
 export { VibratoNode } from './effects/vibrato';
 export { VolumeNode } from './effects/volume';
-export { MultiplyNode } from './math/multiply';
 export { TimeNode } from './math/time';
 export { SineNode } from './math/sine';
 export { AddNode } from './math/add';

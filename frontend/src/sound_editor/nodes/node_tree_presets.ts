@@ -1,7 +1,6 @@
 import {
   AddNode,
   DataNode,
-  MultiplyNode,
   OutputNode,
   PanNode,
   SineNode,
@@ -12,6 +11,7 @@ import {
 } from '.';
 import type { NodeProps } from '../connections';
 import { handle_output } from '../editor';
+import { MultiplyNode } from './math/multiply';
 
 export class ConnectionInfo {
   constructor(
@@ -36,8 +36,8 @@ export const test_preset: NodeTreePreset = {
     time: new TimeNode(),
     sine: new SineNode(),
     add: new AddNode(),
-    multiply: new MultiplyNode(1),
-    multiply_time: new MultiplyNode(1),
+    multiply: new MultiplyNode(),
+    multiply_time: new MultiplyNode(),
     pan: new PanNode(),
     vibrato: new VibratoNode(),
     sound2: new SoundNode(),
