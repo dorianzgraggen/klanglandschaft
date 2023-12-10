@@ -37,17 +37,12 @@ const draggableElement = useDraggable(locationBlobElement, {
 // `style` will be a helper computed for `left: ?px; top: ?px;`
 const { x, y, style } = draggableElement;
 
-// TODO: change graphic to match cutout or add offset
 watch(user_controls_target, (newVal) => {
     // manually set the position of the draggable element:
-
     draggableElement.position.value = {
         x: (newVal.x - offset_x) / (340 - offset_x) * usable_map_width.value.x,
         y: (1.0 - (newVal.z / -240)) * usable_map_width.value.y
     };
-
-    //console.log(draggableElement.position.value);
-    //console.log(newVal.user_position);
 });
 
 </script>
