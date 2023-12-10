@@ -12,7 +12,7 @@ export type AudioEffect = {
   };
 };
 
-export type SoundEffectKey = 'pan' | 'gain' | 'vibrato' | 'source' | 'pitch';
+export type SoundEffectKey = 'pan' | 'gain' | 'vibrato' | 'source' | 'pitch' | 'distortion';
 
 export function use_default_sound_unless(sound_info: SoundInfo[]) {
   if (typeof sound_info !== 'undefined') {

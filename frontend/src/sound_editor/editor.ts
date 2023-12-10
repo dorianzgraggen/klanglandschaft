@@ -40,6 +40,7 @@ import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
 import { layers, settings } from '@/global';
 import { watch } from 'vue';
+import { DistortionNode } from './nodes/effects/distortion';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -420,8 +421,12 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
       }
 
       if (effect.meta) {
-        if (effect.meta.pitch) {
+        if (typeof effect.meta.pitch !== 'undefined') {
           (sound_node as any).pitch = effect.meta.pitch;
+        }
+
+        if (typeof effect.meta.distortion !== 'undefined') {
+          (sound_node as any).distortion = effect.meta.distortion;
         }
       }
     });
@@ -452,6 +457,9 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) 
         pitch.wet.value = 1;
         return pitch;
       }
+
+      case 'distortion':
+        return new Tone.Distortion();
 
       case 'source': {
         const url = effect.meta!.url as string;
@@ -504,7 +512,8 @@ function create_context_menu() {
           ['Volume Node', () => new VolumeNode()],
           ['Vibrato Node', () => new VibratoNode()],
           ['Pitch Node', () => new PitchNode()],
-          ['Panner Node', () => new PanNode()]
+          ['Panner Node', () => new PanNode()],
+          ['Distortion Node', () => new DistortionNode()]
         ]
       ],
       [
