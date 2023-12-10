@@ -35,12 +35,12 @@ div[title='Action'] {
   border: 2px solid rgba(255, 255, 255, 0.658) !important;
 }
 
-svg[data-testid='connection']>path {
+svg[data-testid='connection'] > path {
   stroke: rgb(255, 255, 255) !important;
 }
 
 /* SEARCH */
-div[data-testid='context-menu']>div:first-child {
+div[data-testid='context-menu'] > div:first-child {
   /* background-color: green !important; */
   display: none;
 }
@@ -90,7 +90,7 @@ button:hover {
   background-color: rgba(24, 24, 24, 0.5);
 }
 
-#canvas-root>canvas {
+#canvas-root > canvas {
   width: 100% !important;
   height: 100% !important;
   display: block;
@@ -113,12 +113,14 @@ button:hover {
   padding: calc(var(--g) + var(--t));
   outline: var(--t) solid whitesmoke;
   /* the color here */
-  outline-offset: calc(-1*var(--t));
+  outline-offset: calc(-1 * var(--t));
   -webkit-mask:
-    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0/calc(100% - var(--s)) calc(100% - var(--s)),
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
     linear-gradient(#000 0 0) content-box;
   mask:
-    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0/calc(100% - var(--s)) calc(100% - var(--s)),
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
     linear-gradient(#000 0 0) content-box;
 }
 
@@ -133,11 +135,13 @@ button:hover {
   padding: calc(var(--g) + var(--t));
   outline: var(--t) solid whitesmoke;
   /* the color here */
-  outline-offset: calc(-1*var(--t));
+  outline-offset: calc(-1 * var(--t));
   -webkit-mask:
-    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0/calc(100% - var(--s)) calc(100% - var(--s)),
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
     linear-gradient(#000 0 0) content-box;
   mask:
-    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0/calc(100% - var(--s)) calc(100% - var(--s)),
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
     linear-gradient(#000 0 0) content-box;
 }

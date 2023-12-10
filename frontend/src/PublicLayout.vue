@@ -39,8 +39,9 @@ onMounted(async () => {
   <!-- Rendering Debug Information -->
   <div id="debug-info" class="debug">
     <span></span>
-    | <span class="r"></span> <span class="g"></span> <span class="b"></span> <span class="a"></span>
-    | <span class="r"></span> <span class="g"></span> <span class="b"></span> <span class="a"></span>
+    | <span class="r"></span> <span class="g"></span> <span class="b"></span>
+    <span class="a"></span> | <span class="r"></span> <span class="g"></span>
+    <span class="b"></span> <span class="a"></span>
   </div>
 
   <RouterView />
