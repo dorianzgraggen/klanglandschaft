@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
-import { use_default_sound_unless } from '../util';
+import { clamp, use_default_sound_unless } from '../util';
 
 export class VibratoNode extends ClassicPreset.Node<
   { frequency: ClassicPreset.Socket; depth: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
@@ -39,7 +39,7 @@ export class VibratoNode extends ClassicPreset.Node<
       type: 'vibrato',
       settings: {
         frequency,
-        depth
+        depth: clamp(depth)
       }
     });
 

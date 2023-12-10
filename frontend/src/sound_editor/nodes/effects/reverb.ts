@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
-import { use_default_sound_unless } from '../util';
+import { clamp, use_default_sound_unless } from '../util';
 
 export class ReverbNode extends ClassicPreset.Node<
   { wet: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
@@ -37,7 +37,7 @@ export class ReverbNode extends ClassicPreset.Node<
     sound.effects.push({
       type: 'reverb',
       settings: {
-        wet
+        wet: clamp(wet)
       }
     });
 

@@ -1,6 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
-import { use_default_sound_unless } from '../util';
+import { clamp, use_default_sound_unless } from '../util';
 
 export class VolumeNode extends ClassicPreset.Node<
   { value_in: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
@@ -34,7 +34,7 @@ export class VolumeNode extends ClassicPreset.Node<
     sound.effects.push({
       type: 'gain',
       settings: {
-        gain
+        gain: clamp(gain, 0, 10)
       }
     });
 

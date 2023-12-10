@@ -34,3 +34,7 @@ export function use_default_sound() {
     effects: new Array<AudioEffect>()
   };
 }
+
+export function clamp(t: number, min = 0, max = 1) {
+  return Math.max(Math.min(t, max), min);
+}
