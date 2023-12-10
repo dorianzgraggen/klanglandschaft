@@ -35,7 +35,7 @@ export const test_preset: NodeTreePreset = {
     volume: new VolumeNode(),
     time: new TimeNode(),
     sine: new SineNode(),
-    add: new AddNode(0),
+    add: new AddNode(),
     multiply: new MultiplyNode(1),
     multiply_time: new MultiplyNode(1),
     pan: new PanNode(),

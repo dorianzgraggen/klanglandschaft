@@ -529,7 +529,8 @@ function create_context_menu() {
         Object.entries(sound_urls).map(([key, value]) => {
           return [value.title, () => new SoundNode(key)];
         })
-      ]
+      ],
+      ['Math', [['Add', () => new AddNode()]]]
     ])
   });
 }
