@@ -39,6 +39,7 @@ import { sound_urls } from './nodes/other/sound';
 import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
 import { layers, settings } from '@/global';
+import { watch } from 'vue';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -241,7 +242,15 @@ export async function init_editor(
 
   await add_nodes_from_preset(editor, arrange, preset);
 
-  AreaExtensions.zoomAt(area, editor.getNodes());
+  watch(settings, (old_settings, new_settings) => {
+    if (!new_settings.editor_open) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      AreaExtensions.zoomAt(area, editor.getNodes());
+    }, 0);
+  });
 
   set_input_step_sizes(container);
 
@@ -526,5 +535,5 @@ function check_data_nodes(editor: NodeEditor<Schemes>) {
     (layers as { [key: string]: number })[key] = node ? 1 : 0;
   });
 
-  settings.value.rerender = true;
+  settings.rerender = true;
 }

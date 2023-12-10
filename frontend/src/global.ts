@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 export const bridge = {
   elevation: -1,
@@ -20,7 +20,7 @@ export const layers = {
   railway: 0
 };
 
-export const settings = ref({
+export const settings = reactive({
   editor_open: false,
   rerender: false
 });

@@ -157,11 +157,11 @@ export function init() {
   function animate(time: number) {
     requestAnimationFrame(animate);
 
-    if (settings.value.editor_open && !settings.value.rerender) {
+    if (settings.editor_open && !settings.rerender) {
       return;
     }
 
-    settings.value.rerender = false;
+    settings.rerender = false;
 
     frame++;
     Landscape.data_layer = frame % 2;

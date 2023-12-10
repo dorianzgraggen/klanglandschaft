@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
 import SoundEditor from './sound_editor/SoundEditor.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
 import { init_editor, play } from './sound_editor/editor';
 import { settings } from './global';
@@ -9,7 +9,7 @@ import { settings } from './global';
 const show_start_screen = ref(new URLSearchParams(window.location.search).get('nointro') === null);
 
 function toggleOpen() {
-  settings.value.editor_open = !settings.value.editor_open;
+  settings.editor_open = !settings.editor_open;
 }
 
 function start() {
