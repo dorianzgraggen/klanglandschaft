@@ -63,11 +63,15 @@ const stats = reactive({
     <div class="stat-item" v-for="stat in stats" :key="stat.id">
       <span>{{ stat.description }}</span>
       <div class="bar">
-        <div :id="stat.name" class="bar-percentage" :style="{
-          width: stat.percentageValue + 'px',
-          backgroundImage: `linear-gradient(to bottom, ${stat.topColor}, ${stat.bottomColor})`,
-          boxShadow: `0 0 4px ${stat.bottomColor}`
-        }"></div>
+        <div
+          :id="stat.name"
+          class="bar-percentage"
+          :style="{
+            width: stat.percentageValue + 'px',
+            backgroundImage: `linear-gradient(to bottom, ${stat.topColor}, ${stat.bottomColor})`,
+            boxShadow: `0 0 4px ${stat.bottomColor}`
+          }"
+        ></div>
       </div>
     </div>
   </div>
