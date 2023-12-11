@@ -6,54 +6,54 @@ import { computed } from 'vue';
 let statMultiplier = 100;
 
 const stats = reactive({
-  elevation: computed(() => ({
+  elevation: {
     id: 1,
     name: 'stats-elevation',
     description: 'elevation',
-    percentageValue: bridge.elevation * statMultiplier,
+    percentageValue: computed(() => bridge.elevation * statMultiplier),
     topColor: '#0BE72E',
     bottomColor: '#13C2A3'
-  })),
-  traffic_noise: computed(() => ({
+  },
+  traffic_noise: {
     id: 2,
     name: 'stats-traffic',
     description: 'traffic noise',
-    percentageValue: bridge.traffic_noise * statMultiplier,
+    percentageValue: computed(() => bridge.traffic_noise * statMultiplier),
     topColor: '#ff7b23',
     bottomColor: '#FF0000'
-  })),
-  buildings: computed(() => ({
+  },
+  buildings: {
     id: 3,
     name: 'stats-buildings',
     description: 'buildings',
-    percentageValue: bridge.buildings * statMultiplier,
+    percentageValue: computed(() => bridge.buildings * statMultiplier),
     topColor: '#1E45CD',
     bottomColor: '#5534D8'
-  })),
-  water: computed(() => ({
+  },
+  water: {
     id: 4,
     name: 'stats-water',
     description: 'water',
-    percentageValue: bridge.water * statMultiplier,
+    percentageValue: computed(() => bridge.water * statMultiplier),
     topColor: '#1E45CD',
     bottomColor: '#5534D8'
-  })),
-  forest: computed(() => ({
+  },
+  forest: {
     id: 5,
     name: 'stats-forest',
     description: 'forest',
-    percentageValue: bridge.forest * statMultiplier,
+    percentageValue: computed(() => bridge.forest * statMultiplier),
     topColor: '#1E45CD',
     bottomColor: '#5534D8'
-  })),
-  wind: computed(() => ({
+  },
+  wind: {
     id: 6,
     name: 'stats-wind',
     description: 'wind',
-    percentageValue: bridge.wind * statMultiplier,
+    percentageValue: computed(() => bridge.wind * statMultiplier),
     topColor: '#5915E9',
     bottomColor: '#BB0BE7'
-  }))
+  }
 });
 </script>
 
@@ -63,15 +63,11 @@ const stats = reactive({
     <div class="stat-item" v-for="stat in stats" :key="stat.id">
       <span>{{ stat.description }}</span>
       <div class="bar">
-        <div
-          :id="stat.name"
-          class="bar-percentage"
-          :style="{
-            width: stat.percentageValue + 'px',
-            backgroundImage: `linear-gradient(to bottom, ${stat.topColor}, ${stat.bottomColor})`,
-            boxShadow: `0 0 4px ${stat.bottomColor}`
-          }"
-        ></div>
+        <div :id="stat.name" class="bar-percentage" :style="{
+          width: stat.percentageValue + 'px',
+          backgroundImage: `linear-gradient(to bottom, ${stat.topColor}, ${stat.bottomColor})`,
+          boxShadow: `0 0 4px ${stat.bottomColor}`
+        }"></div>
       </div>
     </div>
   </div>
