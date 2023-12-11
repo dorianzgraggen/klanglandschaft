@@ -14,6 +14,7 @@ uniform sampler2D u_buildings;
 uniform vec3 u_center;
 uniform vec3 u_background;
 uniform bool u_data_mode;
+uniform int u_data_layer;
 uniform float u_time;
 
 varying vec2 v_uv;
@@ -159,6 +160,7 @@ vec2  hash2( vec2  p ) { p = vec2( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,18
 // https://www.shadertoy.com/view/ldB3zc
 vec4 voronoi( in vec2 x, float smoothness, float speed )
 {
+  return vec4(1.0); 
     vec2 n = floor( x );
     vec2 f = fract( x );
 
@@ -221,10 +223,10 @@ void main()
   vec4 noise = texture2D(u_noise, v_uv);
   vec4 wind = texture2D(u_wind, v_uv);
   vec4 railway = texture2D(u_railway, v_uv);
-  vec4 water = texture2D(u_water, v_uv, 3.0);
-  vec4 forest = texture2D(u_forest, v_uv, 3.0);
+  vec4 water = texture2D(u_water, v_uv);
+  vec4 forest = texture2D(u_forest, v_uv);
   vec4 satellite = texture2D(u_satellite, v_uv);
-  vec4 buildings = texture2D(u_buildings, v_uv, 1.0);
+  vec4 buildings = texture2D(u_buildings, v_uv);
 
   vec2 screen_coords = v_vert_pos.xy / v_vert_pos.w * 0.5 + 0.5;
 
@@ -252,15 +254,15 @@ void main()
   vec3 wind_colored = mix3(vec3(0.0, 0.0, 0.0), vec3(0.6, 0.2, 0.8) * 0.5, vec3(0.5, 0.1, 0.9) * 6.0, wind_mapped);
 
   vec4 v = voronoi(v_world_pos.xz * vec2(4.5), 0.5, 0.5);
-  vec3 forest_colored = vec3(0.2, 0.6, 0.2) * forest.r * 0.16 * (1.0 - v.r);
+  vec3 forest_colored = vec3(0.2, 0.6, 0.2) * forest.r * 0.16;
 
   vec4 voronoi_water = voronoi(v_world_pos.xz * vec2(1.0), 1.0, 0.8);
-  float voronoi_water_lines = pow(voronoi_water.r - 0.1, 1.5) * 0.2;
-  voronoi_water_lines = max(0.0, voronoi_water_lines);
+  float voronoi_water_lines = pow(max(0.0, voronoi_water.r - 0.1), 1.5) * 0.2;
+  voronoi_water_lines = max(voronoi_water_lines, 0.0);
 
   vec4 voronoi_water2 = voronoi(v_world_pos.xz * vec2(2.5), 1.0, 0.8);
-  float voronoi_water_lines2 = pow(voronoi_water2.r - 0.5, 2.2) * 0.8;
-  voronoi_water_lines2 = max(0.0, voronoi_water_lines2);
+  float voronoi_water_lines2 = pow(max(0.0, voronoi_water2.r - 0.5), 2.2) * 0.8;
+  voronoi_water_lines2 = max(voronoi_water_lines2, 0.0);
 
 
   vec3 water_colored = vec3(0.2, 0.3, 0.9) * water.r * 0.2 * voronoi_water_lines;
@@ -278,7 +280,11 @@ void main()
   gl_FragColor = satellite;
   if (u_data_mode) {
     gl_FragColor = (vec4(height, 0.7));
-    gl_FragColor = vec4(height.x, noise_mapped, wind_mapped, 1.0);
+    if(u_data_layer == 1) {
+      gl_FragColor = vec4(height.x, noise_mapped, wind_mapped, 1.0);
+    } else {
+      gl_FragColor = vec4(buildings.x, forest.x, water.x, 1.0);
+    }
   } else {
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;

@@ -20,6 +20,7 @@ export class Landscape {
   private landscape_material = new THREE.ShaderMaterial({ fragmentShader, vertexShader });
 
   public static data_mode = false;
+  public static data_layer = 0;
 
   private static segments = 6;
 
@@ -114,6 +115,7 @@ export class Landscape {
 
     const mat = material as THREE.ShaderMaterial;
     mat.uniforms.u_data_mode.value = Landscape.data_mode;
+    mat.uniforms.u_data_layer.value = Landscape.data_layer;
   }
 
   // Downloads textures and creates material if it doesn't exist yet.
@@ -143,6 +145,7 @@ export class Landscape {
       u_background: { value: this.scene.background },
       u_satellite: { value: Landscape.empty_texture },
       u_data_mode: { value: Landscape.data_mode },
+      u_data_layer: { value: Landscape.data_layer },
       u_time: { value: 0 }
     };
 
