@@ -42,18 +42,9 @@ import GuideComp from '@/components/GuideComp.vue';
 #guide-component {
   pointer-events: none;
   overflow: hidden;
-}
-
-#stats-component {
   position: absolute;
-  bottom: 15px;
-  left: 15px;
-}
-
-#map-component {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
+  width: 100%;
+  height: 100%;
   z-index: -1;
 }
 
@@ -101,5 +92,18 @@ import GuideComp from '@/components/GuideComp.vue';
   height: 50px;
   margin: 0 5px;
   padding: 5px;
+}
+
+#stats-component {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+}
+
+#map-component {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: -1;
 }
 </style>

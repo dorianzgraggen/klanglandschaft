@@ -4,6 +4,7 @@ import SoundEditor from './sound_editor/SoundEditor.vue';
 import { onMounted, ref } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
 import { init_editor, play } from './sound_editor/editor';
+import GuideComp from '@/components/GuideComp.vue';
 
 const show_start_screen = ref(new URLSearchParams(window.location.search).get('nointro') === null);
 
@@ -27,6 +28,28 @@ onMounted(async () => {
 
 <template>
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
+  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24">
+    <div id="guide-description" class="border-corners-small">
+      <p>the sound editor allows.....</p>
+    </div>
+    <div id="guide-controls">
+      <div id="control-item">
+        <div class="control-text">
+          left click & drag <br />
+          3D view or your minimap location
+        </div>
+        <img class="mouse-icon" src="./assets/left-click.png" alt="mouse left click" />
+      </div>
+      <div id="control-item">
+        <div class="control-text">right click to open </div>
+        <img class="mouse-icon" src="./assets/right-click.png" alt="mouse right click" />
+      </div>
+      <div id="control-item">
+        <div class="control-text">scroll to zoom</div>
+        <img class="mouse-icon" src="./assets/scroll.png" alt="mouse scroll" />
+      </div>
+    </div>
+  </GuideComp>
 
   <!-- Button for toggling sound editor visibility -->
   <button id="editor-button" @click="toggleOpen">
@@ -130,5 +153,49 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#guide-component {
+  pointer-events: none;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#guide-description {
+  font-size: 12px;
+  padding: 15px;
+  margin: 15px 0 15px 0;
+}
+
+#guide-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#control-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.control-text {
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 7px;
+}
+
+.mouse-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 5px;
+  padding: 5px;
 }
 </style>
