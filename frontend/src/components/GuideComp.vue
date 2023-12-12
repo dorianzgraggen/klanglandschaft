@@ -19,6 +19,10 @@ const settings = defineProps({
     type: String,
     default: '100%'
   },
+  width: {
+    type: String,
+    default: '350px'
+  },
   isQuestionMark: {
     type: Boolean,
     default: true
@@ -98,7 +102,7 @@ img {
   background-color: rgba(0, 0, 0, 0.691);
   border-radius: 20px;
   height: v-bind('settings.height');
-  width: 350px;
+  width: v-bind('settings.width');
   pointer-events: all;
   top: 0;
   right: 0;

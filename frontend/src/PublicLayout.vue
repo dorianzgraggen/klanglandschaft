@@ -105,8 +105,17 @@ const showModal = ref(false)
     <p id="start-description">an interactive playground around lake lucerne for your musical interpretation of
       cartographic data</p>
     <button id="explore-button" @click="start(); showModal = true">Start Exploring</button>
-    <GuideComp title="" :icon-size="24" :height="`100%`" :is-question-mark="false" main-title="about">
-      This is an about page.</GuideComp>
+    <GuideComp title="" :icon-size="24" :height="`100%`" :width="`300px`" :is-question-mark="false" main-title="about">
+      <div id="about-description">
+         <p class="border-corners-small" style="padding: 9%;">⚠️ Klanglandschaft is a prototype or a proof of concept created during a course at the
+       <a href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/" title="digital ideation programme">Digital Ideation programme</a> at Lucerne University of Applied Sciences. You will experience bugs.</p>
+       <div style="margin-top: 50px; text-align: center;">
+        <p>All data was provided by the Federal Office of Topography swisstopo.</p>
+       <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Smashicons - Flaticon</a>
+       </div>
+       
+      </div>
+      </GuideComp>
   </div>
 
   <div v-if="showModal" class="modal">
@@ -253,6 +262,14 @@ const showModal = ref(false)
 
 #explore-button {
   align-self: center;
+}
+
+#about-description {
+  font-size: 0.8rem;
+}
+
+#about-description a {
+  color: #b39b2e;
 }
 
 #guide-component {
