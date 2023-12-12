@@ -122,7 +122,8 @@ const showModal = ref(false)
           <p>What kind of sound or effect would you choose to express that?</p>
         </div>
         <p>
-          explore this endeavor by diving into klanglandschaft’s components, each with its own guide showing you the way
+          explore this endeavor by diving into klanglandschaft’s components, each with its own guide <img
+            style="height: 17px;" src="@/assets/questionmark-icon.png"> showing you the way
           whenever you need it.</p>
         <button @click="showModal = false">start</button>
       </div>
@@ -141,7 +142,7 @@ const showModal = ref(false)
   left: 50%;
   width: 500px;
   height: 630px;
-  margin-left: -150px;
+  margin-left: -250px;
 }
 
 #modal-text-field {
