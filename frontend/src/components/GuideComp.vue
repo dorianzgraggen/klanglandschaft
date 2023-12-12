@@ -17,7 +17,7 @@ const settings = defineProps({
   },
   height: {
     type: String,
-    default: '620px'
+    default: '100%'
   },
   isQuestionMark: {
     type: Boolean,
@@ -71,7 +71,7 @@ button {
 
 #close-button {
   position: fixed;
-  font-size: 20px;
+  font-size: 100%;
   padding-right: 8px;
   pointer-events: all;
   top: 18px;
@@ -99,19 +99,22 @@ img {
   border-radius: 20px;
   height: v-bind('settings.height');
   width: 350px;
-  overflow: hidden;
-  pointer-events: none;
+  pointer-events: all;
   top: 0;
   right: 0;
 }
 
+/* #guide-content::-webkit-scrollbar {
+  display: none;
+} */
+
 p {
   margin: 0;
-  font-size: 15px;
+  font-size: 90%;
 }
 
 span {
-  font-size: 19px;
+  font-size: 100%;
   font-weight: bold;
 }
 

@@ -138,10 +138,10 @@ const showModal = ref(false)
   background-color: rgba(0, 0, 0, 0.691);
   border-radius: 20px;
   z-index: 999;
-  top: 20%;
+  top: 15%;
   left: 50%;
-  width: 500px;
-  height: 630px;
+  width: 30rem;
+  height: 40rem;
   margin-left: -250px;
 }
 
@@ -153,6 +153,7 @@ const showModal = ref(false)
   padding: 10%;
   font-size: 0.9rem;
   text-align: center;
+  overflow: hidden;
 }
 
 #modal-description p {
@@ -263,13 +264,13 @@ const showModal = ref(false)
 }
 
 .guide-description {
-  font-size: 0.9vi;
+  font-size: 0.8vi;
   padding: 13px;
   margin: 15px 0 15px 0;
 }
 
 .node-text {
-  font-size: 0.8vi;
+  font-size: 0.7vi;
   padding: 10px;
 }
 
@@ -313,7 +314,7 @@ const showModal = ref(false)
 }
 
 .control-text {
-  font-size: 0.8vi;
+  font-size: 0.7vi;
   text-align: center;
   margin-bottom: 7px;
 }
