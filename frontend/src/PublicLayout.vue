@@ -28,27 +28,52 @@ onMounted(async () => {
 
 <template>
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
-  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24">
-    <div id="guide-description" class="border-corners-small">
-      <p>the sound editor allows.....</p>
+
+  <!-- TODO: Responsiveness -->
+  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`100%`">
+    <div class="border-corners-small guide-description">
+      <p>the sound editor allows you to create your own soundscape with the help of nodes. make your very own connections
+        to change what sounds you hear while moving around in
+        the 3d view.</p>
     </div>
-    <div id="guide-controls">
-      <div id="control-item">
+    <div class="guide-controls">
+      <div class="control-item">
+        <div class="control-text">open context menu</div>
+        <img class="mouse-icon" src="./assets/right-click.png" alt="mouse right click" />
+      </div>
+      <div class="control-item">
         <div class="control-text">
-          left click & drag <br />
-          3D view or your minimap location
+          move around<br /> move nodes <br /> make connections
         </div>
         <img class="mouse-icon" src="./assets/left-click.png" alt="mouse left click" />
       </div>
-      <div id="control-item">
-        <div class="control-text">right click to open </div>
-        <img class="mouse-icon" src="./assets/right-click.png" alt="mouse right click" />
-      </div>
-      <div id="control-item">
-        <div class="control-text">scroll to zoom</div>
+      <div class="control-item">
+        <div class="control-text">zoom</div>
         <img class="mouse-icon" src="./assets/scroll.png" alt="mouse scroll" />
       </div>
     </div>
+    <div class="node-description">
+      <div class="node-item">
+        <p class="node-text">a data node has an "amount" socket representing the amount visible in the statistics
+          component, which can be
+          connected to any effect node to control its mix.</p>
+        <img src="./assets/data-node.png" alt="data node" />
+      </div>
+      <div class="node-item">
+        <p class="node-text">a sound node represents a specific sound, which can be edited with effect nodes.</p>
+        <img src="./assets/sound-node.png" alt="sound node" />
+      </div>
+      <div class="node-item">
+        <p class="node-text">effect nodes have a "mix" socket that can either be controlled manually or be
+          influenced by a data node.</p>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <img style="height: auto; width: 100px" src="./assets/effect-node-1.png" alt="data node 1" />
+          <img style="height: 95px;" src="./assets/effect-node-2.png" alt="data node 2" />
+        </div>
+      </div>
+      <!-- <p class="node-text">start by opening the context menu with all available nodes and choosing a few!</p> -->
+    </div>
+
   </GuideComp>
 
   <!-- Button for toggling sound editor visibility -->
@@ -163,37 +188,63 @@ onMounted(async () => {
   height: 100%;
 }
 
-#guide-description {
-  font-size: 12px;
-  padding: 15px;
+.guide-description {
+  font-size: 0.9vi;
+  padding: 13px;
   margin: 15px 0 15px 0;
 }
 
-#guide-controls {
+.node-text {
+  font-size: 0.8vi;
+  padding: 10px;
+}
+
+.guide-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding:
+}
+
+.node-description {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
-#control-item {
+.control-item {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 20px;
-  justify-content: space-between;
+  padding: 10px;
+  justify-content: flex-end;
   align-items: center;
 }
 
+.node-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.node-item img {
+  height: 60px;
+}
+
 .control-text {
-  font-size: 11px;
+  font-size: 0.8vi;
   text-align: center;
   margin-bottom: 7px;
 }
 
 .mouse-icon {
-  width: 50px;
   height: 50px;
   margin: 0 5px;
   padding: 5px;

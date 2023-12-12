@@ -10,6 +10,10 @@ const settings = defineProps({
   margin: {
     type: Number,
     default: 20
+  },
+  height: {
+    type: String,
+    default: '620px'
   }
 });
 
@@ -84,7 +88,7 @@ img {
   padding-top: 60px;
   background-color: rgba(0, 0, 0, 0.691);
   border-radius: 20px;
-  height: 620px;
+  height: v-bind('settings.height');
   width: 350px;
   overflow: hidden;
   pointer-events: none;
