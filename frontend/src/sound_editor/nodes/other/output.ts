@@ -4,7 +4,7 @@ import type { AudioEffect } from '../util';
 import { BaseNode, type Inputs } from '../base_node';
 
 export class OutputNode extends BaseNode {
-  width = 140;
+  width = 155;
   height = 55;
 
   constructor(
