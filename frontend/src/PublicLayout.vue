@@ -24,6 +24,8 @@ function start() {
 onMounted(async () => {
   init_3d_scene(settings);
 });
+
+const showModal = ref(false)
 </script>
 
 <template>
@@ -99,11 +101,62 @@ onMounted(async () => {
     after the user has interacted with the site
   -->
   <div id="start-screen" v-show="show_start_screen">
-    <button @click="start">Start Exploring</button>
+    <button @click="start(); showModal = true">Start Exploring</button>
+  </div>
+
+  <div v-if="showModal" class="modal">
+    <div id="modal-text-field">
+      <div id="modal-description">
+        <p>klanglandschaft invites you to express your perception of different cartographic data with your very own
+          soundscape
+          creation. </p>
+        <div id="example-description">
+          <p>for example...</p>
+          <p>how do you interpret terrain elevation?</p>
+          <p>Do mountains feel calm, tense, sublime to you? </p>
+          <p>What kind of sound or effect would you choose to express that?</p>
+        </div>
+        <p>
+          explore this endeavor by diving into klanglandschaft’s components, each with its own guide showing you the way
+          whenever you need it.</p>
+        <button @click="showModal = false">start</button>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <style scoped>
+.modal {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.691);
+  border-radius: 20px;
+  z-index: 999;
+  top: 20%;
+  left: 50%;
+  width: 500px;
+  height: 630px;
+  margin-left: -150px;
+}
+
+#modal-text-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  padding: 10%;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+#modal-description p {
+  padding: 10px;
+}
+
+#example-description p {
+  padding: 10px;
+}
+
 #canvas-root {
   position: absolute;
   top: 0;
