@@ -1,0 +1,34 @@
+{
+  "numTotalTestSuites": 1,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 1,
+  "numPassedTests": 1,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "startTime": 1701858554571,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            ""
+          ],
+          "fullName": " stats",
+          "status": "passed",
+          "title": "stats",
+          "duration": 39,
+          "failureMessages": []
+        }
+      ],
+      "startTime": 1701858556612,
+      "endTime": 1701858556651,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/admin/Documents/klanglandschaft-stuwe1/hslu-stuw1/frontend/src/components/StatisticsComp.test.ts"
+    }
+  ]
+}

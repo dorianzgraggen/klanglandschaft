@@ -12,7 +12,7 @@ export class SoundNode extends ClassicPreset.Node<
   { sound_out: ClassicPreset.Socket }, // output
   { sound_id: ClassicPreset.InputControl<'text'> }
 > {
-  width = 180;
+  width = 200;
   height = 86;
   sound_id = '';
 

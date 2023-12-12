@@ -26,7 +26,7 @@ onMounted(async () => {
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- Button for toggling sound editor visibility -->
-  <button id="toggle" @click="toggleOpen">
+  <button id="editor-button" @click="toggleOpen">
     {{ settings.editor_open ? 'Back to exploring' : 'Edit Soundscape' }}
   </button>
 
@@ -36,8 +36,9 @@ onMounted(async () => {
   <!-- Rendering Debug Information -->
   <div id="debug-info" class="debug">
     <span></span>
-    | <span class="r"></span> <span class="g"></span> <span class="b"></span> <span class="a"></span>
-    | <span class="r"></span> <span class="g"></span> <span class="b"></span> <span class="a"></span>
+    | <span class="r"></span> <span class="g"></span> <span class="b"></span>
+    <span class="a"></span> | <span class="r"></span> <span class="g"></span>
+    <span class="b"></span> <span class="a"></span>
   </div>
 
   <RouterView />
@@ -103,10 +104,6 @@ onMounted(async () => {
   flex-direction: column;
 }
 
-.top {
-  background-color: rgb(29, 29, 29);
-}
-
 #rete {
   background-color: rgba(0, 0, 0, 0.484);
   /* height: 20px; */
@@ -114,14 +111,10 @@ onMounted(async () => {
   backdrop-filter: blur(10px) saturate(0.6);
 }
 
-.bottom {
-  background-color: rgb(29, 29, 29);
-}
-
-#toggle {
+#editor-button {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
+  top: 15px;
+  left: 15px;
 }
 
 #start-screen {

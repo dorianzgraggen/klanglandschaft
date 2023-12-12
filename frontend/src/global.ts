@@ -1,6 +1,7 @@
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
+import { Vector3 } from 'three';
 
-export const bridge = {
+export const bridge = reactive({
   elevation: -1,
   traffic_noise: -1,
   buildings: -1,
@@ -8,7 +9,9 @@ export const bridge = {
   forest: -1,
   wind: -1,
   railway: -1
-};
+});
+
+export const user_controls_target = reactive(new Vector3());
 
 export const layers = {
   elevation: 0,

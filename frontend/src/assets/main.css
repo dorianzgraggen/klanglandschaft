@@ -1,8 +1,24 @@
+@font-face {
+  font-family: 'Oxygen Mono';
+  src: url('/Oxygen_Mono/OxygenMono-Regular.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   color: white;
   background-color: black;
-  font-family: sans-serif;
+  font-family: 'Oxygen Mono';
+}
+
+input,
+button,
+select {
+  font-family: 'Oxygen Mono';
+}
+
+.node .title,
+.node .input-title {
+  font-family: 'Oxygen Mono' !important;
 }
 
 div[title='Action'] {
@@ -64,14 +80,68 @@ button {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.691);
   color: white;
-  font-size: 18px;
+  font-size: 1rem;
   border: 2px solid rgba(255, 255, 255, 0.168);
   border-radius: 5px;
   padding: 16px 20px;
+}
+
+button:hover {
+  background-color: rgba(24, 24, 24, 0.5);
 }
 
 #canvas-root > canvas {
   width: 100% !important;
   height: 100% !important;
   display: block;
+}
+
+.component-title {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+/* https://css-tip.com/corner-only-border-image/ */
+.border-corners {
+  --s: 15px;
+  /* the size on the corner */
+  --t: 2px;
+  /* the thickness of the border */
+  --g: 0px;
+  /* the gap between the border and image */
+
+  padding: calc(var(--g) + var(--t));
+  outline: var(--t) solid whitesmoke;
+  /* the color here */
+  outline-offset: calc(-1 * var(--t));
+  -webkit-mask:
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
+    linear-gradient(#000 0 0) content-box;
+  mask:
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
+    linear-gradient(#000 0 0) content-box;
+}
+
+.border-corners-small {
+  --s: 10px;
+  /* the size on the corner */
+  --t: 1px;
+  /* the thickness of the border */
+  --g: 1px;
+  /* the gap between the border and image */
+
+  padding: calc(var(--g) + var(--t));
+  outline: var(--t) solid whitesmoke;
+  /* the color here */
+  outline-offset: calc(-1 * var(--t));
+  -webkit-mask:
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
+    linear-gradient(#000 0 0) content-box;
+  mask:
+    conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s))
+      calc(100% - var(--s)),
+    linear-gradient(#000 0 0) content-box;
 }

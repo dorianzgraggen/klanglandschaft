@@ -4,7 +4,8 @@ import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 import { Landscape } from './landscape';
 import { Center } from './center';
 import { BG_COLOR, DEBUG_LAYER } from './consts';
-import { bridge, settings } from '@/global';
+import { bridge, user_controls_target, settings } from '@/global';
+import type { Ref } from 'vue';
 
 export function init() {
   let debug_view = false;
@@ -69,6 +70,8 @@ export function init() {
   user_controls.enableZoom = true;
   user_controls.zoomSpeed = 0.3;
   user_controls.panSpeed = 1;
+  user_controls.target = user_controls_target;
+
   user_controls.target.set(82, 0, -200); // center camera at lucerne train station
 
   user_controls.update();
