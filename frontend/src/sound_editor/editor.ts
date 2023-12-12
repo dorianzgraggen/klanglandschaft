@@ -566,7 +566,7 @@ function check_data_nodes(editor: NodeEditor<Schemes>) {
   Object.keys(layers).forEach((key) => {
     const node = nodes.find((n) => n.type === key);
 
-    (layers as { [key: string]: number })[key] = node ? 1 : 0;
+    (layers as { [key: string]: number })[key] = node ? 1 : 0.26;
   });
 
   settings.rerender = true;
