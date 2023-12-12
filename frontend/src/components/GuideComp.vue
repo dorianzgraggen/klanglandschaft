@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 
 const settings = defineProps({
+  mainTitle: {
+    type: String,
+    default: 'guide'
+  },
   title: String,
   iconSize: {
     type: Number,
@@ -14,6 +18,10 @@ const settings = defineProps({
   height: {
     type: String,
     default: '620px'
+  },
+  isQuestionMark: {
+    type: Boolean,
+    default: true
   }
 });
 
@@ -25,13 +33,14 @@ const showGuide = ref(false);
     <Transition name="slide">
       <div v-if="showGuide" id="guide-content">
         <button id="close-button" @click="showGuide = !showGuide">x</button>
-        <span>guide</span>
+        <span>{{ mainTitle }}</span>
         <p style="padding-top: 40px; margin: 0">{{ title }}</p>
         <slot />
       </div>
     </Transition>
     <button v-if="!showGuide" id="guide-button" @click="showGuide = !showGuide">
-      <img src="../assets/questionmark-icon.png" alt="questionmark-icon" />
+      <img v-if="isQuestionMark" src="../assets/questionmark-icon.png" alt="icon" />
+      <img v-else src="../assets/info-icon.png" alt="icon" />
     </button>
   </div>
 </template>

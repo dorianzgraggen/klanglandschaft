@@ -101,7 +101,12 @@ const showModal = ref(false)
     after the user has interacted with the site
   -->
   <div id="start-screen" v-show="show_start_screen">
-    <button @click="start(); showModal = true">Start Exploring</button>
+    <h1>klanglandschaft</h1>
+    <p id="start-description">an interactive playground around lake lucerne for your musical interpretation of
+      cartographic data</p>
+    <button id="explore-button" @click="start(); showModal = true">Start Exploring</button>
+    <GuideComp title="" :icon-size="24" :height="`100%`" :is-question-mark="false" main-title="about">
+      This is an about page.</GuideComp>
   </div>
 
   <div v-if="showModal" class="modal">
@@ -222,15 +227,30 @@ const showModal = ref(false)
 }
 
 #start-screen {
-  background-color: black;
+  background: url("@/assets/startpage-pic.png");
+  background-size: cover;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template: 1fr 1fr 1fr 1fr / 1fr;
+  justify-items: center;
+}
+
+#start-screen h1 {
+  align-self: end;
+}
+
+#start-description {
+  max-width: 700px;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+#explore-button {
+  align-self: center;
 }
 
 #guide-component {
