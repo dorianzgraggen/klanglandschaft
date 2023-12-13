@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { Vector3 } from 'three';
 
 export const bridge = reactive({
@@ -27,3 +27,5 @@ export const settings = reactive({
   editor_open: false,
   rerender: false
 });
+
+export const loaded_audios = ref(0);

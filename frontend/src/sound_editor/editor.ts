@@ -20,8 +20,8 @@ import {
   SoundNode,
   VibratoNode,
   VolumeNode,
-  ReverbNode
-  , DistortionNode
+  ReverbNode,
+  DistortionNode
 } from './nodes';
 
 import { type Schemes, Connection, type ConnProps, type NodeProps } from './connections';
@@ -37,10 +37,8 @@ import {
 import { sound_urls } from './nodes/other/sound';
 import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
-import { layers, settings } from '@/global';
+import { layers, loaded_audios, settings } from '@/global';
 import { watch } from 'vue';
-
-
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -54,7 +52,10 @@ const all_players = Object.entries(sound_urls).reduce(
     const player = new Tone.Player({
       url: value.url,
       loop: true,
-      autostart: false
+      autostart: false,
+      onload: () => {
+        loaded_audios.value += 1;
+      }
     });
     return {
       ...previous_value,

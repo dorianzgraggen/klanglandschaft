@@ -5,7 +5,8 @@ import { onMounted, ref, watch } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
 import { init_editor, play } from './sound_editor/editor';
 import GuideComp from '@/components/GuideComp.vue';
-import { settings } from './global';
+import LoadingIndicator from '@/components/LoadingIndicator.vue';
+import { settings, loaded_audios } from './global';
 
 const show_start_screen = ref(new URLSearchParams(window.location.search).get('nointro') === null);
 
@@ -101,18 +102,24 @@ const showModal = ref(false)
     <h1>klanglandschaft</h1>
     <p id="start-description">an interactive playground around lake lucerne for your musical interpretation of
       cartographic data</p>
-    <button id="explore-button" @click="start(); showModal = true">Start Exploring</button>
+
+    <LoadingIndicator v-if="loaded_audios < 8" />
+    <button v-else id="explore-button" @click="start(); showModal = true">Start Exploring</button>
     <GuideComp title="" :icon-size="24" :height="`100%`" :width="`300px`" :is-question-mark="false" main-title="about">
       <div id="about-description">
-         <p class="border-corners-small" style="padding: 9%;">⚠️ Klanglandschaft is a prototype or a proof of concept created during a course at the
-       <a href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/" title="digital ideation programme">Digital Ideation programme</a> at Lucerne University of Applied Sciences. You will experience bugs.</p>
-       <div style="margin-top: 50px; text-align: center;">
-        <p>All data was provided by the Federal Office of Topography swisstopo.</p>
-       <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Smashicons - Flaticon</a>
-       </div>
-       
+        <p class="border-corners-small" style="padding: 9%;">⚠️ Klanglandschaft is a prototype or a proof of concept
+          created during a course at the
+          <a href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/"
+            title="digital ideation programme">Digital Ideation programme</a> at Lucerne University of Applied Sciences.
+          You will experience bugs.
+        </p>
+        <div style="margin-top: 50px; text-align: center;">
+          <p>All data was provided by the Federal Office of Topography swisstopo.</p>
+          <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Smashicons - Flaticon</a>
+        </div>
+
       </div>
-      </GuideComp>
+    </GuideComp>
   </div>
 
   <div v-if="showModal" class="modal">
