@@ -12,10 +12,10 @@ import GuideComp from '@/components/GuideComp.vue';
     style="z-index: -1"
   >
     <div id="guide-description" class="border-corners-small">
-      <p>what you hear depends on the data that is currently visible in the view</p>
+      <p>what you hear depends on the data that is currently visible in the view.</p>
       <p>
         you can explore lake lucerne by either moving around in the 3D view or by moving your
-        location <button id="location-blob-icon"></button> in the minimap down below
+        location <button id="location-blob-icon"></button> in the minimap down below.
       </p>
     </div>
     <div class="guide-controls scroll-style-1">
