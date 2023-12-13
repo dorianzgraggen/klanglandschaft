@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router';
 import SoundEditor from './sound_editor/SoundEditor.vue';
 import { onMounted, ref, watch } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
-import { init_editor, play } from './sound_editor/editor';
+import { init_editor, play, rebuild_and_then } from './sound_editor/editor';
 import GuideComp from '@/components/GuideComp.vue';
 import LoadingIndicator from '@/components/LoadingIndicator.vue';
 import { settings, loaded_audios } from './global';
@@ -16,7 +16,7 @@ function toggleOpen() {
 
 function start() {
   show_start_screen.value = false;
-  play();
+  rebuild_and_then(play);
 }
 
 onMounted(async () => {

@@ -42,6 +42,8 @@ import { watch } from 'vue';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
+const after_rebuild_tasks = new Array<() => void>();
+
 /**
  * Each soundtrack has its own Tone.Player and the audio is loaded as soon as the editor is opened.
  * The player is always the beginning of a connection of nodes (the source, quasi), but a single
@@ -165,6 +167,8 @@ export async function init_editor(
   AreaExtensions.simpleNodesOrder(area);
   AreaExtensions.showInputControl(area);
 
+  let nodes_added = false;
+
   // TODO: maybe unify addPipe and flow stuff? need to research
   editor.addPipe((context) => {
     // console.log('conecction', context.type);
@@ -194,7 +198,9 @@ export async function init_editor(
         }
       }
 
-      rebuild = true;
+      if (nodes_added) {
+        rebuild_and_then(play);
+      }
 
       set_input_step_sizes(container);
     }
@@ -243,6 +249,7 @@ export async function init_editor(
   }
 
   await add_nodes_from_preset(editor, arrange, preset);
+  nodes_added = true;
 
   watch(settings, (old_settings, new_settings) => {
     if (!new_settings.editor_open) {
@@ -275,6 +282,11 @@ export async function init_editor(
 }
 
 let rebuild = true;
+
+export function rebuild_and_then(callback: () => void) {
+  rebuild = true;
+  after_rebuild_tasks.push(callback);
+}
 
 export async function play() {
   for (const player of player_of_current_node_tree) {
@@ -438,6 +450,9 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
   }
 
   rebuild = false;
+
+  after_rebuild_tasks.forEach((task) => task());
+  after_rebuild_tasks.length = 0;
 }
 
 function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) {
