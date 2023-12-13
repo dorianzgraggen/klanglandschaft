@@ -293,7 +293,6 @@ const showModal = ref(false)
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  padding:
 }
 
 .node-description {
