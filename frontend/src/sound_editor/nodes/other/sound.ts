@@ -3,8 +3,40 @@ import { SoundSocket } from '../../sockets';
 import { use_default_sound } from '../util';
 
 export const sound_urls: { [key: string]: { url: string; title: string } } = {
-  ambient: { url: '/120365__stk13__untitled-13.wav', title: 'Sangfroid' },
-  chaos: { url: '/398867__gis_sweden__shaped-by-chaos.wav', title: 'Night Techno' }
+  // ambient: { url: '/120365__stk13__untitled-13.wav', title: 'Sangfroid' },
+  // chaos: { url: '/398867__gis_sweden__shaped-by-chaos.wav', title: 'Night Techno' },
+  lilypad: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/BOS_CCS_Texture_One_Shot_Lily_Pad_B.mp3',
+    title: 'Lilypad'
+  },
+  oxygen: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/BOS_CCS_Texture_One_Shot_Oxygen_Bm.Wav.mp3',
+    title: 'Oxygen'
+  },
+  drone_bass: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/DroneBass_BW.31204.mp3',
+    title: 'Drone Bass'
+  },
+  atmosphere_midnight: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/KMRBI_RHXS_atmosphere_one_shot_midnight.mp3',
+    title: 'Midnight Atmosphere'
+  },
+  trumpet_phrase_venus: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/LEX_KB_trumpet_one_shot_phrase_venus_G.mp3',
+    title: 'Venus'
+  },
+  modular_forest: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/RD_fx_modular_forest_06.mp3',
+    title: 'Digital Jungle'
+  },
+  guitar_soundscapes: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/SC_RS_147_guitar_soundscapes_Gmaj.mp3',
+    title: 'Guitar Soundscapes'
+  },
+  percussion: {
+    url: 'https://klanglandschaft.b-cdn.net/audios/tt_drum_125_brief_perc2.mp3',
+    title: 'Percussion'
+  }
 };
 
 export class SoundNode extends ClassicPreset.Node<
@@ -16,7 +48,7 @@ export class SoundNode extends ClassicPreset.Node<
   height = 86;
   sound_id = '';
 
-  constructor(track = 'chaos') {
+  constructor(track = 'drone_bass') {
     super('Sound');
     this.label = sound_urls[track].title + ' 🎵';
     this.sound_id = track;

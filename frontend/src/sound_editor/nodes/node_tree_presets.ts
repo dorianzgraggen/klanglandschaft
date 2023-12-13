@@ -1,12 +1,4 @@
-import {
-  MathNodes,
-  DataNode,
-  OutputNode,
-  PanNode,
-  SoundNode,
-  VibratoNode,
-  VolumeNode
-} from '.';
+import { MathNodes, DataNode, OutputNode, PanNode, SoundNode, VibratoNode, VolumeNode } from '.';
 import type { NodeProps } from '../connections';
 import { handle_output } from '../editor';
 
@@ -18,8 +10,6 @@ export class ConnectionInfo {
     public targetInput: string
   ) {}
 }
-
-
 
 export type NodeTreePreset = {
   nodes: { [key: string]: NodeProps };
@@ -68,18 +58,18 @@ export const preset_traffic: NodeTreePreset = {
     noise_levels: new DataNode('traffic_noise'),
     elevation: new DataNode('elevation'),
 
-    ambient: new SoundNode('ambient'),
-    chaos: new SoundNode('chaos'),
+    trumpet_phrase_venus: new SoundNode('trumpet_phrase_venus'),
+    drone_bass: new SoundNode('drone_bass'),
 
     volume1: new VolumeNode(),
     volume2: new VolumeNode(0.5)
   },
   connections: [
-    new ConnectionInfo('chaos', 'sound_out', 'volume1', 'sound_in'),
+    new ConnectionInfo('drone_bass', 'sound_out', 'volume1', 'sound_in'),
     new ConnectionInfo('noise_levels', 'value_out', 'volume1', 'value_in'),
     new ConnectionInfo('volume1', 'sound_out', 'output', 'sound_in'),
     //
-    new ConnectionInfo('ambient', 'sound_out', 'volume2', 'sound_in'),
+    new ConnectionInfo('trumpet_phrase_venus', 'sound_out', 'volume2', 'sound_in'),
     new ConnectionInfo('elevation', 'value_out', 'volume2', 'value_in'),
     new ConnectionInfo('volume2', 'sound_out', 'output', 'sound_in')
   ]
@@ -88,12 +78,12 @@ export const preset_traffic: NodeTreePreset = {
 export const preset_elevation: NodeTreePreset = {
   nodes: {
     elevation: new DataNode('elevation'),
-    ambient: new SoundNode('ambient'),
+    trumpet_phrase_venus: new SoundNode('trumpet_phrase_venus'),
     vibrato: new VibratoNode(7),
     output: new OutputNode(handle_output)
   },
   connections: [
-    new ConnectionInfo('ambient', 'sound_out', 'vibrato', 'sound_in'),
+    new ConnectionInfo('trumpet_phrase_venus', 'sound_out', 'vibrato', 'sound_in'),
     new ConnectionInfo('elevation', 'value_out', 'vibrato', 'depth'),
     new ConnectionInfo('vibrato', 'sound_out', 'output', 'sound_in')
   ]
