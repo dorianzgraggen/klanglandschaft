@@ -1,7 +1,6 @@
 import { ClassicPreset } from 'rete';
 import { NumberSocket } from '../sockets';
 
-
 // ABSTRACT STUFF
 
 export abstract class TwoInputsMathNode extends ClassicPreset.Node<
@@ -63,13 +62,11 @@ export class SubtractNode extends TwoInputsMathNode {
   }
 }
 
-
 export class MultiplyNode extends TwoInputsMathNode {
   constructor() {
     super('Multiply', (a, b) => a * b);
   }
 }
-
 
 export class DivideNode extends TwoInputsMathNode {
   constructor() {
@@ -83,13 +80,11 @@ export class PowNode extends TwoInputsMathNode {
   }
 }
 
-
 export class MinNode extends TwoInputsMathNode {
   constructor() {
     super('Min', (a, b) => Math.min(a, b));
   }
 }
-
 
 export class MaxNode extends TwoInputsMathNode {
   constructor() {
@@ -126,7 +121,6 @@ export class SineNode extends ClassicPreset.Node<
     };
   }
 }
-
 
 export class TimeNode extends ClassicPreset.Node<
   {}, // inputs

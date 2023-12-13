@@ -1,12 +1,4 @@
-import {
-  MathNodes,
-  DataNode,
-  OutputNode,
-  PanNode,
-  SoundNode,
-  VibratoNode,
-  VolumeNode
-} from '.';
+import { MathNodes, DataNode, OutputNode, PanNode, SoundNode, VibratoNode, VolumeNode } from '.';
 import type { NodeProps } from '../connections';
 import { handle_output } from '../editor';
 
@@ -18,8 +10,6 @@ export class ConnectionInfo {
     public targetInput: string
   ) {}
 }
-
-
 
 export type NodeTreePreset = {
   nodes: { [key: string]: NodeProps };

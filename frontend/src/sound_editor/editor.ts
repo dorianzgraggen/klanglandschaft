@@ -20,8 +20,8 @@ import {
   SoundNode,
   VibratoNode,
   VolumeNode,
-  ReverbNode
-  , DistortionNode
+  ReverbNode,
+  DistortionNode
 } from './nodes';
 
 import { type Schemes, Connection, type ConnProps, type NodeProps } from './connections';
@@ -39,8 +39,6 @@ import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
 import { layers, settings } from '@/global';
 import { watch } from 'vue';
-
-
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 

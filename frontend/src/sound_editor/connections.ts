@@ -12,7 +12,6 @@ import {
   VolumeNode
 } from './nodes';
 
-
 export type EffectNode = VolumeNode | PanNode | DistortionNode | ReverbNode;
 export type ValueChangeNode =
   | MathNodes.AddNode
