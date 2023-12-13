@@ -4,7 +4,7 @@ import MapComp from '@/components/MapComp.vue';
 import GuideComp from '@/components/GuideComp.vue';
 </script>
 <template>
-  <GuideComp id="guide-component" title="dashboard" :icon-size="24" style="z-index: -1">
+  <GuideComp id="guide-component" title="dashboard" :icon-size="24" :height="`60%`" style="z-index: -1">
     <div id="guide-description" class="border-corners-small">
       <p>what you hear depends on the data that is currently visible in the view</p>
       <p>
@@ -12,7 +12,7 @@ import GuideComp from '@/components/GuideComp.vue';
         location <button id="location-blob-icon"></button> in the minimap down below
       </p>
     </div>
-    <div id="guide-controls">
+    <div id="guide-controls" class="scroll-style-1">
       <div id="control-item">
         <div class="control-text">
           left click & drag <br />
@@ -42,23 +42,14 @@ import GuideComp from '@/components/GuideComp.vue';
 #guide-component {
   pointer-events: none;
   overflow: hidden;
-}
-
-#stats-component {
   position: absolute;
-  bottom: 15px;
-  left: 15px;
-}
-
-#map-component {
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
+  width: 100%;
+  height: 100%;
   z-index: -1;
 }
 
 #guide-description {
-  font-size: 12px;
+  font-size: 70%;
   padding: 15px;
   margin: 15px 0 15px 0;
 }
@@ -78,6 +69,8 @@ import GuideComp from '@/components/GuideComp.vue';
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 40px;
+  margin-top: 40px;
 }
 
 #control-item {
@@ -85,13 +78,13 @@ import GuideComp from '@/components/GuideComp.vue';
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 5%;
   justify-content: space-between;
   align-items: center;
 }
 
 .control-text {
-  font-size: 11px;
+  font-size: 60%;
   text-align: center;
   margin-bottom: 7px;
 }
@@ -101,5 +94,18 @@ import GuideComp from '@/components/GuideComp.vue';
   height: 50px;
   margin: 0 5px;
   padding: 5px;
+}
+
+#stats-component {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+}
+
+#map-component {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: -1;
 }
 </style>
