@@ -505,8 +505,6 @@ function connect_audio_nodes(output_index: number) {
   // player.chain(...sound_nodes, Tone.Destination);
 }
 
-const r = new Tone.Reverb();
-r.wet;
 
 function create_context_menu() {
   return new ContextMenuPlugin<Schemes>({
