@@ -500,7 +500,6 @@ function connect_audio_nodes(output_index: number) {
   // player.chain(...sound_nodes, Tone.Destination);
 }
 
-
 function create_context_menu() {
   return new ContextMenuPlugin<Schemes>({
     items: ContextMenuPresets.classic.setup([
