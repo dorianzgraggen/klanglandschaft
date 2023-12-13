@@ -1,35 +1,28 @@
 import { type GetSchemes, ClassicPreset } from 'rete';
 // import { Connection } from './connection';
-import type {
+import {
+  MathNodes,
   DataNode,
-  SoundNode,
   OutputNode,
   PanNode,
-  VolumeNode,
-  TimeNode,
-  AddNode,
-  SineNode,
-  VibratoNode
+  SoundNode,
+  DistortionNode,
+  ReverbNode,
+  VibratoNode,
+  VolumeNode
 } from './nodes';
-import type { DistortionNode } from './nodes/effects/distortion';
-import type { ReverbNode } from './nodes/effects/reverb';
-import type { SubtractNode } from './nodes/math/subtract';
-import type { DivideNode } from './nodes/math/divide';
-import type { MaxNode } from './nodes/math/max';
-import type { MinNode } from './nodes/math/min';
-import type { PowNode } from './nodes/math/pow';
-import type { MultiplyNode } from './nodes/math/multiply';
+
 
 export type EffectNode = VolumeNode | PanNode | DistortionNode | ReverbNode;
 export type ValueChangeNode =
-  | AddNode
-  | MultiplyNode
-  | SubtractNode
-  | DivideNode
-  | MaxNode
-  | MinNode
-  | SineNode
-  | PowNode;
+  | MathNodes.AddNode
+  | MathNodes.MultiplyNode
+  | MathNodes.SubtractNode
+  | MathNodes.DivideNode
+  | MathNodes.MaxNode
+  | MathNodes.MinNode
+  | MathNodes.SineNode
+  | MathNodes.PowNode;
 
 export type EffectNodeTwoInputs = VibratoNode;
 
@@ -39,14 +32,14 @@ export type NodeProps =
   | DataNode
   | SoundNode
   | OutputNode
-  | TimeNode
+  | MathNodes.TimeNode
   | EffectNodeTwoInputs;
 
 export type ConnProps =
   | Connection<ValueChangeNode, ValueChangeNode>
   | Connection<ValueChangeNode, EffectNode>
   | Connection<ValueChangeNode, EffectNodeTwoInputs>
-  | Connection<TimeNode, ValueChangeNode>
+  | Connection<MathNodes.TimeNode, ValueChangeNode>
   | Connection<SoundNode, EffectNode>
   | Connection<SoundNode, EffectNodeTwoInputs>
   | Connection<EffectNode, OutputNode>

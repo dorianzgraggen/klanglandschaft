@@ -1,17 +1,14 @@
 import {
-  AddNode,
+  MathNodes,
   DataNode,
   OutputNode,
   PanNode,
-  SineNode,
   SoundNode,
-  TimeNode,
   VibratoNode,
   VolumeNode
 } from '.';
 import type { NodeProps } from '../connections';
 import { handle_output } from '../editor';
-import { MultiplyNode } from './math/multiply';
 
 export class ConnectionInfo {
   constructor(
@@ -21,6 +18,8 @@ export class ConnectionInfo {
     public targetInput: string
   ) {}
 }
+
+
 
 export type NodeTreePreset = {
   nodes: { [key: string]: NodeProps };
@@ -33,11 +32,11 @@ export const test_preset: NodeTreePreset = {
     sound: new SoundNode(),
     output: new OutputNode(handle_output),
     volume: new VolumeNode(),
-    time: new TimeNode(),
-    sine: new SineNode(),
-    add: new AddNode(),
-    multiply: new MultiplyNode(),
-    multiply_time: new MultiplyNode(),
+    time: new MathNodes.TimeNode(),
+    sine: new MathNodes.SineNode(),
+    add: new MathNodes.AddNode(),
+    multiply: new MathNodes.MultiplyNode(),
+    multiply_time: new MathNodes.MultiplyNode(),
     pan: new PanNode(),
     vibrato: new VibratoNode(),
     sound2: new SoundNode(),

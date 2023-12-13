@@ -13,15 +13,15 @@ import { VuePlugin, Presets, type VueArea2D } from 'rete-vue-plugin';
 import * as Tone from 'tone';
 
 import {
+  MathNodes,
   DataNode,
-  SoundNode,
   OutputNode,
   PanNode,
-  TimeNode,
+  SoundNode,
+  VibratoNode,
   VolumeNode,
-  AddNode,
-  SineNode,
-  VibratoNode
+  ReverbNode
+  , DistortionNode
 } from './nodes';
 
 import { type Schemes, Connection, type ConnProps, type NodeProps } from './connections';
@@ -39,13 +39,8 @@ import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
 import { layers, settings } from '@/global';
 import { watch } from 'vue';
-import { DistortionNode } from './nodes/effects/distortion';
-import { ReverbNode } from './nodes/effects/reverb';
-import { SubtractNode } from './nodes/math/subtract';
-import { MultiplyNode } from './nodes/math/multiply';
-import { DivideNode } from './nodes/math/divide';
-import { MaxNode } from './nodes/math/max';
-import { MinNode } from './nodes/math/min';
+
+
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -535,14 +530,14 @@ function create_context_menu() {
       [
         'Math',
         [
-          ['Add', () => new AddNode()],
-          ['Subtract', () => new SubtractNode()],
-          ['Multiply', () => new MultiplyNode()],
-          ['Divide', () => new DivideNode()],
-          ['Max', () => new MaxNode()],
-          ['Min', () => new MinNode()],
-          ['Sine', () => new SineNode()],
-          ['Time', () => new TimeNode()]
+          ['Add', () => new MathNodes.AddNode()],
+          ['Subtract', () => new MathNodes.SubtractNode()],
+          ['Multiply', () => new MathNodes.MultiplyNode()],
+          ['Divide', () => new MathNodes.DivideNode()],
+          ['Max', () => new MathNodes.MaxNode()],
+          ['Min', () => new MathNodes.MinNode()],
+          ['Sine', () => new MathNodes.SineNode()],
+          ['Time', () => new MathNodes.TimeNode()]
         ]
       ]
     ])
