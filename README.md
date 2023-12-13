@@ -35,3 +35,20 @@ Requirements: Node.js 18^, npm, gdal (make sure you can run the commands `gdal_t
 This will download a lot of data from the [Federal Office of Topography](https://www.swisstopo.admin.ch/). You need about 75GB of available disk space.
 
 It then creates multiple tile maps for every square kilometer. You can serve this tiles locally by running `npm run serve`. To make the frontend fetch the tiles locally, run the dev server using `npm run dev:local`
+
+
+## License
+
+Copyright (C) 2023  rnaisa, Dorian Zgraggen
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, version 3 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
