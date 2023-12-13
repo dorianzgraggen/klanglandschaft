@@ -25,18 +25,25 @@ onMounted(async () => {
   init_3d_scene(settings);
 });
 
-const showModal = ref(false)
+const showModal = ref(false);
 </script>
 
 <template>
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- TODO: Responsiveness -->
-  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`90%`">
+  <GuideComp
+    v-show="settings.editor_open"
+    id="guide-component"
+    title="sound editor"
+    :icon-size="24"
+    :height="`90%`"
+  >
     <div class="border-corners-small guide-description">
-      <p>the sound editor allows you to create your own soundscape with the help of nodes. make your very own connections
-        to change what sounds you hear while moving around in
-        the 3d view.</p>
+      <p>
+        the sound editor allows you to create your own soundscape with the help of nodes. make your
+        very own connections to change what sounds you hear while moving around in the 3d view.
+      </p>
     </div>
     <div class="guide-controls">
       <div class="control-item">
@@ -45,7 +52,9 @@ const showModal = ref(false)
       </div>
       <div class="control-item">
         <div class="control-text">
-          move around<br /> move nodes <br /> make connections
+          move around<br />
+          move nodes <br />
+          make connections
         </div>
         <img class="mouse-icon" src="./assets/left-click.png" alt="mouse left click" />
       </div>
@@ -58,26 +67,36 @@ const showModal = ref(false)
     <span class="p-title">nodes</span>
     <div class="node-description scroll-style-1">
       <div class="node-item">
-        <p class="node-text" style="margin-top: 0;">a <span class="node-text-highlights">data</span> node has an "amount" socket representing the amount visible in the statistics
-          component, which can be
-          connected to any effect node to control its mix.</p>
+        <p class="node-text" style="margin-top: 0">
+          a <span class="node-text-highlights">data</span> node has an "amount" socket representing
+          the amount visible in the statistics component, which can be connected to any effect node
+          to control its mix.
+        </p>
         <img src="./assets/data-node.png" alt="data node" />
       </div>
       <div class="node-item">
-        <p class="node-text">a <span class="node-text-highlights">sound</span> node represents a specific sound, which can be edited with effect nodes.</p>
+        <p class="node-text">
+          a <span class="node-text-highlights">sound</span> node represents a specific sound, which
+          can be edited with effect nodes.
+        </p>
         <img src="./assets/sound-node.png" alt="sound node" />
       </div>
       <div class="node-item">
-        <p class="node-text"><span class="node-text-highlights">effect</span> nodes have a "mix" socket that can either be controlled manually or be
-          influenced by a data node.</p>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-          <img style="height: auto; width: 100px" src="./assets/effect-node-1.png" alt="data node 1" />
-          <img style="height: 95px;" src="./assets/effect-node-2.png" alt="data node 2" />
+        <p class="node-text">
+          <span class="node-text-highlights">effect</span> nodes have a "mix" socket that can either
+          be controlled manually or be influenced by a data node.
+        </p>
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <img
+            style="height: auto; width: 100px"
+            src="./assets/effect-node-1.png"
+            alt="data node 1"
+          />
+          <img style="height: 95px" src="./assets/effect-node-2.png" alt="data node 2" />
         </div>
       </div>
       <!-- <p class="node-text">start by opening the context menu with all available nodes and choosing a few!</p> -->
     </div>
-
   </GuideComp>
 
   <!-- Button for toggling sound editor visibility -->
@@ -104,42 +123,68 @@ const showModal = ref(false)
   -->
   <div id="start-screen" v-show="show_start_screen">
     <h1>klanglandschaft</h1>
-    <p id="start-description">an interactive playground around lake lucerne for your musical interpretation of
-      cartographic data</p>
-    <button id="explore-button" @click="start(); showModal = true">Start Exploring</button>
-    <GuideComp title="" :icon-size="24" :height="`100%`" :width="`300px`" :is-question-mark="false" main-title="about">
+    <p id="start-description">
+      an interactive playground around lake lucerne for your musical interpretation of cartographic
+      data
+    </p>
+    <button
+      id="explore-button"
+      @click="
+        start();
+        showModal = true;
+      "
+    >
+      Start Exploring
+    </button>
+    <GuideComp
+      title=""
+      :icon-size="24"
+      :height="`100%`"
+      :width="`300px`"
+      :is-question-mark="false"
+      main-title="about"
+    >
       <div id="about-description">
-         <p class="border-corners-small" style="padding: 9%;">⚠️ Klanglandschaft is a prototype or a proof of concept created during a course at the
-       <a href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/" title="digital ideation programme">Digital Ideation programme</a> at Lucerne University of Applied Sciences. You will experience bugs.</p>
-       <div style="margin-top: 50px; text-align: center;">
-        <p>All data was provided by the Federal Office of Topography swisstopo.</p>
-       <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Smashicons - Flaticon</a>
-       </div>
-       
+        <p class="border-corners-small" style="padding: 9%">
+          ⚠️ Klanglandschaft is a prototype or a proof of concept created during a course at the
+          <a
+            href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/"
+            title="digital ideation programme"
+            >Digital Ideation programme</a
+          >
+          at Lucerne University of Applied Sciences. You will experience bugs.
+        </p>
+        <div style="margin-top: 50px; text-align: center">
+          <p>All data was provided by the Federal Office of Topography swisstopo.</p>
+          <a href="https://www.flaticon.com/free-icons/ui" title="ui icons"
+            >Ui icons created by Smashicons - Flaticon</a
+          >
+        </div>
       </div>
-      </GuideComp>
+    </GuideComp>
   </div>
 
   <div v-if="showModal" class="modal">
     <div id="modal-text-field">
       <div id="modal-description">
-        <p>klanglandschaft invites you to express your perception of different cartographic data with your very own
-          soundscape
-          creation. </p>
+        <p>
+          klanglandschaft invites you to express your perception of different cartographic data with
+          your very own soundscape creation.
+        </p>
         <div id="example-description">
           <p>for example...</p>
           <p>how do you interpret terrain elevation?</p>
-          <p>Do mountains feel calm, tense, sublime to you? </p>
+          <p>Do mountains feel calm, tense, sublime to you?</p>
           <p>What kind of sound or effect would you choose to express that?</p>
         </div>
         <p>
-          explore this endeavor by diving into klanglandschaft’s components, each with its own guide <img
-            style="height: 17px;" src="@/assets/questionmark-icon.png"> showing you the way
-          whenever you need it.</p>
+          explore this endeavor by diving into klanglandschaft’s components, each with its own guide
+          <img style="height: 17px" src="@/assets/questionmark-icon.png" /> showing you the way
+          whenever you need it.
+        </p>
         <button @click="showModal = false">start</button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -240,7 +285,7 @@ const showModal = ref(false)
 }
 
 #start-screen {
-  background: url("@/assets/startpage-pic.png");
+  background: url('@/assets/startpage-pic.png');
   background-size: cover;
   position: absolute;
   top: 0;
