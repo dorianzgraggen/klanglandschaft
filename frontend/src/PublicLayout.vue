@@ -32,7 +32,7 @@ const showModal = ref(false)
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- TODO: Responsiveness -->
-  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`100%`">
+  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`90%`">
     <div class="border-corners-small guide-description">
       <p>the sound editor allows you to create your own soundscape with the help of nodes. make your very own connections
         to change what sounds you hear while moving around in
@@ -54,19 +54,21 @@ const showModal = ref(false)
         <img class="mouse-icon" src="./assets/scroll.png" alt="mouse scroll" />
       </div>
     </div>
-    <div class="node-description">
+
+    <span class="p-title">nodes</span>
+    <div class="node-description scroll-style-1">
       <div class="node-item">
-        <p class="node-text">a data node has an "amount" socket representing the amount visible in the statistics
+        <p class="node-text" style="margin-top: 0;">a <span class="node-text-highlights">data</span> node has an "amount" socket representing the amount visible in the statistics
           component, which can be
           connected to any effect node to control its mix.</p>
         <img src="./assets/data-node.png" alt="data node" />
       </div>
       <div class="node-item">
-        <p class="node-text">a sound node represents a specific sound, which can be edited with effect nodes.</p>
+        <p class="node-text">a <span class="node-text-highlights">sound</span> node represents a specific sound, which can be edited with effect nodes.</p>
         <img src="./assets/sound-node.png" alt="sound node" />
       </div>
       <div class="node-item">
-        <p class="node-text">effect nodes have a "mix" socket that can either be controlled manually or be
+        <p class="node-text"><span class="node-text-highlights">effect</span> nodes have a "mix" socket that can either be controlled manually or be
           influenced by a data node.</p>
         <div style="display: flex; flex-direction: column; align-items: center;">
           <img style="height: auto; width: 100px" src="./assets/effect-node-1.png" alt="data node 1" />
@@ -281,30 +283,32 @@ const showModal = ref(false)
 }
 
 .guide-description {
-  font-size: 0.8vi;
-  padding: 13px;
+  font-size: 70%;
+  padding: 15px;
   margin: 15px 0 15px 0;
 }
 
 .node-text {
-  font-size: 0.7vi;
+  font-size: 70%;
   padding: 10px;
 }
 
 .guide-controls {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  padding:
+  margin-top: 5%;
+  margin-bottom: 8%;
 }
 
 .node-description {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
+  margin-top: 6%;
 }
 
 .control-item {
@@ -322,16 +326,16 @@ const showModal = ref(false)
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-right: 5%;
 }
 
 .node-item img {
-  height: 60px;
+  height: 6vh;
+  padding-left: 5%;
 }
 
 .control-text {
-  font-size: 0.7vi;
+  font-size: 70%;
   text-align: center;
   margin-bottom: 7px;
 }
@@ -340,5 +344,16 @@ const showModal = ref(false)
   height: 50px;
   margin: 0 5px;
   padding: 5px;
+}
+
+.p-title {
+  text-align: center;
+  font-size: 80%;
+}
+
+.node-text-highlights {
+  border: 2px solid rgba(255, 255, 255, 0.168);
+  border-radius: 5px;
+  padding: 0 2% 0 2%;
 }
 </style>

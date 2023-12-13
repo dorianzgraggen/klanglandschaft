@@ -12,7 +12,7 @@ import GuideComp from '@/components/GuideComp.vue';
         location <button id="location-blob-icon"></button> in the minimap down below
       </p>
     </div>
-    <div id="guide-controls" class="scroll-style-1">
+    <div class="guide-controls scroll-style-1">
       <div id="control-item">
         <div class="control-text">
           left click & drag <br />
@@ -64,22 +64,20 @@ import GuideComp from '@/components/GuideComp.vue';
   margin: 3px;
 }
 
-#guide-controls {
+.guide-controls {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding-top: 40px;
-  margin-top: 40px;
+  margin-top: 10%;
 }
 
 #control-item {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  padding: 5%;
-  justify-content: space-between;
+  padding-bottom: 15%;
+  justify-content: flex-end;
   align-items: center;
 }
 
