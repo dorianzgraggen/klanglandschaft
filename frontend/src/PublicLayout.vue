@@ -30,7 +30,13 @@ const showModal = ref(false);
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- TODO: Responsiveness -->
-  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`90%`">
+  <GuideComp
+    v-show="settings.editor_open"
+    id="guide-component"
+    title="sound editor"
+    :icon-size="24"
+    :height="`90%`"
+  >
     <div class="border-corners-small guide-description">
       <p>
         the sound editor allows you to create your own soundscape with the help of nodes. make your
@@ -79,7 +85,11 @@ const showModal = ref(false);
           be controlled manually or be influenced by a data node.
         </p>
         <div style="display: flex; flex-direction: column; align-items: center">
-          <img style="height: auto; width: 100px" src="./assets/effect-node-1.png" alt="data node 1" />
+          <img
+            style="height: auto; width: 100px"
+            src="./assets/effect-node-1.png"
+            alt="data node 1"
+          />
           <img style="height: 95px" src="./assets/effect-node-2.png" alt="data node 2" />
         </div>
       </div>
@@ -117,23 +127,39 @@ const showModal = ref(false);
     </p>
 
     <LoadingIndicator v-if="loaded_audios < 8" />
-    <button v-else id="explore-button" @click="
-      start();
-    showModal = true;
-    ">
+    <button
+      v-else
+      id="explore-button"
+      @click="
+        start();
+        showModal = true;
+      "
+    >
       Start Exploring
     </button>
-    <GuideComp title="" :icon-size="24" :height="`100%`" :width="`300px`" :is-question-mark="false" main-title="about">
+    <GuideComp
+      title=""
+      :icon-size="24"
+      :height="`100%`"
+      :width="`300px`"
+      :is-question-mark="false"
+      main-title="about"
+    >
       <div id="about-description">
         <p class="border-corners-small" style="padding: 9%">
           ⚠️ Klanglandschaft is a prototype or a proof of concept created during a course at the
-          <a href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/"
-            title="digital ideation programme">Digital Ideation programme</a>
+          <a
+            href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/"
+            title="digital ideation programme"
+            >Digital Ideation programme</a
+          >
           at Lucerne University of Applied Sciences. You will experience bugs.
         </p>
         <div style="margin-top: 50px; text-align: center">
           <p>All data was provided by the Federal Office of Topography swisstopo.</p>
-          <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Smashicons - Flaticon</a>
+          <a href="https://www.flaticon.com/free-icons/ui" title="ui icons"
+            >Ui icons created by Smashicons - Flaticon</a
+          >
         </div>
       </div>
     </GuideComp>
