@@ -10,7 +10,7 @@ export type Inputs = {
 };
 
 export abstract class BaseNode extends ClassicPreset.Node<InSockets> {
-  protected width = 180;
+  protected width = 130;
   protected height = 90;
   public needs_rerender = false;
   private sound_id = 1;
@@ -28,10 +28,7 @@ export abstract class BaseNode extends ClassicPreset.Node<InSockets> {
 
   public addSoundInput() {
     this.open_input = 'sound_in #' + this.sound_id;
-    this.addInput(
-      this.open_input,
-      new ClassicPreset.Input(new SoundSocket(), 'Sound ' + this.sound_id, false)
-    );
+    this.addInput(this.open_input, new ClassicPreset.Input(new SoundSocket(), '', false));
     this.height += 36;
     this.sound_id++;
   }

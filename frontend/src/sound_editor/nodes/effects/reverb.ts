@@ -2,8 +2,8 @@ import { ClassicPreset } from 'rete';
 import { SoundSocket, NumberSocket } from '../../sockets';
 import { clamp, use_default_sound_unless } from '../util';
 
-export class VolumeNode extends ClassicPreset.Node<
-  { value_in: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
+export class ReverbNode extends ClassicPreset.Node<
+  { wet: ClassicPreset.Socket; sound_in: ClassicPreset.Socket }, // input
   { sound_out: ClassicPreset.Socket }, // output
   { gain: ClassicPreset.InputControl<'number'> }
 > {
@@ -11,12 +11,14 @@ export class VolumeNode extends ClassicPreset.Node<
   height = 160;
 
   constructor(initial = 1) {
-    super('Volume');
+    super('Reverb');
     this.addInput('sound_in', new ClassicPreset.Input(new SoundSocket(), 'Sound'));
-    const value_in = new ClassicPreset.Input(new NumberSocket(), 'Volume');
-    this.addInput('value_in', value_in);
+
+    const wet = new ClassicPreset.Input(new NumberSocket(), 'Wet');
+    this.addInput('wet', wet);
+
     this.addOutput('sound_out', new ClassicPreset.Output(new SoundSocket(), 'Sound'));
-    value_in.addControl(new ClassicPreset.InputControl('number', { initial }));
+    wet.addControl(new ClassicPreset.InputControl('number', { initial }));
   }
 
   execute() {}
@@ -24,17 +26,18 @@ export class VolumeNode extends ClassicPreset.Node<
   data(inputs: any) {
     const sound = use_default_sound_unless(inputs.sound_in);
 
-    const control = this.inputs.value_in?.control as ClassicPreset.InputControl<'number'>;
-    let gain = control.value as number;
+    console.log('inputs', inputs);
+    const control = this.inputs.wet?.control as ClassicPreset.InputControl<'number'>;
+    let wet = control.value as number;
 
-    if (typeof inputs.value_in !== 'undefined') {
-      gain = inputs.value_in[0];
+    if (typeof inputs.wet !== 'undefined') {
+      wet = inputs.wet[0];
     }
 
     sound.effects.push({
-      type: 'gain',
+      type: 'reverb',
       settings: {
-        gain: clamp(gain, 0, 10)
+        wet: clamp(wet)
       }
     });
 

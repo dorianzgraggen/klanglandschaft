@@ -1,20 +1,27 @@
 import { type GetSchemes, ClassicPreset } from 'rete';
 // import { Connection } from './connection';
 import {
+  MathNodes,
   DataNode,
-  SoundNode,
   OutputNode,
   PanNode,
-  MultiplyNode,
-  VolumeNode,
-  TimeNode,
-  AddNode,
-  SineNode,
-  VibratoNode
+  SoundNode,
+  DistortionNode,
+  ReverbNode,
+  VibratoNode,
+  VolumeNode
 } from './nodes';
 
-export type EffectNode = VolumeNode | PanNode;
-export type ValueChangeNode = AddNode | MultiplyNode | SineNode;
+export type EffectNode = VolumeNode | PanNode | DistortionNode | ReverbNode;
+export type ValueChangeNode =
+  | MathNodes.AddNode
+  | MathNodes.MultiplyNode
+  | MathNodes.SubtractNode
+  | MathNodes.DivideNode
+  | MathNodes.MaxNode
+  | MathNodes.MinNode
+  | MathNodes.SineNode
+  | MathNodes.PowNode;
 
 export type EffectNodeTwoInputs = VibratoNode;
 
@@ -24,14 +31,14 @@ export type NodeProps =
   | DataNode
   | SoundNode
   | OutputNode
-  | TimeNode
+  | MathNodes.TimeNode
   | EffectNodeTwoInputs;
 
 export type ConnProps =
   | Connection<ValueChangeNode, ValueChangeNode>
   | Connection<ValueChangeNode, EffectNode>
   | Connection<ValueChangeNode, EffectNodeTwoInputs>
-  | Connection<TimeNode, ValueChangeNode>
+  | Connection<MathNodes.TimeNode, ValueChangeNode>
   | Connection<SoundNode, EffectNode>
   | Connection<SoundNode, EffectNodeTwoInputs>
   | Connection<EffectNode, OutputNode>

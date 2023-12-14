@@ -17,6 +17,14 @@ uniform bool u_data_mode;
 uniform int u_data_layer;
 uniform float u_time;
 
+uniform float u_m_elevation;
+uniform float u_m_traffic_noise;
+uniform float u_m_buildings;
+uniform float u_m_water;
+uniform float u_m_forest;
+uniform float u_m_wind;
+uniform float u_m_railway;
+
 varying vec2 v_uv;
 varying vec3 v_world_pos;
 varying vec4 v_vert_pos;
@@ -289,12 +297,12 @@ void main()
     // color_fog.r = noise.r * 3.0;
     color_fog += noise_levels_colored;
     vec3 col = tinted
-      + noise_levels_colored
-      + wind_colored
-      + vec3(0.7 * min(railway.r, 1.0 - buildings.r)) * vec3(0.5, 0.5, 0.8)
-      + forest_colored
-      + water_colored
-      + buildings_colored;
+      + noise_levels_colored * u_m_traffic_noise
+      + wind_colored * u_m_wind
+      + vec3(0.7 * min(railway.r, 1.0 - buildings.r)) * vec3(0.5, 0.5, 0.8) * u_m_railway
+      + forest_colored * u_m_forest
+      + water_colored * u_m_water
+      + buildings_colored * u_m_buildings;
 
 
     float vignette = 1.0 - distance(vec2(0.5), screen_coords) * 1.2;

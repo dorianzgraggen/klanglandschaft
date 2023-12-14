@@ -4,10 +4,10 @@ import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 import { Landscape } from './landscape';
 import { Center } from './center';
 import { BG_COLOR, DEBUG_LAYER } from './consts';
-import { bridge, user_controls_target } from '@/global';
+import { bridge, user_controls_target, settings } from '@/global';
 import type { Ref } from 'vue';
 
-export function init(settings: Ref<{ editor_open: boolean }>) {
+export function init() {
   let debug_view = false;
   let debug_panels = false;
 
@@ -160,9 +160,11 @@ export function init(settings: Ref<{ editor_open: boolean }>) {
   function animate(time: number) {
     requestAnimationFrame(animate);
 
-    if (settings.value.editor_open) {
+    if (settings.editor_open && !settings.rerender) {
       return;
     }
+
+    settings.rerender = false;
 
     frame++;
     Landscape.data_layer = frame % 2;

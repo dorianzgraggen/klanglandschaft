@@ -13,16 +13,15 @@ import { VuePlugin, Presets, type VueArea2D } from 'rete-vue-plugin';
 import * as Tone from 'tone';
 
 import {
+  MathNodes,
   DataNode,
-  SoundNode,
   OutputNode,
   PanNode,
-  TimeNode,
+  SoundNode,
+  VibratoNode,
   VolumeNode,
-  MultiplyNode,
-  AddNode,
-  SineNode,
-  VibratoNode
+  ReverbNode,
+  DistortionNode
 } from './nodes';
 
 import { type Schemes, Connection, type ConnProps, type NodeProps } from './connections';
@@ -38,6 +37,8 @@ import {
 import { sound_urls } from './nodes/other/sound';
 import { data_types } from './nodes/other/data';
 import { PitchNode } from './nodes/effects/pitch';
+import { layers, settings } from '@/global';
+import { watch } from 'vue';
 
 type AreaExtra = VueArea2D<any> | ContextMenuExtra;
 
@@ -189,6 +190,10 @@ export async function init_editor(
           area.update('node', context.data.target);
         }
       }
+
+      rebuild = true;
+
+      set_input_step_sizes(container);
     }
     return context;
   });
@@ -205,6 +210,25 @@ export async function init_editor(
           area.update('node', context.data.target);
         }
       }
+
+      rebuild = true;
+
+      set_input_step_sizes(container);
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'nodecreated') {
+      set_input_step_sizes(container);
+      check_data_nodes(editor);
+    }
+    return context;
+  });
+
+  editor.addPipe((context) => {
+    if (context.type === 'noderemoved') {
+      check_data_nodes(editor);
     }
     return context;
   });
@@ -217,7 +241,17 @@ export async function init_editor(
 
   await add_nodes_from_preset(editor, arrange, preset);
 
-  AreaExtensions.zoomAt(area, editor.getNodes());
+  watch(settings, (old_settings, new_settings) => {
+    if (!new_settings.editor_open) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      AreaExtensions.zoomAt(area, editor.getNodes());
+    }, 0);
+  });
+
+  set_input_step_sizes(container);
 
   // Processing
   function process() {
@@ -385,8 +419,12 @@ export function handle_output(output_tracks: Array<{ effects: Array<AudioEffect>
       }
 
       if (effect.meta) {
-        if (effect.meta.pitch) {
+        if (typeof effect.meta.pitch !== 'undefined') {
           (sound_node as any).pitch = effect.meta.pitch;
+        }
+
+        if (typeof effect.meta.distortion !== 'undefined') {
+          (sound_node as any).distortion = effect.meta.distortion;
         }
       }
     });
@@ -417,6 +455,12 @@ function rebuild_audio_nodes(effects: Array<AudioEffect>, output_index: number) 
         pitch.wet.value = 1;
         return pitch;
       }
+
+      case 'distortion':
+        return new Tone.Distortion();
+
+      case 'reverb':
+        return new Tone.Reverb();
 
       case 'source': {
         const url = effect.meta!.url as string;
@@ -469,7 +513,9 @@ function create_context_menu() {
           ['Volume Node', () => new VolumeNode()],
           ['Vibrato Node', () => new VibratoNode()],
           ['Pitch Node', () => new PitchNode()],
-          ['Panner Node', () => new PanNode()]
+          ['Panner Node', () => new PanNode()],
+          ['Reverb Node', () => new ReverbNode()],
+          ['Distortion Node', () => new DistortionNode()]
         ]
       ],
       [
@@ -477,7 +523,41 @@ function create_context_menu() {
         Object.entries(sound_urls).map(([key, value]) => {
           return [value.title, () => new SoundNode(key)];
         })
+      ],
+      [
+        'Math',
+        [
+          ['Add', () => new MathNodes.AddNode()],
+          ['Subtract', () => new MathNodes.SubtractNode()],
+          ['Multiply', () => new MathNodes.MultiplyNode()],
+          ['Divide', () => new MathNodes.DivideNode()],
+          ['Max', () => new MathNodes.MaxNode()],
+          ['Min', () => new MathNodes.MinNode()],
+          ['Sine', () => new MathNodes.SineNode()],
+          ['Time', () => new MathNodes.TimeNode()]
+        ]
       ]
     ])
   });
+}
+
+function set_input_step_sizes(parent: HTMLElement) {
+  setTimeout(() => {
+    const inputs = parent.querySelectorAll('input[type="number"]') as NodeListOf<HTMLInputElement>;
+    inputs.forEach((input) => {
+      input.step = '0.1';
+    });
+  }, 200);
+}
+
+function check_data_nodes(editor: NodeEditor<Schemes>) {
+  const nodes = editor.getNodes().filter((n) => n instanceof DataNode) as Array<DataNode>;
+
+  Object.keys(layers).forEach((key) => {
+    const node = nodes.find((n) => n.type === key);
+
+    (layers as { [key: string]: number })[key] = node ? 1 : 0.26;
+  });
+
+  settings.rerender = true;
 }
