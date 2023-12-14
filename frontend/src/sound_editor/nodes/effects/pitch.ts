@@ -34,7 +34,7 @@ export class PitchNode extends ClassicPreset.Node<
     sound.effects.push({
       type: 'pitch',
       meta: {
-        pitch: (pitch - 0.5) * 10 // TODO: stupid
+        pitch // TODO: stupid
       }
     });
 
