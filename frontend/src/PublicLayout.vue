@@ -23,18 +23,19 @@ onMounted(async () => {
   init_3d_scene();
 });
 
-const showModal = ref(false)
+const showModal = ref(false);
 </script>
 
 <template>
   <SoundEditor v-show="settings.editor_open"></SoundEditor>
 
   <!-- TODO: Responsiveness -->
-  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`100%`">
+  <GuideComp v-show="settings.editor_open" id="guide-component" title="sound editor" :icon-size="24" :height="`90%`">
     <div class="border-corners-small guide-description">
-      <p>the sound editor allows you to create your own soundscape with the help of nodes. make your very own connections
-        to change what sounds you hear while moving around in
-        the 3d view.</p>
+      <p>
+        the sound editor allows you to create your own soundscape with the help of nodes. make your
+        very own connections to change what sounds you hear while moving around in the 3d view.
+      </p>
     </div>
     <div class="guide-controls">
       <div class="control-item">
@@ -43,7 +44,9 @@ const showModal = ref(false)
       </div>
       <div class="control-item">
         <div class="control-text">
-          move around<br /> move nodes <br /> make connections
+          move around<br />
+          move nodes <br />
+          make connections
         </div>
         <img class="mouse-icon" src="./assets/left-click.png" alt="mouse left click" />
       </div>
@@ -52,28 +55,36 @@ const showModal = ref(false)
         <img class="mouse-icon" src="./assets/scroll.png" alt="mouse scroll" />
       </div>
     </div>
-    <div class="node-description">
+
+    <span class="p-title">nodes</span>
+    <div class="node-description scroll-style-1">
       <div class="node-item">
-        <p class="node-text">a data node has an "amount" socket representing the amount visible in the statistics
-          component, which can be
-          connected to any effect node to control its mix.</p>
+        <p class="node-text" style="margin-top: 0">
+          a <span class="node-text-highlights">data</span> node has an "amount" socket representing
+          the amount visible in the statistics component, which can be connected to any effect node
+          to control its mix.
+        </p>
         <img src="./assets/data-node.png" alt="data node" />
       </div>
       <div class="node-item">
-        <p class="node-text">a sound node represents a specific sound, which can be edited with effect nodes.</p>
+        <p class="node-text">
+          a <span class="node-text-highlights">sound</span> node represents a specific sound, which
+          can be edited with effect nodes.
+        </p>
         <img src="./assets/sound-node.png" alt="sound node" />
       </div>
       <div class="node-item">
-        <p class="node-text">effect nodes have a "mix" socket that can either be controlled manually or be
-          influenced by a data node.</p>
-        <div style="display: flex; flex-direction: column; align-items: center;">
+        <p class="node-text">
+          <span class="node-text-highlights">effect</span> nodes have a "mix" socket that can either
+          be controlled manually or be influenced by a data node.
+        </p>
+        <div style="display: flex; flex-direction: column; align-items: center">
           <img style="height: auto; width: 100px" src="./assets/effect-node-1.png" alt="data node 1" />
-          <img style="height: 95px;" src="./assets/effect-node-2.png" alt="data node 2" />
+          <img style="height: 95px" src="./assets/effect-node-2.png" alt="data node 2" />
         </div>
       </div>
       <!-- <p class="node-text">start by opening the context menu with all available nodes and choosing a few!</p> -->
     </div>
-
   </GuideComp>
 
   <!-- Button for toggling sound editor visibility -->
@@ -100,24 +111,30 @@ const showModal = ref(false)
   -->
   <div id="start-screen" v-show="show_start_screen">
     <h1>klanglandschaft</h1>
-    <p id="start-description">an interactive playground around lake lucerne for your musical interpretation of
-      cartographic data</p>
+    <p id="start-description">
+      an interactive playground around lake lucerne for your musical interpretation of cartographic
+      data
+    </p>
 
     <LoadingIndicator v-if="loaded_audios < 8" />
-    <button v-else id="explore-button" @click="start(); showModal = true">Start Exploring</button>
+    <button v-else id="explore-button" @click="
+      start();
+    showModal = true;
+    ">
+      Start Exploring
+    </button>
     <GuideComp title="" :icon-size="24" :height="`100%`" :width="`300px`" :is-question-mark="false" main-title="about">
       <div id="about-description">
-        <p class="border-corners-small" style="padding: 9%;">⚠️ Klanglandschaft is a prototype or a proof of concept
-          created during a course at the
+        <p class="border-corners-small" style="padding: 9%">
+          ⚠️ Klanglandschaft is a prototype or a proof of concept created during a course at the
           <a href="https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/"
-            title="digital ideation programme">Digital Ideation programme</a> at Lucerne University of Applied Sciences.
-          You will experience bugs.
+            title="digital ideation programme">Digital Ideation programme</a>
+          at Lucerne University of Applied Sciences. You will experience bugs.
         </p>
-        <div style="margin-top: 50px; text-align: center;">
+        <div style="margin-top: 50px; text-align: center">
           <p>All data was provided by the Federal Office of Topography swisstopo.</p>
           <a href="https://www.flaticon.com/free-icons/ui" title="ui icons">Ui icons created by Smashicons - Flaticon</a>
         </div>
-
       </div>
     </GuideComp>
   </div>
@@ -125,23 +142,24 @@ const showModal = ref(false)
   <div v-if="showModal" class="modal">
     <div id="modal-text-field">
       <div id="modal-description">
-        <p>klanglandschaft invites you to express your perception of different cartographic data with your very own
-          soundscape
-          creation. </p>
+        <p>
+          klanglandschaft invites you to express your perception of different cartographic data with
+          your very own soundscape creation.
+        </p>
         <div id="example-description">
           <p>for example...</p>
           <p>how do you interpret terrain elevation?</p>
-          <p>Do mountains feel calm, tense, sublime to you? </p>
+          <p>Do mountains feel calm, tense, sublime to you?</p>
           <p>What kind of sound or effect would you choose to express that?</p>
         </div>
         <p>
-          explore this endeavor by diving into klanglandschaft’s components, each with its own guide <img
-            style="height: 17px;" src="@/assets/questionmark-icon.png"> showing you the way
-          whenever you need it.</p>
+          explore this endeavor by diving into klanglandschaft’s components, each with its own guide
+          <img style="height: 17px" src="@/assets/questionmark-icon.png" /> showing you the way
+          whenever you need it.
+        </p>
         <button @click="showModal = false">start</button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -242,7 +260,7 @@ const showModal = ref(false)
 }
 
 #start-screen {
-  background: url("@/assets/startpage-pic.png");
+  background: url('@/assets/startpage-pic.png');
   background-size: cover;
   position: absolute;
   top: 0;
@@ -285,29 +303,32 @@ const showModal = ref(false)
 }
 
 .guide-description {
-  font-size: 0.8vi;
-  padding: 13px;
+  font-size: 70%;
+  padding: 15px;
   margin: 15px 0 15px 0;
 }
 
 .node-text {
-  font-size: 0.7vi;
+  font-size: 70%;
   padding: 10px;
 }
 
 .guide-controls {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
+  margin-top: 5%;
+  margin-bottom: 8%;
 }
 
 .node-description {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
+  margin-top: 6%;
 }
 
 .control-item {
@@ -325,16 +346,16 @@ const showModal = ref(false)
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding-right: 5%;
 }
 
 .node-item img {
-  height: 60px;
+  height: 6vh;
+  padding-left: 5%;
 }
 
 .control-text {
-  font-size: 0.7vi;
+  font-size: 70%;
   text-align: center;
   margin-bottom: 7px;
 }
@@ -343,5 +364,16 @@ const showModal = ref(false)
   height: 50px;
   margin: 0 5px;
   padding: 5px;
+}
+
+.p-title {
+  text-align: center;
+  font-size: 80%;
+}
+
+.node-text-highlights {
+  border: 2px solid rgba(255, 255, 255, 0.168);
+  border-radius: 5px;
+  padding: 0 2% 0 2%;
 }
 </style>

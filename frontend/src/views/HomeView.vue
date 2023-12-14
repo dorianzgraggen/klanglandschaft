@@ -4,15 +4,21 @@ import MapComp from '@/components/MapComp.vue';
 import GuideComp from '@/components/GuideComp.vue';
 </script>
 <template>
-  <GuideComp id="guide-component" title="dashboard" :icon-size="24" :height="`60%`" style="z-index: -1">
+  <GuideComp
+    id="guide-component"
+    title="dashboard"
+    :icon-size="24"
+    :height="`60%`"
+    style="z-index: -1"
+  >
     <div id="guide-description" class="border-corners-small">
-      <p>what you hear depends on the data that is currently visible in the view</p>
+      <p>what you hear depends on the data that is currently visible in the view.</p>
       <p>
         you can explore lake lucerne by either moving around in the 3D view or by moving your
-        location <button id="location-blob-icon"></button> in the minimap down below
+        location <button id="location-blob-icon"></button> in the minimap down below.
       </p>
     </div>
-    <div id="guide-controls" class="scroll-style-1">
+    <div class="guide-controls scroll-style-1">
       <div id="control-item">
         <div class="control-text">
           left click & drag <br />
@@ -64,22 +70,20 @@ import GuideComp from '@/components/GuideComp.vue';
   margin: 3px;
 }
 
-#guide-controls {
+.guide-controls {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding-top: 40px;
-  margin-top: 40px;
+  margin-top: 10%;
 }
 
 #control-item {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-  padding: 5%;
-  justify-content: space-between;
+  padding-bottom: 15%;
+  justify-content: flex-end;
   align-items: center;
 }
 
