@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 
 const settings = defineProps({
+  mainTitle: {
+    type: String,
+    default: 'guide'
+  },
   title: String,
   iconSize: {
     type: Number,
@@ -10,6 +14,18 @@ const settings = defineProps({
   margin: {
     type: Number,
     default: 20
+  },
+  height: {
+    type: String,
+    default: '100%'
+  },
+  width: {
+    type: String,
+    default: '350px'
+  },
+  isQuestionMark: {
+    type: Boolean,
+    default: true
   }
 });
 
@@ -21,13 +37,14 @@ const showGuide = ref(false);
     <Transition name="slide">
       <div v-if="showGuide" id="guide-content">
         <button id="close-button" @click="showGuide = !showGuide">x</button>
-        <span>guide</span>
+        <span>{{ mainTitle }}</span>
         <p style="padding-top: 40px; margin: 0">{{ title }}</p>
         <slot />
       </div>
     </Transition>
     <button v-if="!showGuide" id="guide-button" @click="showGuide = !showGuide">
-      <img src="../assets/questionmark-icon.png" alt="questionmark-icon" />
+      <img v-if="isQuestionMark" src="../assets/questionmark-icon.png" alt="icon" />
+      <img v-else src="../assets/info-icon.png" alt="icon" />
     </button>
   </div>
 </template>
@@ -58,7 +75,7 @@ button {
 
 #close-button {
   position: fixed;
-  font-size: 20px;
+  font-size: 100%;
   padding-right: 8px;
   pointer-events: all;
   top: 18px;
@@ -84,21 +101,24 @@ img {
   padding-top: 60px;
   background-color: rgba(0, 0, 0, 0.691);
   border-radius: 20px;
-  height: 620px;
-  width: 350px;
-  overflow: hidden;
-  pointer-events: none;
+  height: v-bind('settings.height');
+  width: v-bind('settings.width');
+  pointer-events: all;
   top: 0;
   right: 0;
 }
 
+/* #guide-content::-webkit-scrollbar {
+  display: none;
+} */
+
 p {
   margin: 0;
-  font-size: 15px;
+  font-size: 90%;
 }
 
 span {
-  font-size: 19px;
+  font-size: 100%;
   font-weight: bold;
 }
 
