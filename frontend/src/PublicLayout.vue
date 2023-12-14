@@ -3,9 +3,10 @@ import { RouterLink, RouterView } from 'vue-router';
 import SoundEditor from './sound_editor/SoundEditor.vue';
 import { onMounted, ref, watch } from 'vue';
 import { init as init_3d_scene } from './3d/scene';
-import { init_editor, play } from './sound_editor/editor';
-import { settings } from './global';
+import { init_editor, play, rebuild_and_then } from './sound_editor/editor';
 import GuideComp from '@/components/GuideComp.vue';
+import LoadingIndicator from '@/components/LoadingIndicator.vue';
+import { settings, loaded_audios } from './global';
 
 const show_start_screen = ref(new URLSearchParams(window.location.search).get('nointro') === null);
 
@@ -15,7 +16,7 @@ function toggleOpen() {
 
 function start() {
   show_start_screen.value = false;
-  play();
+  rebuild_and_then(play);
 }
 
 onMounted(async () => {
@@ -124,7 +125,10 @@ const showModal = ref(false);
       an interactive playground around lake lucerne for your musical interpretation of cartographic
       data
     </p>
+
+    <LoadingIndicator v-if="loaded_audios < 8" />
     <button
+      v-else
       id="explore-button"
       @click="
         start();
