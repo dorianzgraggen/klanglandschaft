@@ -7,6 +7,7 @@ An interactive web application that explores the connection between sound and ca
 
 :warning: _Klanglandschaft is a prototype or a proof of concept created during a course at the [Digital Ideation programme](https://www.hslu.ch/en/lucerne-school-of-information-technology/degree-programs/bachelor/digital-ideation/) at Lucerne University of Applied Sciences. You will experience bugs._
 
+Map data © swisstopo
 
 ## Contributing
 
