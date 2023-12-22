@@ -17,4 +17,4 @@ describe('HomeView.vue', () => {
     expect(guideComp.props('iconSize')).toBe(24);
     expect(guideComp.props('height')).toBe('60%');
   });
-})
+});

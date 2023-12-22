@@ -167,7 +167,7 @@ const showModal = ref(false);
 
   <div v-if="showModal" class="modal">
     <div id="modal-text-field" class="scroll-style-1">
-      <div id="modal-description" >
+      <div id="modal-description">
         <p>
           klanglandschaft invites you to express your perception of different cartographic data with
           your very own soundscape creation.
