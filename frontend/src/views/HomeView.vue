@@ -42,6 +42,7 @@ import GuideComp from '@/components/GuideComp.vue';
   <div id="map-component">
     <MapComp />
   </div>
+  <div id="copyright">© map data swisstopo</div>
 </template>
 
 <style scoped>
@@ -111,5 +112,12 @@ import GuideComp from '@/components/GuideComp.vue';
   bottom: 15px;
   right: 15px;
   z-index: -1;
+}
+
+#copyright {
+  position: absolute;
+  bottom: 12px;
+  left: 310px;
+  opacity: 0.4;
 }
 </style>
