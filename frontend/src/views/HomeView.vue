@@ -4,13 +4,7 @@ import MapComp from '@/components/MapComp.vue';
 import GuideComp from '@/components/GuideComp.vue';
 </script>
 <template>
-  <GuideComp
-    id="guide-component"
-    title="dashboard"
-    :icon-size="24"
-    :height="`60%`"
-    style="z-index: -1"
-  >
+  <GuideComp id="guide-component" title="dashboard" :icon-size="24" :height="`60%`" style="z-index: -1">
     <div id="guide-description" class="border-corners-small">
       <p>what you hear depends on the data that is currently visible in the view.</p>
       <p>
@@ -42,7 +36,7 @@ import GuideComp from '@/components/GuideComp.vue';
   <div id="map-component">
     <MapComp />
   </div>
-  <div id="copyright">© map data swisstopo</div>
+  <div id="copyright">map data © swisstopo</div>
 </template>
 
 <style scoped>
