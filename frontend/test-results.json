@@ -1,34 +1,138 @@
 {
-  "numTotalTestSuites": 1,
-  "numPassedTestSuites": 1,
+  "numTotalTestSuites": 7,
+  "numPassedTestSuites": 7,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 1,
-  "numPassedTests": 1,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
-  "startTime": 1701858554571,
+  "startTime": 1703224335260,
   "success": true,
   "testResults": [
     {
       "assertionResults": [
         {
           "ancestorTitles": [
-            ""
+            "",
+            "GuideComp.vue"
           ],
-          "fullName": " stats",
+          "fullName": " GuideComp.vue renders without errors",
           "status": "passed",
-          "title": "stats",
-          "duration": 39,
+          "title": "renders without errors",
+          "duration": 1,
+          "failureMessages": []
+        },
+        {
+          "ancestorTitles": [
+            "",
+            "GuideComp.vue"
+          ],
+          "fullName": " GuideComp.vue checks guide button hide button and show content functionality",
+          "status": "passed",
+          "title": "checks guide button hide button and show content functionality",
+          "duration": 63,
+          "failureMessages": []
+        },
+        {
+          "ancestorTitles": [
+            "",
+            "GuideComp.vue"
+          ],
+          "fullName": " GuideComp.vue renders image",
+          "status": "passed",
+          "title": "renders image",
+          "duration": 0,
           "failureMessages": []
         }
       ],
-      "startTime": 1701858556612,
-      "endTime": 1701858556651,
+      "startTime": 1703224337546,
+      "endTime": 1703224337611,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/admin/Documents/klanglandschaft-stuwe1/hslu-stuw1/frontend/src/components/GuideComp.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            ""
+          ],
+          "fullName": " LoadingIndicator.vue",
+          "status": "passed",
+          "title": "LoadingIndicator.vue",
+          "duration": 33,
+          "failureMessages": []
+        }
+      ],
+      "startTime": 1703224337604,
+      "endTime": 1703224337637,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/admin/Documents/klanglandschaft-stuwe1/hslu-stuw1/frontend/src/components/LoadingIndicator.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "",
+            "StatisticsComp.vue"
+          ],
+          "fullName": " StatisticsComp.vue renders without errors",
+          "status": "passed",
+          "title": "renders without errors",
+          "duration": 35,
+          "failureMessages": []
+        },
+        {
+          "ancestorTitles": [
+            "",
+            "StatisticsComp.vue"
+          ],
+          "fullName": " StatisticsComp.vue computes percentage values correctly",
+          "status": "passed",
+          "title": "computes percentage values correctly",
+          "duration": 12,
+          "failureMessages": []
+        }
+      ],
+      "startTime": 1703224337590,
+      "endTime": 1703224337637,
       "status": "passed",
       "message": "",
       "name": "C:/Users/admin/Documents/klanglandschaft-stuwe1/hslu-stuw1/frontend/src/components/StatisticsComp.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "",
+            "HomeView.vue"
+          ],
+          "fullName": " HomeView.vue renders without errors",
+          "status": "passed",
+          "title": "renders without errors",
+          "duration": 3,
+          "failureMessages": []
+        },
+        {
+          "ancestorTitles": [
+            "",
+            "HomeView.vue"
+          ],
+          "fullName": " HomeView.vue passes correct props to GuideComp",
+          "status": "passed",
+          "title": "passes correct props to GuideComp",
+          "duration": 17,
+          "failureMessages": []
+        }
+      ],
+      "startTime": 1703224337704,
+      "endTime": 1703224337724,
+      "status": "passed",
+      "message": "",
+      "name": "C:/Users/admin/Documents/klanglandschaft-stuwe1/hslu-stuw1/frontend/src/views/HomeView.test.ts"
     }
   ]
 }
