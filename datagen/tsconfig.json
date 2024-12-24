@@ -2,8 +2,6 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
-    "outDir": "dist/",
     "moduleResolution": "NodeNext"
-  },
-  "files": ["app.mts"]
+  }
 }
