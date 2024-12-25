@@ -1,6 +1,6 @@
 import fs from "fs";
 import https from "https";
-import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
+import { chapter_log, type MapSampleSegement, mk_dir_if_not_exists, pathify } from "./util.ts";
 import AdmZip from "adm-zip";
 import { exec } from "node:child_process";
 import StreamZip from "node-stream-zip";
@@ -75,6 +75,33 @@ export async function download_geotiffs(): Promise<void> {
   console.log("done");
 }
 
+
+
+export async function download_tiles(
+  segment: MapSampleSegement,
+  destination_path: string,
+  dataset: "ch.swisstopo.swissimage-dop10" | "ch.swisstopo.swissalti3d",
+  generate_filename: (url: string) => string,
+): Promise<void> {
+
+  let resolution = 0.5;
+
+  if (dataset == "ch.swisstopo.swissimage-dop10") {
+    resolution = 0.1;
+  }
+
+  const url = `https://ogd.swisstopo.admin.ch/services/swiseld/services/assets/${dataset}/search?format=image%2Ftiff%3B%20application%3Dgeotiff%3B%20profile%3Dcloud-optimized&resolution=${resolution}&srid=2056&state=current&xMin=${segment.from.x}&yMin=${segment.to.y}&xMax=${segment.to.x}&yMax=${segment.from.y}&csv=true`
+
+  const search_response = await fetch(url);
+  const href_of_csv = await search_response.json();
+  console.log(href_of_csv);
+
+  const file_response = await fetch(href_of_csv.href);
+  const txt = await file_response.text();
+
+  await download_from_string(txt, destination_path, generate_filename)
+}
+
 export async function download_elevation_lake_lucerne(): Promise<void> {
   chapter_log("downloading Elevation Geotiffs for lake lucerne area");
   return download_from_csv(
@@ -98,11 +125,19 @@ export async function download_from_csv(
   destination_path: string,
   generate_filename: (url: string) => string,
 ): Promise<void> {
+  const file = fs.readFileSync(csv_path, { encoding: "utf8" });
+  await download_from_string(file, destination_path, generate_filename);
+}
+
+export async function download_from_string(
+  str: string,
+  destination_path: string,
+  generate_filename: (url: string) => string,
+): Promise<void> {
   mk_dir_if_not_exists(pathify(destination_path));
 
-  const file = fs.readFileSync(csv_path, { encoding: "utf8" });
 
-  const urls = file.split(/\r?\n/);
+  const urls = str.split(/\r?\n/);
 
   let i = 1;
   for (const url of urls) {

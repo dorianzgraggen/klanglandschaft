@@ -1,4 +1,3 @@
-import { alles } from "./lib/vernunft.mjs";
 import {
   resize_all,
   remap_all_geotiffs,
@@ -15,16 +14,16 @@ import {
   generate_all_forest_tiles,
   resize_satellites,
   remove_xml_files,
-} from "./lib/image_manipulation.mjs";
-import { unzip, normalize_lines_in_file } from "./lib/xyz.mjs";
+} from "./lib/image_manipulation.js";
+import { unzip, normalize_lines_in_file } from "./lib/xyz.js";
 import {
   download_elevation_lake_lucerne,
   download_geotiffs,
   download_satellite,
   get_and_prepare_large_geotiffs,
   get_swisstlm3d_gpkg,
-} from "./lib/download.mjs";
-import { pathify } from "./lib/util.mjs";
+} from "./lib/download.js";
+import { pathify } from "./lib/util.js";
 
 run();
 

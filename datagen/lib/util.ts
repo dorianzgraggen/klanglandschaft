@@ -14,3 +14,13 @@ export function mk_dir_if_not_exists(dir: string) {
 export function chapter_log(...args) {
   console.log("\n :::::", ...args);
 }
+
+export type Vec2 = {
+  x: number,
+  y: number,
+}
+
+export type MapSampleSegement = {
+  from: Vec2; // top left
+  to: Vec2; // bottom right
+}

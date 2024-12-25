@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import fs from "fs";
-import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.mjs";
+import { chapter_log, mk_dir_if_not_exists, pathify } from "./util.ts";
 import { exec } from "node:child_process";
 import { PromisePool } from "@supercharge/promise-pool";
 
@@ -160,9 +160,8 @@ export async function generate_all_railway_tiles(): Promise<void> {
     const tif = pathify(`gpkg/raw/${x}-${y}-railway.tif`);
     const png = pathify(`channels/${x}-${y}-railway.png`);
 
-    const rasterize_command = `gdal_rasterize -burn 255 -ts 1000 1000 -te ${x}000 ${y}000 ${
-      x + 1
-    }000 ${y + 1}000 ${gpkg} ${tif}`;
+    const rasterize_command = `gdal_rasterize -burn 255 -ts 1000 1000 -te ${x}000 ${y}000 ${x + 1
+      }000 ${y + 1}000 ${gpkg} ${tif}`;
 
     const width = 256;
     const height = 256;
@@ -339,13 +338,11 @@ export async function crop_geotiff(
   },
 ): Promise<void> {
   const command = `gdal_translate 
-    -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${
-      options.from_y
+    -projwin ${options.from_x}000 ${options.to_y}000 ${options.to_x}000 ${options.from_y
     }000 
-    ${
-      typeof options.from !== "undefined" && typeof options.to !== "undefined"
-        ? `-scale ${options.from} ${options.to} 0 255`
-        : ``
+    ${typeof options.from !== "undefined" && typeof options.to !== "undefined"
+      ? `-scale ${options.from} ${options.to} 0 255`
+      : ``
     }
     ${in_path}
     ${out_path}

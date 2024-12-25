@@ -1,6 +1,7 @@
 {
+  "type": "module",
   "scripts": {
-    "start": "tsc --project tsconfig.json && node dist/app.mjs",
+    "start": "node --experimental-strip-types main.ts",
     "serve": "http-server --cors",
     "format": "prettier --write ."
   },
@@ -20,6 +21,7 @@
     "@supercharge/promise-pool": "^3.1.0",
     "@types/adm-zip": "^0.5.2",
     "adm-zip": "^0.5.10",
+    "enquirer": "^2.4.1",
     "geotiff": "^2.0.7",
     "node-stream-zip": "^1.15.0",
     "sharp": "^0.32.6"

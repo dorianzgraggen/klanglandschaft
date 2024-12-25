@@ -1,6 +1,6 @@
 import fs from "fs";
 import AdmZip from "adm-zip";
-import { pathify } from "./util.mjs";
+import { pathify } from "./util.ts";
 import readline from "readline";
 import events from "events";
 
