@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "https://www.klanglandschaft.com/*"
+  to = "https://beta.klanglandschaft.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://klanglandschaft.com/*"
+  to = "https://beta.klanglandschaft.com/:splat"
+  status = 301
+  force = true
